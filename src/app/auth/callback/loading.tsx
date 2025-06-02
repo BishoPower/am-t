@@ -1,3 +1,4 @@
+import Spinner from "@/components/global/loader/spinner";
 import React from "react";
 
 type Props = {};
@@ -8,7 +9,7 @@ const AuthLoading = (props: Props) => {
       className="flex h-screen w-full justify-center 
     items-center justify-center"
     >
-      <Spinner />
+      <Spinner size={150} />
     </div>
   );
 };
