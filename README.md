@@ -1,4 +1,4 @@
-#AM-T A Peer 2 Peer Trading app
+## AM-T A Peer 2 Peer Trading app
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
