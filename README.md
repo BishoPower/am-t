@@ -1,5 +1,9 @@
 ## AM-T A Peer 2 Peer Trading app
 
+This project is built primarily using TypeScript, ensuring robust, maintainable, and scalable code. JavaScript and CSS are also utilized where appropriate for additional functionality and styling.
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
