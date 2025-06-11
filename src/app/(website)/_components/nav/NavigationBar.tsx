@@ -75,7 +75,10 @@ export const NavigationBar: React.FC = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   // Set authLoading to true by default
   const [authLoading, setAuthLoading] = useState(true);
-  const [userData, setUserData] = useState<{ image?: string; username?: string }>({});
+  const [userData, setUserData] = useState<{
+    image?: string;
+    username?: string;
+  }>({});
   const menuRef = React.useRef<HTMLDivElement>(null);
   const searchRef = React.useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -395,9 +398,11 @@ export const NavigationBar: React.FC = () => {
             {searchOpen && (
               <div
                 ref={searchRef}
-                className="md:hidden absolute left-0 right-0 top-full mt-1 px-4 py-3 bg-white shadow-md rounded-md z-30"
+                className="lg:hidden absolute left-0 right-0 top-full mt-1 px-4 py-3 bg-white shadow-md rounded-md z-30"
               >
-                <SearchBar onSearch={handleSearch} />
+                <div className="w-full max-w-md mx-auto">
+                  <SearchBar onSearch={handleSearch} />
+                </div>
               </div>
             )}
           </div>
@@ -474,7 +479,7 @@ export const NavigationBar: React.FC = () => {
                 ) : (
                   <div className="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center">
                     <User className="h-6 w-6 text-gray-500" />
-                  </div> 
+                  </div>
                 )}
                 <Link href="/dashboard" className="font-medium">
                   My Dashboard
