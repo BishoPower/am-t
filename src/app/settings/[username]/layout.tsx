@@ -1,31 +1,29 @@
 import React from "react";
 import { onAuthenticatedUser } from "@/actions/user";
-import { getMessagesReceived, getMessagesSent, getTradeRequestsReceived, getTradeRequestsSent, getUserCloset, getUserData, getUserFavorites, getUserListings, getUserTradePreferences, verifyAccessToUser } from "@/actions/username";
+import {
+  getMessagesReceived,
+  getMessagesSent,
+  getTradeRequestsReceived,
+  getTradeRequestsSent,
+  getUserCloset,
+  getUserData,
+  getUserFavorites,
+  getUserListings,
+  getUserTradePreferences,
+  verifyAccessToUser,
+} from "@/actions/username";
 import { redirect } from "next/navigation";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import Sidebar from "@/components/global/sidebar";
+import { SettingsProvider } from "@/components/settings/SettingsProvider";
 
 // Fix the helper function to properly await the params
 async function getUsername(params: { username: string }) {
-  // First await the params object itself
-  const resolvedParams = await Promise.resolve(params);
-  // Then return the username property
-  return resolvedParams.username;
+  return params.username;
 }
-
-// Static part that rarely changes
-const DashboardLayoutStatic = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="dashboard-layout">
-      <aside className="sidebar">{/* Static sidebar content */}</aside>
-      <main>{children}</main>
-    </div>
-  );
-};
 
 // Dynamic wrapper with auth logic
 export default async function Layout({
@@ -46,10 +44,9 @@ export default async function Layout({
 
   // Verify access with the properly awaited username
   const access = await verifyAccessToUser(username);
-
-  // Break potential redirect loops by checking if already on own dashboard
+  // Break potential redirect loops by checking if already on own settings
   if (access.status !== 200 && username !== auth.user.username) {
-    return redirect(`/dashboard/${auth.user.username}`);
+    return redirect(`/settings/${auth.user.username}`);
   }
 
   const query = new QueryClient();
@@ -84,7 +81,7 @@ export default async function Layout({
     queryFn: () => getMessagesReceived(username),
   });
 
-  await query.prefetchQuery({ 
+  await query.prefetchQuery({
     queryKey: ["messages-sent", username],
     queryFn: () => getMessagesSent(username),
   });
@@ -105,13 +102,12 @@ export default async function Layout({
     queryKey: ["trade-preferences", username],
     queryFn: () => getUserTradePreferences(username),
   });
-
-  // Return the layout with hydrated query client
+  // Return the layout without sidebar - just a settings container
   return (
     <HydrationBoundary state={dehydrate(query)}>
-        <div className="flex h-screen w-screen">
-            <Sidebar actionUsername={username} />
-        </div>
+      <SettingsProvider username={username}>
+        <div className="w-full">{children}</div>
+      </SettingsProvider>
     </HydrationBoundary>
   );
 }

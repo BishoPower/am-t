@@ -51,9 +51,9 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
           <div>
             <h3 className="font-medium text-sidebar-foreground">
               {actionUsername || "User"}
-            </h3>
+            </h3>{" "}
             <Link
-              href={`/dashboard/${actionUsername}`}
+              href={`/settings/${actionUsername}`}
               className="text-xs text-sidebar-foreground/70 hover:text-sidebar-accent-foreground transition-colors"
             >
               View Profile
@@ -65,17 +65,16 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-1.5">
         <Link
-          href={`/dashboard/${actionUsername}`}
+          href={`/settings/${actionUsername}`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
-            "/dashboard"
+            "/settings"
           )}`}
         >
           <Home className="h-5 w-5" />
-          <span>Dashboard</span>
-        </Link>
-
+          <span>Settings</span>
+        </Link>{" "}
         <Link
-          href={`/dashboard/${actionUsername}/closet`}
+          href={`/settings/${actionUsername}/closet`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
             "/closet"
           )}`}
@@ -83,19 +82,17 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
           <Package className="h-5 w-5" />
           <span>My Closet</span>
         </Link>
-
         <Link
-          href={`/dashboard/${actionUsername}/listings`}
+          href={`/settings/${actionUsername}/listings`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
             "/listings"
           )}`}
         >
           <ShoppingBag className="h-5 w-5" />
           <span>Listings</span>
-        </Link>
-
+        </Link>{" "}
         <Link
-          href={`/dashboard/${actionUsername}/favorites`}
+          href={`/settings/${actionUsername}/favorites`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
             "/favorites"
           )}`}
@@ -103,9 +100,8 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
           <Heart className="h-5 w-5" />
           <span>Favorites</span>
         </Link>
-
         <Link
-          href={`/dashboard/${actionUsername}/trades`}
+          href={`/settings/${actionUsername}/trades`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
             "/trades"
           )}`}
@@ -113,9 +109,8 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
           <Repeat className="h-5 w-5" />
           <span>Trades</span>
         </Link>
-
         <Link
-          href={`/dashboard/${actionUsername}/messages`}
+          href={`/settings/${actionUsername}/messages`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
             "/messages"
           )}`}
@@ -128,7 +123,7 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
       {/* Footer Actions */}
       <div className="p-4 border-t border-sidebar-border">
         <Link
-          href={`/dashboard/${actionUsername}/settings`}
+          href={`/settings/${actionUsername}/settings`}
           className="flex items-center space-x-3 p-2 rounded-md text-sidebar-foreground/80 hover:bg-sidebar-accent/30 hover:text-sidebar-foreground transition-colors"
         >
           <Settings className="h-5 w-5" />

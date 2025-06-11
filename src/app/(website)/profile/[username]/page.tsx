@@ -3,6 +3,16 @@ import { db } from "@/lib/db";
 import { isOwnProfile } from "@/lib/auth-utils";
 import PrivateProfileView from "@/components/profile/PrivateProfileView";
 import PublicProfileView from "@/components/profile/PublicProfileView";
+import { currentUser } from "@clerk/nextjs/server";
+
+// Type for serializable Clerk user data
+type SerializableClerkUser = {
+  id: string;
+  imageUrl?: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  username?: string | null;
+} | null;
 
 export default async function ProfilePage({
   params,
@@ -11,6 +21,20 @@ export default async function ProfilePage({
 }) {
   // Check if the logged-in user is viewing their own profile
   const isOwner = await isOwnProfile(params.username);
+
+  // Get Clerk user data for image fallback
+  const clerkUser = await currentUser();
+
+  // Extract only serializable data from Clerk user
+  const serializableClerkUser: SerializableClerkUser = clerkUser
+    ? {
+        id: clerkUser.id,
+        imageUrl: clerkUser.imageUrl,
+        firstName: clerkUser.firstName,
+        lastName: clerkUser.lastName,
+        username: clerkUser.username,
+      }
+    : null;
 
   // Fetch the profile user
   const profileUser = await db.user.findUnique({
@@ -44,9 +68,21 @@ export default async function ProfilePage({
 
   if (isOwner) {
     // Show the full private profile view
-    return <PrivateProfileView user={profileUser} listings={listings} />;
+    return (
+      <PrivateProfileView
+        user={profileUser}
+        listings={listings}
+        clerkUser={serializableClerkUser}
+      />
+    );
   } else {
     // Show the limited public profile view
-    return <PublicProfileView user={profileUser} listings={listings} />;
+    return (
+      <PublicProfileView
+        user={profileUser}
+        listings={listings}
+        clerkUser={serializableClerkUser}
+      />
+    );
   }
 }

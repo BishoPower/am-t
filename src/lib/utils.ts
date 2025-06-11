@@ -40,3 +40,27 @@ export function truncate(str: string, length: number): string {
 
   return `${str.slice(0, length).trim()}...`;
 }
+
+/**
+ * Get the profile image URL with Clerk fallback
+ * @param userImage - Image from database
+ * @param clerkUser - Clerk user object (serializable)
+ * @returns Image URL or null if no image available
+ */
+export function getProfileImageUrl(
+  userImage?: string | null,
+  clerkUser?: { imageUrl?: string } | null
+): string | null {
+  // First priority: user's uploaded image from database
+  if (userImage) {
+    return userImage;
+  }
+
+  // Second priority: Clerk's profile image
+  if (clerkUser?.imageUrl) {
+    return clerkUser.imageUrl;
+  }
+
+  // No image available
+  return null;
+}

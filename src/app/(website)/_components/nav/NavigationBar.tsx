@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useAuth, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
+import { getProfileImageUrl } from "@/lib/utils";
 
 // Separate main nav links from authentication links
 const mainNavLinks = [
@@ -190,18 +191,20 @@ export const NavigationBar: React.FC = () => {
     signOut();
     setProfileOpen(false);
   };
-
   // Custom profile button component
   const ProfileButton = () => {
+    // Get the profile image URL with Clerk fallback
+    const profileImageUrl = getProfileImageUrl(userData.image, user);
+
     return (
       <div className="relative" ref={profileRef}>
         <button
           onClick={() => setProfileOpen(!profileOpen)}
           className="flex items-center justify-center rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
         >
-          {userData.image ? (
+          {profileImageUrl ? (
             <Image
-              src={userData.image}
+              src={profileImageUrl}
               alt="Profile"
               width={32}
               height={32}
@@ -228,23 +231,16 @@ export const NavigationBar: React.FC = () => {
               <p className="text-xs text-gray-500">
                 @{userData.username || user?.username}
               </p>
-            </div>
+            </div>{" "}
             <Link
               href={`/profile/${userData.username || user?.username}`}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => setProfileOpen(false)}
             >
               My Profile
-            </Link>
+            </Link>{" "}
             <Link
-              href="/dashboard"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => setProfileOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/settings"
+              href={`/settings/${userData.username || user?.username}`}
               className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={() => setProfileOpen(false)}
             >
@@ -351,15 +347,14 @@ export const NavigationBar: React.FC = () => {
                       aria-label="Messages"
                     >
                       <MessageSquare className="h-5 w-5" />
-                    </Link>
+                    </Link>{" "}
                     <Link
-                      href="/dashboard/listings"
+                      href={`/profile/${userData.username || user?.username}`}
                       className="p-2 hover:bg-gray-100 rounded-full flex items-center justify-center"
-                      aria-label="Listings"
+                      aria-label="My Profile"
                     >
                       <ShoppingBag className="h-5 w-5" />
                     </Link>
-
                     {/* Profile Button */}
                     <ProfileButton />
                   </div>
@@ -468,9 +463,9 @@ export const NavigationBar: React.FC = () => {
             <div className="mb-6">
               <div className="flex items-center space-x-3 mb-4 px-2">
                 {/* Replace UserButton with custom profile image */}
-                {userData.image ? (
+                {getProfileImageUrl(userData.image, user) ? (
                   <Image
-                    src={userData.image}
+                    src={getProfileImageUrl(userData.image, user)!}
                     alt="Profile"
                     width={40}
                     height={40}
@@ -480,19 +475,23 @@ export const NavigationBar: React.FC = () => {
                   <div className="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center">
                     <User className="h-6 w-6 text-gray-500" />
                   </div>
-                )}
-                <Link href="/dashboard" className="font-medium">
-                  My Dashboard
+                )}{" "}
+                <Link
+                  href={`/settings/${userData.username || user?.username}`}
+                  className="font-medium"
+                >
+                  My Settings
                 </Link>
               </div>
 
               <div className="flex flex-col space-y-3 mb-6 px-2">
+                {" "}
                 <Link
-                  href="/dashboard/listings"
+                  href={`/profile/${userData.username || user?.username}`}
                   className="flex items-center space-x-2 text-sm"
                 >
                   <ShoppingBag className="h-4 w-4" />
-                  <span>My Listings</span>
+                  <span>My Profile</span>
                 </Link>
                 <Link
                   href="/messages"

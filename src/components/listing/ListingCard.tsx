@@ -97,18 +97,18 @@ const ListingCard = ({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/listings/${listing.id}/edit`}>
+                  <Link href={`/settings/listings/${listing.id}/edit`}>
                     Edit
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem>{" "}
                 <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/listings/${listing.id}/delete`}>
+                  <Link href={`/settings/listings/${listing.id}/delete`}>
                     Delete
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    href={`/dashboard/listings/${listing.id}/toggle-visibility`}
+                    href={`/settings/listings/${listing.id}/toggle-visibility`}
                   >
                     {listing.isPrivate ? "Make Public" : "Make Private"}
                   </Link>

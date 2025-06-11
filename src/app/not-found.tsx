@@ -21,13 +21,6 @@ export default function NotFound() {
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
-
-          <Link
-            href="/dashboard"
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-md border border-border bg-background hover:bg-secondary transition-colors"
-          >
-            Go to Dashboard
-          </Link>
         </div>
       </div>
     </div>

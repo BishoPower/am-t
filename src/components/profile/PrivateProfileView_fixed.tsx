@@ -184,112 +184,116 @@ const PrivateProfileView = ({
   return (
     <div className="w-full">
       {/* Profile Header */}
-      <div className="bg-white border-b p-6 mb-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             <div className="relative h-20 w-20 rounded-full overflow-hidden ring-2 ring-gray-100">
-            {profileImageUrl ? (
-              <Image
-                src={profileImageUrl}
-                alt={user.username || "User"}
-                fill
-                className="object-cover"
-              />
-            ) : (
-              <div className="h-full w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <span className="text-xl font-bold text-gray-600">
-                  {user.username?.[0]?.toUpperCase() || "U"}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="flex-1">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  {user.username}
-                </h1>
-                <p className="text-gray-600 text-sm">
-                  Member since {formatDate(user.createdAt)}
-                </p>
-              </div>
-              <Link href={`/settings/${user.username}`}>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
-                  <Settings className="h-4 w-4" />
-                  Edit Profile
-                </Button>
-              </Link>
+              {profileImageUrl ? (
+                <Image
+                  src={profileImageUrl}
+                  alt={user.username || "User"}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="h-full w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                  <span className="text-xl font-bold text-gray-600">
+                    {user.username?.[0]?.toUpperCase() || "U"}
+                  </span>
+                </div>
+              )}
             </div>
 
-            {/* Stats */}
-            <div className="mt-4 flex flex-wrap gap-6 text-sm">
-              <div className="flex items-center gap-1">
-                <span className="font-semibold text-gray-900">
-                  {activeListings.length}
-                </span>
-                <span className="text-gray-600">selling</span>
+            <div className="flex-1">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    {user.username}
+                  </h1>
+                  <p className="text-gray-600 text-sm">
+                    Member since {formatDate(user.createdAt)}
+                  </p>
+                </div>
+                <Link href={`/settings/${user.username}`}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
+                    <Settings className="h-4 w-4" />
+                    Edit Profile
+                  </Button>
+                </Link>
               </div>
-              <div className="flex items-center gap-1">
-                <span className="font-semibold text-gray-900">
-                  {soldListings.length}
-                </span>
-                <span className="text-gray-600">sold</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="font-semibold text-gray-900">
-                  {listings.length}
-                </span>
-                <span className="text-gray-600">items</span>
-              </div>
-              {privateListings > 0 && (
+
+              {/* Stats */}
+              <div className="mt-4 flex flex-wrap gap-6 text-sm">
                 <div className="flex items-center gap-1">
                   <span className="font-semibold text-gray-900">
-                    {privateListings}
+                    {activeListings.length}
                   </span>
-                  <span className="text-gray-600">private</span>
+                  <span className="text-gray-600">selling</span>
                 </div>
-              )}            </div>
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold text-gray-900">
+                    {soldListings.length}
+                  </span>
+                  <span className="text-gray-600">sold</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="font-semibold text-gray-900">
+                    {listings.length}
+                  </span>
+                  <span className="text-gray-600">items</span>
+                </div>
+                {privateListings > 0 && (
+                  <div className="flex items-center gap-1">
+                    <span className="font-semibold text-gray-900">
+                      {privateListings}
+                    </span>
+                    <span className="text-gray-600">private</span>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       {/* Tab Navigation */}
-      <div className="bg-white border-b mb-6">
+      <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex overflow-x-auto">
             {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as TabType)}
-              className={cn(
-                "flex-shrink-0 px-6 py-4 text-sm font-medium border-b-2 transition-colors",
-                activeTab === tab.id
-                  ? "border-black text-black"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              )}
-            >
-              {tab.label}              {tab.count > 0 && (
-                <span className="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          ))}
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as TabType)}
+                className={cn(
+                  "flex-shrink-0 px-6 py-4 text-sm font-medium border-b-2 transition-colors",
+                  activeTab === tab.id
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                )}
+              >
+                {tab.label}
+                {tab.count > 0 && (
+                  <span className="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
         </div>
       </div>
+
       {/* Tab Content */}
-      <div className="bg-white border-b">
+      <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {renderTabContent()}
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
