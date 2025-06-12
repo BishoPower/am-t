@@ -4,6 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme"; // Updated import path
 import ReactQueryProvider from "@/react-query";
+import { PopupProvider } from "@/components/ui/popup";
+import { ConfirmationProvider } from "@/components/ui/confirmation-dialog";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -26,7 +28,11 @@ export default function RootLayout({
             defaultTheme="light"
             disableTransitionOnChange
           >
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ConfirmationProvider>
+              <PopupProvider>
+                <ReactQueryProvider>{children}</ReactQueryProvider>
+              </PopupProvider>
+            </ConfirmationProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -19,8 +19,10 @@ export default async function ProfilePage({
 }: {
   params: { username: string };
 }) {
+  const { username } = await params;
+
   // Check if the logged-in user is viewing their own profile
-  const isOwner = await isOwnProfile(params.username);
+  const isOwner = await isOwnProfile(username);
 
   // Get Clerk user data for image fallback
   const clerkUser = await currentUser();
@@ -38,7 +40,7 @@ export default async function ProfilePage({
 
   // Fetch the profile user
   const profileUser = await db.user.findUnique({
-    where: { username: params.username },
+    where: { username },
     include: {
       closet: true,
     },

@@ -156,4 +156,3 @@ export const searchUsers = async (query: string, key: string) => {
     return { status: 500, error: "Failed to search users" };
   }
 };
-  
