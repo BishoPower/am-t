@@ -23,7 +23,7 @@ type PrivateProfileProps = {
   clerkUser?: SerializableClerkUser; // Serializable Clerk user data for image fallback
 };
 
-type TabType = "selling" | "favorites" | "saved" | "closet" | "reviews";
+type TabType = "selling" | "favorites" | "closet" | "reviews";
 
 const PrivateProfileView = ({
   user,
@@ -48,11 +48,9 @@ const PrivateProfileView = ({
 
   // Get the profile image URL with Clerk fallback
   const profileImageUrl = getProfileImageUrl(user.image, clerkUser);
-
   const tabs = [
     { id: "selling", label: "Selling", count: activeListings.length },
     { id: "favorites", label: "Favorites", count: 0 },
-    { id: "saved", label: "Saved", count: 0 },
     { id: "closet", label: "Closet", count: listings.length },
     { id: "reviews", label: "Reviews", count: 0 },
   ];
@@ -62,9 +60,10 @@ const PrivateProfileView = ({
       case "selling":
         return (
           <div className="space-y-6">
+            {" "}
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-medium">Active Listings</h3>
-              <Link href="/listing/create">
+              <Link href="/create-listing">
                 <Button size="sm" className="flex items-center gap-1">
                   <PlusCircle className="h-4 w-4" />
                   New Listing
@@ -84,15 +83,15 @@ const PrivateProfileView = ({
               </div>
             ) : (
               <div className="text-center py-12">
+                {" "}
                 <p className="text-gray-500 mb-4">
                   You don't have any active listings.
                 </p>
-                <Link href="/listing/create">
+                <Link href="/create-listing">
                   <Button>Create Your First Listing</Button>
                 </Link>
               </div>
             )}
-
             {soldListings.length > 0 && (
               <details className="mt-8">
                 <summary className="text-lg font-medium cursor-pointer mb-4 text-gray-700">
@@ -109,7 +108,6 @@ const PrivateProfileView = ({
                 </div>
               </details>
             )}
-
             {archivedListings.length > 0 && (
               <details className="mt-8">
                 <summary className="text-lg font-medium cursor-pointer mb-4 text-gray-700">
@@ -155,15 +153,6 @@ const PrivateProfileView = ({
             <h3 className="text-lg font-medium">Favorites</h3>
             <div className="text-center py-12">
               <p className="text-gray-500">No favorites yet.</p>
-            </div>
-          </div>
-        );
-      case "saved":
-        return (
-          <div className="space-y-6">
-            <h3 className="text-lg font-medium">Saved Items</h3>
-            <div className="text-center py-12">
-              <p className="text-gray-500">No saved items yet.</p>
             </div>
           </div>
         );
@@ -232,13 +221,13 @@ const PrivateProfileView = ({
                   <span className="font-semibold text-gray-900">
                     {activeListings.length}
                   </span>
-                  <span className="text-gray-600">selling</span>
+                  <span className="text-gray-600">listings</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="font-semibold text-gray-900">
                     {soldListings.length}
                   </span>
-                  <span className="text-gray-600">sold</span>
+                  <span className="text-gray-600">traded</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="font-semibold text-gray-900">

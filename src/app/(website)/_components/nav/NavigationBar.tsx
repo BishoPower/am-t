@@ -31,7 +31,7 @@ const mainNavLinks = [
     variant: "outline" as const,
     className: "border-black hover:bg-black hover:text-white transition-colors",
     borderWidth: "border-2",
-    href: "/listing/create",
+    href: "/trade",
   },
   {
     label: "Listings",

@@ -4220,8 +4220,18 @@ export namespace Prisma {
 
   export type AggregateListing = {
     _count: ListingCountAggregateOutputType | null
+    _avg: ListingAvgAggregateOutputType | null
+    _sum: ListingSumAggregateOutputType | null
     _min: ListingMinAggregateOutputType | null
     _max: ListingMaxAggregateOutputType | null
+  }
+
+  export type ListingAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ListingSumAggregateOutputType = {
+    order: number | null
   }
 
   export type ListingMinAggregateOutputType = {
@@ -4229,6 +4239,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     isPrivate: boolean | null
+    order: number | null
     userId: string | null
     closetId: string | null
     status: $Enums.ListingStatus | null
@@ -4241,6 +4252,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     isPrivate: boolean | null
+    order: number | null
     userId: string | null
     closetId: string | null
     status: $Enums.ListingStatus | null
@@ -4254,6 +4266,7 @@ export namespace Prisma {
     description: number
     imageUrls: number
     isPrivate: number
+    order: number
     userId: number
     closetId: number
     status: number
@@ -4263,11 +4276,20 @@ export namespace Prisma {
   }
 
 
+  export type ListingAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type ListingSumAggregateInputType = {
+    order?: true
+  }
+
   export type ListingMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
     isPrivate?: true
+    order?: true
     userId?: true
     closetId?: true
     status?: true
@@ -4280,6 +4302,7 @@ export namespace Prisma {
     title?: true
     description?: true
     isPrivate?: true
+    order?: true
     userId?: true
     closetId?: true
     status?: true
@@ -4293,6 +4316,7 @@ export namespace Prisma {
     description?: true
     imageUrls?: true
     isPrivate?: true
+    order?: true
     userId?: true
     closetId?: true
     status?: true
@@ -4339,6 +4363,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ListingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ListingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ListingMinAggregateInputType
@@ -4369,6 +4405,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ListingCountAggregateInputType | true
+    _avg?: ListingAvgAggregateInputType
+    _sum?: ListingSumAggregateInputType
     _min?: ListingMinAggregateInputType
     _max?: ListingMaxAggregateInputType
   }
@@ -4379,12 +4417,15 @@ export namespace Prisma {
     description: string
     imageUrls: string[]
     isPrivate: boolean
+    order: number
     userId: string
     closetId: string
     status: $Enums.ListingStatus
     createdAt: Date
     updatedAt: Date
     _count: ListingCountAggregateOutputType | null
+    _avg: ListingAvgAggregateOutputType | null
+    _sum: ListingSumAggregateOutputType | null
     _min: ListingMinAggregateOutputType | null
     _max: ListingMaxAggregateOutputType | null
   }
@@ -4409,6 +4450,7 @@ export namespace Prisma {
     description?: boolean
     imageUrls?: boolean
     isPrivate?: boolean
+    order?: boolean
     userId?: boolean
     closetId?: boolean
     status?: boolean
@@ -4431,6 +4473,7 @@ export namespace Prisma {
     description?: boolean
     imageUrls?: boolean
     isPrivate?: boolean
+    order?: boolean
     userId?: boolean
     closetId?: boolean
     status?: boolean
@@ -4446,6 +4489,7 @@ export namespace Prisma {
     description?: boolean
     imageUrls?: boolean
     isPrivate?: boolean
+    order?: boolean
     userId?: boolean
     closetId?: boolean
     status?: boolean
@@ -4461,6 +4505,7 @@ export namespace Prisma {
     description?: boolean
     imageUrls?: boolean
     isPrivate?: boolean
+    order?: boolean
     userId?: boolean
     closetId?: boolean
     status?: boolean
@@ -4468,7 +4513,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "imageUrls" | "isPrivate" | "userId" | "closetId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["listing"]>
+  export type ListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "imageUrls" | "isPrivate" | "order" | "userId" | "closetId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["listing"]>
   export type ListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     closet?: boolean | ClosetDefaultArgs<ExtArgs>
@@ -4507,6 +4552,7 @@ export namespace Prisma {
       description: string
       imageUrls: string[]
       isPrivate: boolean
+      order: number
       userId: string
       closetId: string
       status: $Enums.ListingStatus
@@ -4948,6 +4994,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Listing", 'String'>
     readonly imageUrls: FieldRef<"Listing", 'String[]'>
     readonly isPrivate: FieldRef<"Listing", 'Boolean'>
+    readonly order: FieldRef<"Listing", 'Int'>
     readonly userId: FieldRef<"Listing", 'String'>
     readonly closetId: FieldRef<"Listing", 'String'>
     readonly status: FieldRef<"Listing", 'ListingStatus'>
@@ -10990,6 +11037,7 @@ export namespace Prisma {
     description: 'description',
     imageUrls: 'imageUrls',
     isPrivate: 'isPrivate',
+    order: 'order',
     userId: 'userId',
     closetId: 'closetId',
     status: 'status',
@@ -11121,6 +11169,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'ListingStatus'
    */
   export type EnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingStatus'>
@@ -11149,16 +11211,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'Float[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -11333,6 +11395,7 @@ export namespace Prisma {
     description?: StringFilter<"Listing"> | string
     imageUrls?: StringNullableListFilter<"Listing">
     isPrivate?: BoolFilter<"Listing"> | boolean
+    order?: IntFilter<"Listing"> | number
     userId?: UuidFilter<"Listing"> | string
     closetId?: UuidFilter<"Listing"> | string
     status?: EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
@@ -11354,6 +11417,7 @@ export namespace Prisma {
     description?: SortOrder
     imageUrls?: SortOrder
     isPrivate?: SortOrder
+    order?: SortOrder
     userId?: SortOrder
     closetId?: SortOrder
     status?: SortOrder
@@ -11378,6 +11442,7 @@ export namespace Prisma {
     description?: StringFilter<"Listing"> | string
     imageUrls?: StringNullableListFilter<"Listing">
     isPrivate?: BoolFilter<"Listing"> | boolean
+    order?: IntFilter<"Listing"> | number
     userId?: UuidFilter<"Listing"> | string
     closetId?: UuidFilter<"Listing"> | string
     status?: EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
@@ -11399,14 +11464,17 @@ export namespace Prisma {
     description?: SortOrder
     imageUrls?: SortOrder
     isPrivate?: SortOrder
+    order?: SortOrder
     userId?: SortOrder
     closetId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ListingCountOrderByAggregateInput
+    _avg?: ListingAvgOrderByAggregateInput
     _max?: ListingMaxOrderByAggregateInput
     _min?: ListingMinOrderByAggregateInput
+    _sum?: ListingSumOrderByAggregateInput
   }
 
   export type ListingScalarWhereWithAggregatesInput = {
@@ -11418,6 +11486,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Listing"> | string
     imageUrls?: StringNullableListFilter<"Listing">
     isPrivate?: BoolWithAggregatesFilter<"Listing"> | boolean
+    order?: IntWithAggregatesFilter<"Listing"> | number
     userId?: UuidWithAggregatesFilter<"Listing"> | string
     closetId?: UuidWithAggregatesFilter<"Listing"> | string
     status?: EnumListingStatusWithAggregatesFilter<"Listing"> | $Enums.ListingStatus
@@ -11915,6 +11984,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11934,6 +12004,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -11953,6 +12024,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11972,6 +12044,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -11991,6 +12064,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -12004,6 +12078,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12015,6 +12090,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -12571,6 +12647,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type EnumListingStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
@@ -12599,6 +12686,7 @@ export namespace Prisma {
     description?: SortOrder
     imageUrls?: SortOrder
     isPrivate?: SortOrder
+    order?: SortOrder
     userId?: SortOrder
     closetId?: SortOrder
     status?: SortOrder
@@ -12606,11 +12694,16 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ListingAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
   export type ListingMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     isPrivate?: SortOrder
+    order?: SortOrder
     userId?: SortOrder
     closetId?: SortOrder
     status?: SortOrder
@@ -12623,11 +12716,16 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     isPrivate?: SortOrder
+    order?: SortOrder
     userId?: SortOrder
     closetId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ListingSumOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -12636,6 +12734,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumListingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13327,6 +13441,14 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumListingStatusFieldUpdateOperationsInput = {
     set?: $Enums.ListingStatus
   }
@@ -13909,6 +14031,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumListingStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
@@ -14126,6 +14275,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14144,6 +14294,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     closetId: string
     status?: $Enums.ListingStatus
     createdAt?: Date | string
@@ -14359,6 +14510,7 @@ export namespace Prisma {
     description?: StringFilter<"Listing"> | string
     imageUrls?: StringNullableListFilter<"Listing">
     isPrivate?: BoolFilter<"Listing"> | boolean
+    order?: IntFilter<"Listing"> | number
     userId?: UuidFilter<"Listing"> | string
     closetId?: UuidFilter<"Listing"> | string
     status?: EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
@@ -14448,6 +14600,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14466,6 +14619,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     status?: $Enums.ListingStatus
     createdAt?: Date | string
@@ -14956,6 +15110,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14974,6 +15129,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -15055,6 +15211,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15073,6 +15230,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -15238,6 +15396,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15256,6 +15415,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -15279,6 +15439,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15297,6 +15458,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -15458,6 +15620,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15476,6 +15639,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -15562,6 +15726,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15580,6 +15745,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -15667,6 +15833,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15685,6 +15852,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -15797,6 +15965,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15815,6 +15984,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     closetId: string
     status?: $Enums.ListingStatus
@@ -15955,6 +16125,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15973,6 +16144,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -16032,6 +16204,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     closetId: string
     status?: $Enums.ListingStatus
     createdAt?: Date | string
@@ -16184,6 +16357,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16202,6 +16376,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16220,6 +16395,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16259,6 +16435,7 @@ export namespace Prisma {
     description: string
     imageUrls?: ListingCreateimageUrlsInput | string[]
     isPrivate?: boolean
+    order?: number
     userId: string
     status?: $Enums.ListingStatus
     createdAt?: Date | string
@@ -16271,6 +16448,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16289,6 +16467,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16307,6 +16486,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16490,6 +16670,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16508,6 +16689,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -16526,6 +16708,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -16539,6 +16722,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16557,6 +16741,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -16575,6 +16760,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -16588,6 +16774,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16606,6 +16793,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
@@ -16624,6 +16812,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus

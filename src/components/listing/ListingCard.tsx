@@ -76,15 +76,13 @@ const ListingCard = ({
           </Badge>
         </div>
       </div>
-
-      {/* Content */}
+      {/* Content */}{" "}
       <div className="p-3">
         <div className="flex items-start justify-between">
           <div>
             <h3 className="font-medium text-sm line-clamp-1">
               {listing.title}
             </h3>
-            <p className="text-sm font-bold">${listing.price}</p>
           </div>
 
           {/* Edit options dropdown */}

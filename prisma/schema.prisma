@@ -54,6 +54,7 @@ model Listing {
   description String
   imageUrls   String[]
   isPrivate   Boolean  @default(false)
+  order       Int      @default(0) // For drag-and-drop ordering in closet
 
   userId String @db.Uuid // Ensure this matches the User model's id type
   user   User   @relation(fields: [userId], references: [id])

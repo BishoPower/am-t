@@ -147,6 +147,7 @@ exports.Prisma.ListingScalarFieldEnum = {
   description: 'description',
   imageUrls: 'imageUrls',
   isPrivate: 'isPrivate',
+  order: 'order',
   userId: 'userId',
   closetId: 'closetId',
   status: 'status',

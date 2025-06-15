@@ -49,10 +49,8 @@ export default async function ProfilePage({
   if (!profileUser) {
     return notFound();
   }
-
   // Fetch listings for this user's closet
-  // For the owner, show all listings including private ones
-  // For others, only show public, active listings
+  // For the owner, show all listings including private ones  // For others, only show public, active listings
   const listings = await db.listing.findMany({
     where: {
       userId: profileUser.id,
@@ -63,17 +61,54 @@ export default async function ProfilePage({
       tags: true,
       favorites: true,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [
+      {
+        order: "asc", // Sort by custom order first
+      },
+      {
+        createdAt: "desc", // Then by creation date for items without order
+      },
+    ],
   });
 
+  // Fetch favorites only for the profile owner
+  let favorites = [];
+  if (isOwner) {
+    favorites = await db.favorite.findMany({
+      where: {
+        userId: profileUser.id,
+      },
+      include: {
+        listing: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                image: true,
+              },
+            },
+            tags: true,
+            _count: {
+              select: {
+                favorites: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        id: "desc", // Most recently favorited first
+      },
+    });
+  }
   if (isOwner) {
     // Show the full private profile view
     return (
       <PrivateProfileView
         user={profileUser}
         listings={listings}
+        favorites={favorites}
         clerkUser={serializableClerkUser}
       />
     );
