@@ -6,6 +6,7 @@ type NavLinkProps = {
   className?: string;
   borderWidth?: string;
   href?: string;
+  onClick?: string | (() => void);
 };
 
 export const NavLink: React.FC<NavLinkProps> = ({
@@ -14,9 +15,10 @@ export const NavLink: React.FC<NavLinkProps> = ({
   className = "",
   borderWidth,
   href = "#",
+  onClick,
 }) => {
   const baseClasses =
-    "inline-block text-xs font-medium tracking-wide leading-none text-center uppercase whitespace-nowrap transition-colors duration-200";
+    "inline-block text-xs font-medium tracking-wide leading-none text-center uppercase whitespace-nowrap transition-colors duration-200 cursor-pointer";
 
   const variantClasses = {
     outline: "border border-solid px-4 py-2.5",
@@ -30,9 +32,17 @@ export const NavLink: React.FC<NavLinkProps> = ({
   // Apply border width if provided, otherwise use the default from variant
   const borderClasses = borderWidth ? `border-[${borderWidth}]` : "";
 
+  const handleClick = (e: React.MouseEvent) => {
+    if (onClick && typeof onClick === "function") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <a
       href={href}
+      onClick={handleClick}
       className={`${baseClasses} ${variantClasses[variant]} ${responsiveClasses} ${borderClasses} ${className}`}
     >
       {label}

@@ -21,6 +21,8 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { getProfileImageUrl } from "@/lib/utils";
+import { AuthPopup } from "@/components/auth/AuthPopup";
+import { useAuthPopup } from "@/hooks/use-auth-popup";
 
 // Separate main nav links from authentication links
 const mainNavLinks = [
@@ -49,13 +51,13 @@ const authLinks = [
   {
     label: "Login",
     variant: "outline" as const,
-    href: "/auth/sign-in",
+    onClick: "signin" as const,
     className: "border-gray-300 hover:border-black transition-colors",
   },
   {
     label: "Sign up",
     variant: "solid" as const,
-    href: "/auth/sign-up",
+    onClick: "signup" as const,
     className: "hover:bg-black/80 transition-colors",
   },
 ];
@@ -85,6 +87,7 @@ export const NavigationBar: React.FC = () => {
   const profileRef = useRef<HTMLDivElement>(null);
   const { isSignedIn, userId, signOut } = useAuth();
   const { user, isLoaded: clerkLoaded } = useUser();
+  const authPopup = useAuthPopup();
 
   // Update your useEffect to consider Clerk's loading state
   useEffect(() => {
@@ -260,8 +263,9 @@ export const NavigationBar: React.FC = () => {
 
   return (
     <>
+      {" "}
       <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 py-2">
-        <div className="w-full px-4 md:px-8 lg:px-10 flex justify-center">
+        <div className="w-full px-8 md:px-16 lg:px-24 flex justify-center">
           <div className="w-full max-w-[1400px]">
             {/* Main navigation row */}
             <div className="flex items-center justify-between">
@@ -280,7 +284,6 @@ export const NavigationBar: React.FC = () => {
                     <Menu className="h-6 w-6" />
                   )}
                 </button>
-
                 {/* Search icon button (mobile only) */}
                 <button
                   className="flex items-center justify-center p-2 ml-1 rounded-md hover:bg-gray-100 transition-colors lg:hidden"
@@ -289,32 +292,26 @@ export const NavigationBar: React.FC = () => {
                   aria-label="Toggle search"
                 >
                   <Search className="h-5 w-5" />
-                </button>
-
+                </button>{" "}
                 {/* Desktop logo */}
-                <Link href="/" className="hidden lg:block flex-shrink-0">
-                  <Logo
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/5af9b24a27dc6e652cff8e8df6c54e7e524fa37dcf96dc6bc7252ebaba01e6c7?placeholderIfAbsent=true&apiKey=b4cab32bee1d480ba90be591a38899b3"
-                    alt="Company Logo"
-                  />
+                <Link href="/" className="hidden lg:block flex-shrink-0 mr-4">
+                  <Logo src="/amtlogo.gif?v=1" alt="AM-T Logo" />
                 </Link>
               </div>
 
               {/* Center: Logo on mobile, flexible Search on desktop */}
               <div className="flex justify-center items-center">
+                {" "}
                 {/* Mobile logo - Centered */}
                 <div className="lg:hidden">
                   <Link href="/">
-                    <Logo
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/5af9b24a27dc6e652cff8e8df6c54e7e524fa37dcf96dc6bc7252ebaba01e6c7?placeholderIfAbsent=true&apiKey=b4cab32bee1d480ba90be591a38899b3"
-                      alt="Company Logo"
-                    />
+                    <Logo src="/amtlogo.gif?v=1" alt="AM-T Logo" />
                   </Link>
                 </div>
               </div>
 
               {/* Desktop Search Bar - Flexible width */}
-              <div className="hidden lg:flex flex-grow mx-6 lg:mx-10 max-w-3xl">
+              <div className="hidden lg:flex flex-grow mx-2 lg:mx-3 max-w-6xl">
                 <SearchBar onSearch={handleSearch} />
               </div>
 
@@ -330,9 +327,8 @@ export const NavigationBar: React.FC = () => {
                     {/* Placeholder for profile button */}
                     <div className="rounded-full bg-gray-200 w-8 h-8 animate-pulse"></div>
                   </div>
-                ) : isSignedIn ? (
-                  /* Authenticated user UI */
-                  <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
+                ) : isSignedIn /* Authenticated user UI */ ? (
+                  <div className="flex items-center space-x-1 sm:space-x-1 md:space-x-2">
                     {/* Icon buttons */}
                     <Link
                       href="/favorites"
@@ -360,21 +356,25 @@ export const NavigationBar: React.FC = () => {
                   </div>
                 ) : (
                   /* Non-authenticated user UI */
-                  <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
+                  <div className="flex items-center space-x-1 md:space-x-2 lg:space-x-3">
                     {authLinks.map((link, index) => (
                       <NavLink
                         key={index}
                         {...link}
+                        onClick={
+                          link.onClick === "signin"
+                            ? authPopup.openSignIn
+                            : authPopup.openSignUp
+                        }
                         className={`${
                           link.className || ""
                         } px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap`}
                       />
                     ))}
                   </div>
-                )}
-
+                )}{" "}
                 {/* Desktop Navigation Links - Main nav links - always visible */}
-                <div className="hidden lg:flex items-center ml-4 xl:ml-6 space-x-4 xl:space-x-6">
+                <div className="hidden lg:flex items-center ml-2 xl:ml-3 space-x-2 xl:space-x-3">
                   {mainNavLinks.map((link, index) => (
                     <NavLink
                       key={index}
@@ -402,11 +402,10 @@ export const NavigationBar: React.FC = () => {
             )}
           </div>
         </div>
-      </nav>
-
+      </nav>{" "}
       {/* Secondary Navigation (Categories) - Desktop only */}
       <div className="hidden lg:block bg-white border-b border-gray-100 py-3 sticky top-[61px] z-40">
-        <div className="w-full px-4 md:px-8 lg:px-10 flex justify-center">
+        <div className="w-full px-8 md:px-16 lg:px-24 flex justify-center">
           <div className="w-full max-w-[1400px]">
             <div className="flex items-center justify-center">
               <div className="flex items-center justify-between w-full max-w-5xl">
@@ -424,7 +423,6 @@ export const NavigationBar: React.FC = () => {
           </div>
         </div>
       </div>
-
       {/* Overlay when sidebar is open */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden ${
@@ -433,7 +431,6 @@ export const NavigationBar: React.FC = () => {
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
       ></div>
-
       {/* Sidebar Navigation - Animated from left */}
       <div
         ref={menuRef}
@@ -514,18 +511,24 @@ export const NavigationBar: React.FC = () => {
             <>
               <div className="w-full flex flex-col space-y-2 mb-4">
                 {authLinks.map((link, index) => (
-                  <Link
+                  <button
                     key={index}
-                    href={link.href}
+                    onClick={() => {
+                      if (link.onClick === "signin") {
+                        authPopup.openSignIn();
+                      } else {
+                        authPopup.openSignUp();
+                      }
+                      setMenuOpen(false);
+                    }}
                     className={`w-full px-4 py-2 text-center text-sm font-medium ${
                       link.variant === "solid"
                         ? "bg-black text-white"
                         : "border border-gray-300 text-black"
                     } rounded-md`}
-                    onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
-                  </Link>
+                  </button>
                 ))}
               </div>
               <div className="border-t border-gray-200 w-full my-2"></div>
@@ -559,10 +562,17 @@ export const NavigationBar: React.FC = () => {
               >
                 {link.label}
               </Link>
-            ))}
+            ))}{" "}
           </div>
         </div>
       </div>
+      {/* Auth Popup */}
+      <AuthPopup
+        isOpen={authPopup.isOpen}
+        onClose={authPopup.close}
+        mode={authPopup.mode}
+        onModeChange={authPopup.switchMode}
+      />
     </>
   );
 };

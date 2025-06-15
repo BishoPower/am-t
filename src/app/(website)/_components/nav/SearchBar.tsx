@@ -719,4 +719,3 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 function handleSearch(query: string): void {
   throw new Error("Function not implemented.");
 }
-

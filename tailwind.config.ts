@@ -62,7 +62,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Helvetica", "Arial", "sans-serif"],
+        sans: ["Video Regular", "Helvetica", "Arial", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
