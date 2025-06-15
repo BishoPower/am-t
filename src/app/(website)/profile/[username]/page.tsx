@@ -72,7 +72,7 @@ export default async function ProfilePage({
   });
 
   // Fetch favorites only for the profile owner
-  let favorites = [];
+  let favorites: any[] | undefined = [];
   if (isOwner) {
     favorites = await db.favorite.findMany({
       where: {
