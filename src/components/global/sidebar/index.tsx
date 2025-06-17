@@ -99,20 +99,20 @@ const Sidebar = ({ actionUsername, userImage }: Props) => {
         >
           <Heart className="h-5 w-5" />
           <span>Favorites</span>
-        </Link>
+        </Link>{" "}
         <Link
-          href={`/settings/${actionUsername}/trades`}
+          href="/trades"
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
             "/trades"
           )}`}
         >
           <Repeat className="h-5 w-5" />
           <span>Trades</span>
-        </Link>
+        </Link>{" "}
         <Link
-          href={`/settings/${actionUsername}/messages`}
+          href={`/profile/${actionUsername}?tab=messages`}
           className={`flex items-center space-x-3 p-2 rounded-md transition-colors ${isActive(
-            "/messages"
+            `/profile/${actionUsername}`
           )}`}
         >
           <MessageSquare className="h-5 w-5" />

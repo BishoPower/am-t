@@ -22,6 +22,67 @@ export function formatDate(date: Date | string): string {
 }
 
 /**
+ * Format a message timestamp for chat display
+ */
+export function formatMessageTime(date: Date | string): string {
+  if (!date) return "";
+
+  const d = typeof date === "string" ? new Date(date) : date;
+  const now = new Date();
+  const diffInMinutes = Math.floor((now.getTime() - d.getTime()) / (1000 * 60));
+
+  if (diffInMinutes < 1) return "Just now";
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours}h ago`;
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 7) return `${diffInDays}d ago`;
+
+  // For older messages, show the actual date
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: d.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
+  });
+}
+
+/**
+ * Format a chat message timestamp with more detailed time display
+ */
+export function formatChatTime(date: Date | string): string {
+  if (!date) return "";
+
+  const d = typeof date === "string" ? new Date(date) : date;
+  const now = new Date();
+  const diffInMinutes = Math.floor((now.getTime() - d.getTime()) / (1000 * 60));
+
+  if (diffInMinutes < 1) return "Just now";
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return d.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays === 1) return "Yesterday";
+  if (diffInDays < 7) return `${diffInDays} days ago`;
+
+  // For older messages, show the date
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: d.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
+  });
+}
+
+/**
  * Format a price with currency symbol
  */
 export function formatPrice(price: number, currency: string = "USD"): string {

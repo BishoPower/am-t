@@ -219,7 +219,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           </button>
         </div>
       </form>
-
       {/* Search Results Dropdown */}
       {showResults && !isMobile && (query || isLoading) && (
         <div
@@ -394,7 +393,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             )}
         </div>
       )}
-
       {/* Recent Searches Dropdown - Shown when input is focused but empty */}
       {showResults && !query && recentSearches.length > 0 && (
         <div
@@ -432,220 +430,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           </ul>
         </div>
       )}
-
-      {/* Desktop Search Results Dropdown */}
-      {showResults && !isMobile && (query || isLoading) && (
-        <div
-          ref={resultsRef}
-          className="absolute z-[100] w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-96 overflow-y-auto"
-        >
-          {isLoading && (
-            <div className="p-4 text-center text-gray-500">
-              <div className="animate-pulse flex justify-center">
-                <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-              </div>
-            </div>
-          )}
-
-          {error && <div className="p-4 text-center text-red-500">{error}</div>}
-
-          {!isLoading && !error && query && !hasResults && (
-            <div className="p-4 text-center text-gray-500">
-              No results found for "{query}"
-            </div>
-          )}
-
-          {/* Filter Tabs */}
-          {showResults && query && (
-            <div className="border-b border-gray-200">
-              <div className="flex">
-                <button
-                  className={`px-4 py-2 text-sm font-medium ${
-                    activeFilter === "ALL"
-                      ? "border-b-2 border-black"
-                      : "text-gray-500"
-                  }`}
-                  onClick={() => setActiveFilter("ALL")}
-                >
-                  All Results
-                </button>
-                <button
-                  className={`px-4 py-2 text-sm font-medium ${
-                    activeFilter === "LISTINGS"
-                      ? "border-b-2 border-black"
-                      : "text-gray-500"
-                  }`}
-                  onClick={() => setActiveFilter("LISTINGS")}
-                >
-                  Listings
-                </button>
-                <button
-                  className={`px-4 py-2 text-sm font-medium ${
-                    activeFilter === "USERS"
-                      ? "border-b-2 border-black"
-                      : "text-gray-500"
-                  }`}
-                  onClick={() => setActiveFilter("USERS")}
-                >
-                  Users
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Listings Results */}
-          {(activeFilter === "ALL" || activeFilter === "LISTINGS") &&
-            listings.length > 0 && (
-              <div>
-                <div className="px-4 py-2 bg-gray-100 text-xs font-semibold uppercase tracking-wide flex justify-between">
-                  <span>Listings</span>
-                  <span className="text-gray-500">
-                    {listings.length} results
-                  </span>
-                </div>
-                <ul>
-                  {listings.map((listing, index) => (
-                    <li key={listing.id}>
-                      <Link
-                        ref={(el) => {
-                          // Track the current index in the combined results
-                          const idx = listings.indexOf(listing);
-                          resultRefs.current[idx] = el;
-                        }}
-                        href={`/listing/${listing.id}`}
-                        className={`flex items-center p-3 hover:bg-gray-50 transition-colors ${
-                          activeIndex === listings.indexOf(listing)
-                            ? "bg-gray-100"
-                            : ""
-                        }`}
-                        onClick={() => setShowResults(false)}
-                      >
-                        {listing.imageUrls && listing.imageUrls[0] ? (
-                          <div className="w-12 h-12 mr-3 relative overflow-hidden rounded">
-                            <Image
-                              src={listing.imageUrls[0]}
-                              alt={listing.title}
-                              fill
-                              sizes="48px"
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-12 h-12 mr-3 bg-gray-200 rounded flex items-center justify-center">
-                            <span className="text-gray-400">No Image</span>
-                          </div>
-                        )}
-                        <div>
-                          <h4 className="font-medium text-sm">
-                            {listing.title}
-                          </h4>
-                          <p className="text-xs text-gray-600 truncate">
-                            {listing.description?.substring(0, 60)}
-                            {(listing.description?.length || 0) > 60
-                              ? "..."
-                              : ""}
-                          </p>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-          {/* Users Results */}
-          {(activeFilter === "ALL" || activeFilter === "USERS") &&
-            users.length > 0 && (
-              <div>
-                <div className="px-4 py-2 bg-gray-100 text-xs font-semibold uppercase tracking-wide">
-                  Users
-                </div>
-                <ul>
-                  {users.map((user) => (
-                    <li key={user.id}>
-                      <Link
-                        href={`/profile/${user.username}`}
-                        className="flex items-center p-3 hover:bg-gray-50 transition-colors"
-                        onClick={() => setShowResults(false)}
-                      >
-                        {user.image ? (
-                          <div className="w-12 h-12 mr-3 relative overflow-hidden rounded-full">
-                            <Image
-                              src={user.image}
-                              alt={user.username || "User"}
-                              fill
-                              sizes="48px"
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-12 h-12 mr-3 bg-gray-200 rounded-full flex items-center justify-center">
-                            <span className="text-lg font-medium text-gray-600">
-                              {(user.firstName?.[0] || "") +
-                                (user.lastName?.[0] || "")}
-                            </span>
-                          </div>
-                        )}
-                        <div>
-                          <h4 className="font-medium text-sm">
-                            @{user.username}
-                          </h4>
-                          <p className="text-xs text-gray-600">
-                            {user.firstName} {user.lastName}
-                            {/* Safe access to _count using optional chaining */}
-                            {(user as any)._count?.listings !== undefined &&
-                              ` · ${(user as any)._count.listings} listing${
-                                (user as any)._count.listings !== 1 ? "s" : ""
-                              }`}
-                          </p>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-        </div>
-      )}
-
-      {/* Recent Searches Dropdown - Shown when input is focused but empty */}
-      {showResults && !query && recentSearches.length > 0 && (
-        <div
-          ref={resultsRef}
-          className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
-        >
-          <div className="flex justify-between px-4 py-2 bg-gray-100">
-            <span className="text-xs font-semibold uppercase tracking-wide">
-              Recent Searches
-            </span>
-            <button
-              className="text-xs text-gray-500 hover:text-gray-700"
-              onClick={() => {
-                setRecentSearches([]);
-                localStorage.removeItem("recentSearches");
-              }}
-            >
-              Clear
-            </button>
-          </div>
-          <ul>
-            {recentSearches.map((term, i) => (
-              <li key={i}>
-                <button
-                  className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
-                  onClick={() => {
-                    handleSearchInput({ target: { value: term } } as any);
-                    setShowResults(true);
-                  }}
-                >
-                  {term}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       {/* Mobile search overlay - shown when search is clicked */}
       {showResults && isMobile && (
         <div
@@ -708,14 +492,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             </div>
           </div>
         </div>
-      )}
+      )}{" "}
     </div>
   );
 };
-
-<div className="relative flex-grow mx-6 lg:mx-10 max-w-3xl">
-  <SearchBar onSearch={handleSearch} />
-</div>;
-function handleSearch(query: string): void {
-  throw new Error("Function not implemented.");
-}

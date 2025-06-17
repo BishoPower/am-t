@@ -18,11 +18,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { getProfileImageUrl } from "@/lib/utils";
 import { AuthPopup } from "@/components/auth/AuthPopup";
 import { useAuthPopup } from "@/hooks/use-auth-popup";
+import { Badge } from "@/components/ui/badge";
 
 // Separate main nav links from authentication links
 const mainNavLinks = [
@@ -72,12 +74,38 @@ const categoryLinks = [
   { label: "EDITORIAL", href: "/editorial" },
 ];
 
+// Component for message icon with notification badge
+const MessageIconWithBadge = ({
+  unreadCount,
+  className = "h-5 w-5",
+  showBadge = true,
+}: {
+  unreadCount: number;
+  className?: string;
+  showBadge?: boolean;
+}) => {
+  return (
+    <div className="relative">
+      <MessageSquare className={className} />
+      {showBadge && unreadCount > 0 && (
+        <Badge
+          variant="destructive"
+          className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs font-bold min-w-[20px]"
+        >
+          {unreadCount > 99 ? "99+" : unreadCount}
+        </Badge>
+      )}
+    </div>
+  );
+};
+
 export const NavigationBar: React.FC = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   // Set authLoading to true by default
   const [authLoading, setAuthLoading] = useState(true);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const [userData, setUserData] = useState<{
     image?: string;
     username?: string;
@@ -88,6 +116,22 @@ export const NavigationBar: React.FC = () => {
   const { isSignedIn, userId, signOut } = useAuth();
   const { user, isLoaded: clerkLoaded } = useUser();
   const authPopup = useAuthPopup();
+  const router = useRouter();
+
+  // Fetch unread messages count
+  const fetchUnreadMessagesCount = React.useCallback(async () => {
+    if (!isSignedIn || !userId) return;
+
+    try {
+      const response = await fetch("/api/messages/unread-count");
+      if (response.ok) {
+        const data = await response.json();
+        setUnreadMessagesCount(data.count || 0);
+      }
+    } catch (error) {
+      console.error("Failed to fetch unread messages count:", error);
+    }
+  }, [isSignedIn, userId]);
 
   // Update your useEffect to consider Clerk's loading state
   useEffect(() => {
@@ -132,17 +176,48 @@ export const NavigationBar: React.FC = () => {
         if (remainingDelay > 0) {
           await new Promise((resolve) => setTimeout(resolve, remainingDelay));
         }
-
         setAuthLoading(false);
       }
     }
 
     fetchUserData();
-  }, [isSignedIn, userId, clerkLoaded]);
+    // Also fetch unread messages count when user data is loaded
+    if (isSignedIn && userId && clerkLoaded) {
+      fetchUnreadMessagesCount();
+    }
+  }, [isSignedIn, userId, clerkLoaded, fetchUnreadMessagesCount]);
+
+  // Periodic refresh of unread messages count (every 30 seconds)
+  useEffect(() => {
+    if (!isSignedIn || !userId) return;
+
+    const interval = setInterval(() => {
+      fetchUnreadMessagesCount();
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval);
+  }, [isSignedIn, userId, fetchUnreadMessagesCount]);
+
+  // Make refresh function available globally for other components
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      (window as any).refreshNavUnreadCount = fetchUnreadMessagesCount;
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        delete (window as any).refreshNavUnreadCount;
+      }
+    };
+  }, [fetchUnreadMessagesCount]);
 
   const handleSearch = (query: string) => {
     console.log("Search query:", query);
     setSearchOpen(false);
+    // Navigate to search page with the query
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+    }
   };
 
   // Close dropdown menus when clicking outside
@@ -336,13 +411,18 @@ export const NavigationBar: React.FC = () => {
                       aria-label="Favorites"
                     >
                       <Heart className="h-5 w-5" />
-                    </Link>
+                    </Link>{" "}
                     <Link
-                      href="/messages"
+                      href={`/profile/${
+                        userData.username || user?.username
+                      }?tab=messages`}
                       className="p-2 hover:bg-gray-100 rounded-full flex items-center justify-center"
                       aria-label="Messages"
                     >
-                      <MessageSquare className="h-5 w-5" />
+                      <MessageIconWithBadge
+                        unreadCount={unreadMessagesCount}
+                        className="h-5 w-5"
+                      />
                     </Link>{" "}
                     <Link
                       href={`/profile/${userData.username || user?.username}`}
@@ -489,12 +569,16 @@ export const NavigationBar: React.FC = () => {
                 >
                   <ShoppingBag className="h-4 w-4" />
                   <span>My Profile</span>
-                </Link>
-                <Link
-                  href="/messages"
+                </Link>{" "}                <Link
+                  href={`/profile/${
+                    userData.username || user?.username
+                  }?tab=messages`}
                   className="flex items-center space-x-2 text-sm"
                 >
-                  <MessageSquare className="h-4 w-4" />
+                  <MessageIconWithBadge
+                    unreadCount={unreadMessagesCount}
+                    className="h-4 w-4"
+                  />
                   <span>Messages</span>
                 </Link>
                 <Link

@@ -9888,6 +9888,8 @@ export namespace Prisma {
     content: string | null
     listingId: string | null
     timestamp: Date | null
+    isRead: boolean | null
+    readAt: Date | null
     updatedAt: Date | null
   }
 
@@ -9898,6 +9900,8 @@ export namespace Prisma {
     content: string | null
     listingId: string | null
     timestamp: Date | null
+    isRead: boolean | null
+    readAt: Date | null
     updatedAt: Date | null
   }
 
@@ -9908,6 +9912,8 @@ export namespace Prisma {
     content: number
     listingId: number
     timestamp: number
+    isRead: number
+    readAt: number
     updatedAt: number
     _all: number
   }
@@ -9920,6 +9926,8 @@ export namespace Prisma {
     content?: true
     listingId?: true
     timestamp?: true
+    isRead?: true
+    readAt?: true
     updatedAt?: true
   }
 
@@ -9930,6 +9938,8 @@ export namespace Prisma {
     content?: true
     listingId?: true
     timestamp?: true
+    isRead?: true
+    readAt?: true
     updatedAt?: true
   }
 
@@ -9940,6 +9950,8 @@ export namespace Prisma {
     content?: true
     listingId?: true
     timestamp?: true
+    isRead?: true
+    readAt?: true
     updatedAt?: true
     _all?: true
   }
@@ -10023,6 +10035,8 @@ export namespace Prisma {
     content: string
     listingId: string | null
     timestamp: Date
+    isRead: boolean
+    readAt: Date | null
     updatedAt: Date
     _count: MessageCountAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
@@ -10050,6 +10064,8 @@ export namespace Prisma {
     content?: boolean
     listingId?: boolean
     timestamp?: boolean
+    isRead?: boolean
+    readAt?: boolean
     updatedAt?: boolean
     from?: boolean | UserDefaultArgs<ExtArgs>
     to?: boolean | UserDefaultArgs<ExtArgs>
@@ -10063,6 +10079,8 @@ export namespace Prisma {
     content?: boolean
     listingId?: boolean
     timestamp?: boolean
+    isRead?: boolean
+    readAt?: boolean
     updatedAt?: boolean
     from?: boolean | UserDefaultArgs<ExtArgs>
     to?: boolean | UserDefaultArgs<ExtArgs>
@@ -10076,6 +10094,8 @@ export namespace Prisma {
     content?: boolean
     listingId?: boolean
     timestamp?: boolean
+    isRead?: boolean
+    readAt?: boolean
     updatedAt?: boolean
     from?: boolean | UserDefaultArgs<ExtArgs>
     to?: boolean | UserDefaultArgs<ExtArgs>
@@ -10089,10 +10109,12 @@ export namespace Prisma {
     content?: boolean
     listingId?: boolean
     timestamp?: boolean
+    isRead?: boolean
+    readAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fromId" | "toId" | "content" | "listingId" | "timestamp" | "updatedAt", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fromId" | "toId" | "content" | "listingId" | "timestamp" | "isRead" | "readAt" | "updatedAt", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     from?: boolean | UserDefaultArgs<ExtArgs>
     to?: boolean | UserDefaultArgs<ExtArgs>
@@ -10123,6 +10145,8 @@ export namespace Prisma {
       content: string
       listingId: string | null
       timestamp: Date
+      isRead: boolean
+      readAt: Date | null
       updatedAt: Date
     }, ExtArgs["result"]["message"]>
     composites: {}
@@ -10556,6 +10580,8 @@ export namespace Prisma {
     readonly content: FieldRef<"Message", 'String'>
     readonly listingId: FieldRef<"Message", 'String'>
     readonly timestamp: FieldRef<"Message", 'DateTime'>
+    readonly isRead: FieldRef<"Message", 'Boolean'>
+    readonly readAt: FieldRef<"Message", 'DateTime'>
     readonly updatedAt: FieldRef<"Message", 'DateTime'>
   }
     
@@ -11098,6 +11124,8 @@ export namespace Prisma {
     content: 'content',
     listingId: 'listingId',
     timestamp: 'timestamp',
+    isRead: 'isRead',
+    readAt: 'readAt',
     updatedAt: 'updatedAt'
   };
 
@@ -11735,6 +11763,8 @@ export namespace Prisma {
     content?: StringFilter<"Message"> | string
     listingId?: UuidNullableFilter<"Message"> | string | null
     timestamp?: DateTimeFilter<"Message"> | Date | string
+    isRead?: BoolFilter<"Message"> | boolean
+    readAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     updatedAt?: DateTimeFilter<"Message"> | Date | string
     from?: XOR<UserScalarRelationFilter, UserWhereInput>
     to?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11748,6 +11778,8 @@ export namespace Prisma {
     content?: SortOrder
     listingId?: SortOrderInput | SortOrder
     timestamp?: SortOrder
+    isRead?: SortOrder
+    readAt?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     from?: UserOrderByWithRelationInput
     to?: UserOrderByWithRelationInput
@@ -11764,6 +11796,8 @@ export namespace Prisma {
     content?: StringFilter<"Message"> | string
     listingId?: UuidNullableFilter<"Message"> | string | null
     timestamp?: DateTimeFilter<"Message"> | Date | string
+    isRead?: BoolFilter<"Message"> | boolean
+    readAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     updatedAt?: DateTimeFilter<"Message"> | Date | string
     from?: XOR<UserScalarRelationFilter, UserWhereInput>
     to?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11777,6 +11811,8 @@ export namespace Prisma {
     content?: SortOrder
     listingId?: SortOrderInput | SortOrder
     timestamp?: SortOrder
+    isRead?: SortOrder
+    readAt?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
@@ -11793,6 +11829,8 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"Message"> | string
     listingId?: UuidNullableWithAggregatesFilter<"Message"> | string | null
     timestamp?: DateTimeWithAggregatesFilter<"Message"> | Date | string
+    isRead?: BoolWithAggregatesFilter<"Message"> | boolean
+    readAt?: DateTimeNullableWithAggregatesFilter<"Message"> | Date | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
   }
 
@@ -12325,6 +12363,8 @@ export namespace Prisma {
     id?: string
     content: string
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
     from: UserCreateNestedOneWithoutMessagesFromInput
     to: UserCreateNestedOneWithoutMessagesToInput
@@ -12338,6 +12378,8 @@ export namespace Prisma {
     content: string
     listingId?: string | null
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -12345,6 +12387,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     from?: UserUpdateOneRequiredWithoutMessagesFromNestedInput
     to?: UserUpdateOneRequiredWithoutMessagesToNestedInput
@@ -12358,6 +12402,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     listingId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12368,6 +12414,8 @@ export namespace Prisma {
     content: string
     listingId?: string | null
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -12375,6 +12423,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12385,6 +12435,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     listingId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12894,6 +12946,17 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type ListingNullableScalarRelationFilter = {
     is?: ListingWhereInput | null
     isNot?: ListingWhereInput | null
@@ -12906,6 +12969,8 @@ export namespace Prisma {
     content?: SortOrder
     listingId?: SortOrder
     timestamp?: SortOrder
+    isRead?: SortOrder
+    readAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12916,6 +12981,8 @@ export namespace Prisma {
     content?: SortOrder
     listingId?: SortOrder
     timestamp?: SortOrder
+    isRead?: SortOrder
+    readAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12926,6 +12993,8 @@ export namespace Prisma {
     content?: SortOrder
     listingId?: SortOrder
     timestamp?: SortOrder
+    isRead?: SortOrder
+    readAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12942,6 +13011,20 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ClosetCreateNestedOneWithoutUserInput = {
@@ -13851,6 +13934,10 @@ export namespace Prisma {
     connect?: ListingWhereUniqueInput
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type UserUpdateOneRequiredWithoutMessagesFromNestedInput = {
     create?: XOR<UserCreateWithoutMessagesFromInput, UserUncheckedCreateWithoutMessagesFromInput>
     connectOrCreate?: UserCreateOrConnectWithoutMessagesFromInput
@@ -14096,6 +14183,17 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -14108,6 +14206,20 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ClosetCreateWithoutUserInput = {
@@ -14153,6 +14265,8 @@ export namespace Prisma {
     id?: string
     content: string
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
     from: UserCreateNestedOneWithoutMessagesFromInput
     listing?: ListingCreateNestedOneWithoutMessagesInput
@@ -14164,6 +14278,8 @@ export namespace Prisma {
     content: string
     listingId?: string | null
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -14181,6 +14297,8 @@ export namespace Prisma {
     id?: string
     content: string
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
     to: UserCreateNestedOneWithoutMessagesToInput
     listing?: ListingCreateNestedOneWithoutMessagesInput
@@ -14192,6 +14310,8 @@ export namespace Prisma {
     content: string
     listingId?: string | null
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -14421,6 +14541,8 @@ export namespace Prisma {
     content?: StringFilter<"Message"> | string
     listingId?: UuidNullableFilter<"Message"> | string | null
     timestamp?: DateTimeFilter<"Message"> | Date | string
+    isRead?: BoolFilter<"Message"> | boolean
+    readAt?: DateTimeNullableFilter<"Message"> | Date | string | null
     updatedAt?: DateTimeFilter<"Message"> | Date | string
   }
 
@@ -14816,6 +14938,8 @@ export namespace Prisma {
     id?: string
     content: string
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
     from: UserCreateNestedOneWithoutMessagesFromInput
     to: UserCreateNestedOneWithoutMessagesToInput
@@ -14827,6 +14951,8 @@ export namespace Prisma {
     toId: string
     content: string
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -16168,6 +16294,8 @@ export namespace Prisma {
     content: string
     listingId?: string | null
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -16177,6 +16305,8 @@ export namespace Prisma {
     content: string
     listingId?: string | null
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -16239,6 +16369,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     from?: UserUpdateOneRequiredWithoutMessagesFromNestedInput
     listing?: ListingUpdateOneWithoutMessagesNestedInput
@@ -16250,6 +16382,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     listingId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16259,6 +16393,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     listingId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16266,6 +16402,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     to?: UserUpdateOneRequiredWithoutMessagesToNestedInput
     listing?: ListingUpdateOneWithoutMessagesNestedInput
@@ -16277,6 +16415,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     listingId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16286,6 +16426,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     listingId?: NullableStringFieldUpdateOperationsInput | string | null
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16504,6 +16646,8 @@ export namespace Prisma {
     toId: string
     content: string
     timestamp?: Date | string
+    isRead?: boolean
+    readAt?: Date | string | null
     updatedAt?: Date | string
   }
 
@@ -16550,6 +16694,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     from?: UserUpdateOneRequiredWithoutMessagesFromNestedInput
     to?: UserUpdateOneRequiredWithoutMessagesToNestedInput
@@ -16561,6 +16707,8 @@ export namespace Prisma {
     toId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16570,6 +16718,8 @@ export namespace Prisma {
     toId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

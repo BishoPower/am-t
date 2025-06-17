@@ -17,6 +17,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import SimilarListings from "./SimilarListings";
+import TradeModal from "@/components/trade/TradeModal";
+import MessageModal from "@/components/messaging/MessageModal";
 import {
   Carousel,
   CarouselContent,
@@ -26,6 +29,9 @@ import {
 } from "@/components/ui/carousel";
 import { formatDate, getProfileImageUrl } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 type ListingDetailProps = {
   listing: any; // Type this properly based on your listing structure
@@ -43,6 +49,11 @@ const ListingDetailView = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
   const [favoriteCount, setFavoriteCount] = useState(initialFavoriteCount);
+  const [isTradeModalOpen, setIsTradeModalOpen] = useState(false);
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+  const { userId } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
 
   // Get profile image with fallback
   const sellerProfileImage = getProfileImageUrl(listing.user.image);
@@ -68,7 +79,6 @@ const ListingDetailView = ({
       console.error("Error favoriting listing:", error);
     }
   };
-
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -84,6 +94,43 @@ const ListingDetailView = ({
       // Fallback: copy to clipboard
       navigator.clipboard.writeText(window.location.href);
       // You could show a toast notification here
+    }
+  };
+  const handleTradeSubmit = async (offerListings: any[], message: string) => {
+    try {
+      const response = await fetch("/api/trade/requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          targetListingId: listing.id,
+          offerListingIds: offerListings.map((l) => l.id),
+          message: message || undefined,
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Trade request sent!",
+          description: `Your trade offer for "${listing.title}" has been sent to @${listing.user.username}.`,
+        });
+        setIsTradeModalOpen(false);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send trade request");
+      }
+    } catch (error) {
+      console.error("Error sending trade request:", error);
+      toast({
+        title: "Failed to send trade request",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+      throw error;
     }
   };
 
@@ -121,34 +168,36 @@ const ListingDetailView = ({
           </div>
         </div>
       </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {" "}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <Carousel className="w-full">
-              <CarouselContent>
-                {listing.imageUrls?.map((imageUrl: string, index: number) => (
-                  <CarouselItem key={index}>
-                    <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100">
-                      <Image
-                        src={imageUrl}
-                        alt={`${listing.title} - Image ${index + 1}`}
-                        fill
-                        className="object-cover"
-                        priority={index === 0}
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              {listing.imageUrls?.length > 1 && (
-                <>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </>
-              )}
-            </Carousel>
+            <div className="relative">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {listing.imageUrls?.map((imageUrl: string, index: number) => (
+                    <CarouselItem key={index}>
+                      <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100">
+                        <Image
+                          src={imageUrl}
+                          alt={`${listing.title} - Image ${index + 1}`}
+                          fill
+                          className="object-cover"
+                          priority={index === 0}
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                {listing.imageUrls?.length > 1 && (
+                  <>
+                    <CarouselPrevious className="left-2" />
+                    <CarouselNext className="right-2" />
+                  </>
+                )}
+              </Carousel>
+            </div>
 
             {/* Thumbnail navigation */}
             {listing.imageUrls?.length > 1 && (
@@ -199,14 +248,22 @@ const ListingDetailView = ({
                   Private
                 </Badge>
               )}
-            </div>
+            </div>{" "}
             {/* Tags */}
             {listing.tags?.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {listing.tags.map((tag: any) => (
-                  <Badge key={tag.id} variant="outline">
-                    {tag.name}
-                  </Badge>
+                  <Link
+                    key={tag.id}
+                    href={`/search?tags=${encodeURIComponent(tag.name)}`}
+                  >
+                    <Badge
+                      variant="outline"
+                      className="hover:bg-gray-100 cursor-pointer transition-colors"
+                    >
+                      #{tag.name}
+                    </Badge>
+                  </Link>
                 ))}
               </div>
             )}
@@ -253,16 +310,22 @@ const ListingDetailView = ({
                   </p>
                 </div>
               </Link>
-            </div>
+            </div>{" "}
             {/* Action Buttons */}
             {!isOwner && (
               <div className="space-y-3">
-                <Button className="w-full" size="lg">
+                <Button
+                  className="w-full bg-gray-800 hover:bg-gray-900 text-white"
+                  size="lg"
+                  onClick={() => setIsMessageModalOpen(true)}
+                  disabled={!userId}
+                >
                   <MessageCircle className="h-4 w-4 mr-2" />
                   Message Seller
                 </Button>
 
                 <div className="grid grid-cols-2 gap-3">
+                  {" "}
                   <Button
                     variant="outline"
                     onClick={handleFavorite}
@@ -275,15 +338,19 @@ const ListingDetailView = ({
                       className={cn("h-4 w-4", isFavorited && "fill-current")}
                     />
                     {isFavorited ? "Favorited" : "Favorite"}
-                  </Button>
-
-                  <Button variant="outline" className="flex items-center gap-2">
+                  </Button>{" "}
+                  <Button
+                    variant="outline"
+                    className="flex items-center gap-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                    onClick={() => setIsTradeModalOpen(true)}
+                    disabled={!userId}
+                  >
                     <Repeat2 className="h-4 w-4" />
                     Trade
                   </Button>
                 </div>
               </div>
-            )}
+            )}{" "}
             {/* Owner Actions */}
             {isOwner && (
               <div className="space-y-3">
@@ -292,7 +359,7 @@ const ListingDetailView = ({
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   <Button variant="outline" asChild>
-                    <Link href={`/settings/listings/${listing.id}/edit`}>
+                    <Link href={`/listing/${listing.id}/edit`}>
                       Edit Listing
                     </Link>
                   </Button>
@@ -352,7 +419,27 @@ const ListingDetailView = ({
             )}
           </div>
         </div>
-      </div>
+      </div>{" "}
+      {/* Similar Listings Section */}
+      <SimilarListings
+        listingId={listing.id}
+        currentListingTitle={listing.title}
+      />{" "}
+      {/* Trade Modal */}
+      <TradeModal
+        isOpen={isTradeModalOpen}
+        onClose={() => setIsTradeModalOpen(false)}
+        targetListing={listing}
+        onTradeSubmit={handleTradeSubmit}
+      />
+      {/* Message Modal */}
+      <MessageModal
+        isOpen={isMessageModalOpen}
+        onClose={() => setIsMessageModalOpen(false)}
+        otherUser={listing.user}
+        listingId={listing.id}
+        listingTitle={listing.title}
+      />
     </div>
   );
 };

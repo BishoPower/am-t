@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme"; // Updated import path
 import ReactQueryProvider from "@/react-query";
 import { PopupProvider } from "@/components/ui/popup";
 import { ConfirmationProvider } from "@/components/ui/confirmation-dialog";
+import { Toaster } from "@/components/ui/toaster";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -28,9 +29,11 @@ export default function RootLayout({
             defaultTheme="light"
             disableTransitionOnChange
           >
+            {" "}
             <ConfirmationProvider>
               <PopupProvider>
                 <ReactQueryProvider>{children}</ReactQueryProvider>
+                <Toaster />
               </PopupProvider>
             </ConfirmationProvider>
           </ThemeProvider>

@@ -193,6 +193,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   content: 'content',
   listingId: 'listingId',
   timestamp: 'timestamp',
+  isRead: 'isRead',
+  readAt: 'readAt',
   updatedAt: 'updatedAt'
 };
 

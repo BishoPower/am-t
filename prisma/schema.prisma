@@ -141,6 +141,8 @@ model Message {
   content   String
   listingId String?  @db.Uuid // Ensure this matches the Listing model's id type
   timestamp DateTime @default(now())
+  isRead    Boolean  @default(false)
+  readAt    DateTime?
 
   // NEW:
   updatedAt DateTime @updatedAt

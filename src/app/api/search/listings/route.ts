@@ -3,10 +3,23 @@ import { searchListings } from "@/actions/user";
 
 export async function GET(request: NextRequest) {
   try {
-    const query = request.nextUrl.searchParams.get("q") || "";
-    const key = request.nextUrl.searchParams.get("key") || "";
+    const query = request.nextUrl.searchParams.get("q");
+    const tags = request.nextUrl.searchParams.get("tags");
+    const key = request.nextUrl.searchParams.get("key");
 
-    const result = await searchListings(query, key);
+    console.log("=== Search API called ===");
+    console.log("- query:", JSON.stringify(query), "type:", typeof query);
+    console.log("- tags:", JSON.stringify(tags), "type:", typeof tags);
+    console.log("- key:", JSON.stringify(key), "type:", typeof key);
+
+    const result = await searchListings(
+      query || "",
+      key || "",
+      tags || undefined
+    );
+
+    console.log("Search result status:", result.status);
+    console.log("Search result count:", result.results?.length || 0);
 
     if ("error" in result) {
       return NextResponse.json(

@@ -135,12 +135,14 @@ model Favorite {
 }
 
 model Message {
-  id        String   @id @default(cuid())
-  fromId    String   @db.Uuid // Ensure this matches the User model's id type
-  toId      String   @db.Uuid // Ensure this matches the User model's id type
+  id        String    @id @default(cuid())
+  fromId    String    @db.Uuid // Ensure this matches the User model's id type
+  toId      String    @db.Uuid // Ensure this matches the User model's id type
   content   String
-  listingId String?  @db.Uuid // Ensure this matches the Listing model's id type
-  timestamp DateTime @default(now())
+  listingId String?   @db.Uuid // Ensure this matches the Listing model's id type
+  timestamp DateTime  @default(now())
+  isRead    Boolean   @default(false)
+  readAt    DateTime?
 
   // NEW:
   updatedAt DateTime @updatedAt

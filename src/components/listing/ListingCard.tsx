@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, Eye, EyeOff, MoreHorizontal } from "lucide-react";
@@ -14,15 +15,44 @@ type ListingCardProps = {
   listing: any; // Type this properly based on your actual listing structure
   showPrivateIndicator?: boolean;
   showEditOptions?: boolean;
+  onVisibilityToggle?: (listingId: string, newVisibility: boolean) => void;
+  onTagClick?: (tagName: string) => void;
 };
 
 const ListingCard = ({
   listing,
   showPrivateIndicator = false,
   showEditOptions = false,
+  onVisibilityToggle,
+  onTagClick,
 }: ListingCardProps) => {
+  const [isTogglingVisibility, setIsTogglingVisibility] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(listing.isPrivate);
+
   // Take first image as the main image
   const mainImage = listing.imageUrls?.[0] || "/placeholder-image.jpg";
+
+  const handleToggleVisibility = async () => {
+    setIsTogglingVisibility(true);
+    try {
+      const response = await fetch(
+        `/api/listings/${listing.id}/toggle-visibility`,
+        {
+          method: "PATCH",
+        }
+      );
+
+      if (response.ok) {
+        const updatedListing = await response.json();
+        setIsPrivate(updatedListing.isPrivate);
+        onVisibilityToggle?.(listing.id, updatedListing.isPrivate);
+      }
+    } catch (error) {
+      console.error("Failed to toggle visibility:", error);
+    } finally {
+      setIsTogglingVisibility(false);
+    }
+  };
 
   return (
     <div className="rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow">
@@ -38,10 +68,9 @@ const ListingCard = ({
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
-        </Link>
-
+        </Link>{" "}
         {/* Private indicator */}
-        {showPrivateIndicator && listing.isPrivate && (
+        {showPrivateIndicator && isPrivate && (
           <div className="absolute top-2 left-2">
             <Badge
               variant="secondary"
@@ -52,7 +81,6 @@ const ListingCard = ({
             </Badge>
           </div>
         )}
-
         {/* Status badge for sold or archived items */}
         {listing.status !== "ACTIVE" && (
           <div className="absolute top-2 right-2">
@@ -64,7 +92,6 @@ const ListingCard = ({
             </Badge>
           </div>
         )}
-
         {/* Favorite count */}
         <div className="absolute bottom-2 right-2">
           <Badge
@@ -92,35 +119,48 @@ const ListingCard = ({
                 <button className="p-1 rounded-full hover:bg-gray-100">
                   <MoreHorizontal className="h-4 w-4" />
                 </button>
-              </DropdownMenuTrigger>
+              </DropdownMenuTrigger>{" "}
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href={`/settings/listings/${listing.id}/edit`}>
-                    Edit
-                  </Link>
+                  <Link href={`/listing/${listing.id}/edit`}>Edit</Link>
                 </DropdownMenuItem>{" "}
                 <DropdownMenuItem asChild>
-                  <Link href={`/settings/listings/${listing.id}/delete`}>
-                    Delete
-                  </Link>
+                  <Link href={`/listing/${listing.id}`}>View Details</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link
-                    href={`/settings/listings/${listing.id}/toggle-visibility`}
-                  >
-                    {listing.isPrivate ? "Make Public" : "Make Private"}
-                  </Link>
+                <DropdownMenuItem
+                  onClick={handleToggleVisibility}
+                  disabled={isTogglingVisibility}
+                >
+                  {isTogglingVisibility
+                    ? "Updating..."
+                    : isPrivate
+                    ? "Make Public"
+                    : "Make Private"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-        </div>
-
+        </div>{" "}
         {/* Tags */}
         {listing.tags?.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {listing.tags.slice(0, 3).map((tag: any) => (
-              <Badge key={tag.id} variant="outline" className="text-xs">
+              <Badge
+                key={tag.id}
+                variant="outline"
+                className={`text-xs ${
+                  onTagClick
+                    ? "cursor-pointer hover:bg-gray-100 transition-colors"
+                    : ""
+                }`}
+                onClick={(e) => {
+                  if (onTagClick) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onTagClick(tag.name);
+                  }
+                }}
+              >
                 {tag.name}
               </Badge>
             ))}

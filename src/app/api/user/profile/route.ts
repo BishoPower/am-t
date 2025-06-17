@@ -11,12 +11,11 @@ export async function GET(request: NextRequest) {
     const { userId } = await auth();
     if (!userId || userId !== clerkId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Fetch the user from database
+    } // Fetch the user from database
     const user = await db.user.findUnique({
       where: { clerkid: userId },
       select: {
+        id: true,
         username: true,
         image: true,
         firstName: true,
