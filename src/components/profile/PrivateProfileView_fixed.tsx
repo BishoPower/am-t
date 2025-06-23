@@ -91,11 +91,11 @@ const PrivateProfileView = ({
                   <Button>Create Your First Listing</Button>
                 </Link>
               </div>
-            )}
+            )}{" "}
             {soldListings.length > 0 && (
               <details className="mt-8">
                 <summary className="text-lg font-medium cursor-pointer mb-4 text-gray-700">
-                  Sold Items ({soldListings.length})
+                  Traded Items ({soldListings.length})
                 </summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {soldListings.map((listing) => (

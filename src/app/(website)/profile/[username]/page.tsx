@@ -16,10 +16,13 @@ type SerializableClerkUser = {
 
 export default async function ProfilePage({
   params,
+  searchParams,
 }: {
   params: { username: string };
+  searchParams: { tab?: string };
 }) {
   const { username } = await params;
+  const { tab } = await searchParams;
 
   // Check if the logged-in user is viewing their own profile
   const isOwner = await isOwnProfile(username);
@@ -59,7 +62,11 @@ export default async function ProfilePage({
     },
     include: {
       tags: true,
-      favorites: true,
+      _count: {
+        select: {
+          favorites: true,
+        },
+      },
     },
     orderBy: [
       {
@@ -102,6 +109,7 @@ export default async function ProfilePage({
       },
     });
   }
+
   if (isOwner) {
     // Show the full private profile view
     return (

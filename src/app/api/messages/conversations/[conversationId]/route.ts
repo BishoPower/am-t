@@ -20,11 +20,25 @@ export async function DELETE(
 
     if (!currentDbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
+    } // Parse the conversation ID to get other user ID and listing ID
+    // Handle UUID format: "uuid-general" or "uuid-listingId"
+    const conversationId = params.conversationId;
+    let otherUserId: string;
+    let listingId: string | null;
+
+    // Look for the last dash to split properly (UUID contains multiple dashes)
+    const lastDashIndex = conversationId.lastIndexOf("-");
+
+    if (lastDashIndex === -1) {
+      return NextResponse.json(
+        { error: "Invalid conversation ID format" },
+        { status: 400 }
+      );
     }
 
-    // Parse the conversation ID to get other user ID and listing ID
-    const [otherUserId, listingPart] = params.conversationId.split("-");
-    const listingId = listingPart === "general" ? null : listingPart;
+    otherUserId = conversationId.substring(0, lastDashIndex);
+    const listingPart = conversationId.substring(lastDashIndex + 1);
+    listingId = listingPart === "general" ? null : listingPart;
 
     // Delete all messages in this conversation where current user is involved
     await client.message.deleteMany({

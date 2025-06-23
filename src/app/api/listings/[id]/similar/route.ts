@@ -224,7 +224,11 @@ export async function GET(
             lastName: true,
           },
         },
-        favorites: true,
+        _count: {
+          select: {
+            favorites: true,
+          },
+        },
       },
       take: limit * 3, // Get more listings to score and filter
     });
@@ -318,7 +322,7 @@ export async function GET(
       }
 
       // Slight boost for popularity, but don't let it dominate
-      score += Math.min(listing.favorites.length * 2, 10);
+      score += Math.min(listing._count.favorites * 2, 10);
       console.log(
         `Similarity for "${listing.title}": ${score} (tags: ${
           commonTags.length

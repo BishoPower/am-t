@@ -87,7 +87,8 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "12");
     const search = searchParams.get("search") || "";
-    const tags = searchParams.get("tags")?.split(",") || [];
+    const tags = searchParams.get("tags")?.split(",").filter(Boolean) || [];
+    const sortBy = searchParams.get("sortBy") || "newest";
 
     const skip = (page - 1) * limit;
 
@@ -111,6 +112,26 @@ export async function GET(request: NextRequest) {
       };
     }
 
+    // Determine sort order
+    let orderBy: any = { createdAt: "desc" }; // default: newest
+
+    switch (sortBy) {
+      case "oldest":
+        orderBy = { createdAt: "asc" };
+        break;
+      case "popular":
+        orderBy = { favorites: { _count: "desc" } };
+        break;
+      case "title-asc":
+        orderBy = { title: "asc" };
+        break;
+      case "title-desc":
+        orderBy = { title: "desc" };
+        break;
+      default:
+        orderBy = { createdAt: "desc" };
+    }
+
     const [listings, total] = await Promise.all([
       prisma.listing.findMany({
         where,
@@ -129,7 +150,7 @@ export async function GET(request: NextRequest) {
             },
           },
         },
-        orderBy: { createdAt: "desc" },
+        orderBy,
         skip,
         take: limit,
       }),

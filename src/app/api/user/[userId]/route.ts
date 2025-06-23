@@ -6,9 +6,7 @@ export async function GET(
   { params }: { params: { userId: string } }
 ) {
   try {
-    const userId = params.userId;
-
-    // Find the user by ID
+    const userId = params.userId; // Find the user by ID
     const user = await client.user.findUnique({
       where: { id: userId },
       select: {
@@ -16,6 +14,7 @@ export async function GET(
         username: true,
         firstName: true,
         lastName: true,
+        displayName: true,
         image: true,
         bio: true,
         location: true,

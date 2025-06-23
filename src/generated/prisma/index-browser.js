@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   firstName: 'firstName',
   lastName: 'lastName',
+  displayName: 'displayName',
   clerkid: 'clerkid',
   image: 'image',
   bio: 'bio',
@@ -193,9 +194,28 @@ exports.Prisma.MessageScalarFieldEnum = {
   content: 'content',
   listingId: 'listingId',
   timestamp: 'timestamp',
+  updatedAt: 'updatedAt',
   isRead: 'isRead',
-  readAt: 'readAt',
+  readAt: 'readAt'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  reviewerId: 'reviewerId',
+  revieweeId: 'revieweeId',
+  listingId: 'listingId',
+  tradeId: 'tradeId',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BlockedUserScalarFieldEnum = {
+  id: 'id',
+  blockerId: 'blockerId',
+  blockedId: 'blockedId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -233,7 +253,9 @@ exports.Prisma.ModelName = {
   TradeRequest: 'TradeRequest',
   Tag: 'Tag',
   Favorite: 'Favorite',
-  Message: 'Message'
+  Message: 'Message',
+  Review: 'Review',
+  BlockedUser: 'BlockedUser'
 };
 
 /**

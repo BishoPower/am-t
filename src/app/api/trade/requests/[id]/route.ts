@@ -29,6 +29,7 @@ async function sendTradeStatusMessages(tradeRequest: any, action: string) {
   try {
     const systemUser = await getSystemUser();
     const isAccepted = action === "ACCEPTED";
+    const isCanceled = action === "CANCELED";
 
     // Format trade details with images
     const formatItemsWithImages = (items: any[]) => {
@@ -60,60 +61,98 @@ async function sendTradeStatusMessages(tradeRequest: any, action: string) {
         })
         .join("\n\n");
     };
-
     const initiatorItems = formatItemsWithImages(
       tradeRequest.initiatorListings
     );
     const targetItems = formatItemsWithImages(tradeRequest.targetListings);
 
-    const statusEmoji = isAccepted ? "✅" : "❌";
-    const statusText = isAccepted ? "ACCEPTED" : "REJECTED";
+    let statusEmoji, statusText, initiatorMessage, recipientMessage;
 
-    // Message for the trade initiator (person who sent the request)
-    const initiatorMessage = `${statusEmoji} **Trade ${statusText}**
+    if (isCanceled) {
+      statusEmoji = "🚫";
+      statusText = "CANCELED"; // Message for the trade initiator (person who sent the request)
+      initiatorMessage = `${statusEmoji} **Trade ${statusText}**
+
+This trade has been **canceled**.
+
+**Trade Summary:**
+📦 **Your Items:**
+${initiatorItems}
+
+🎯 **Their Items:**
+${targetItems}
+
+📋 **Important:** All items involved in this trade have been automatically relisted and are now available for new trades. Any reviews related to this trade have also been removed.
+
+---
+*Automated notification from the AM-T Trading Platform*`;
+
+      // Message for the trade recipient (person who received the request)
+      recipientMessage = `${statusEmoji} **Trade ${statusText}**
+
+This trade has been **canceled**.
+
+**Trade Summary:**
+🎁 **They Offered You:**
+${initiatorItems}
+
+💼 **You Would Trade:**
+${targetItems}
+
+📋 **Important:** All items involved in this trade have been automatically relisted and are now available for new trades. Any reviews related to this trade have also been removed.
+
+---
+*Automated notification from the AM-T Trading Platform*`;
+    } else {
+      statusEmoji = isAccepted ? "✅" : "❌";
+      statusText = isAccepted ? "ACCEPTED" : "REJECTED";
+
+      // Message for the trade initiator (person who sent the request)
+      initiatorMessage = `${statusEmoji} **Trade ${statusText}**
 
 Your trade request has been **${statusText.toLowerCase()}** by ${
-      tradeRequest.toUser.firstName || tradeRequest.toUser.username
-    }.
+        tradeRequest.toUser.firstName || tradeRequest.toUser.username
+      }.
 
-**Trade Details:**
-📦 **You offered:**
+**Trade Summary:**
+📦 **Your Items:**
 ${initiatorItems}
 
-🎯 **You requested:**
+🎯 **Their Items:**
 ${targetItems}
 
 ${
   isAccepted
-    ? "🎉 Congratulations! Please coordinate with the other party to complete the exchange."
-    : "Better luck next time! Keep exploring other trading opportunities."
+    ? "🎉 Awesome! Your trade has been accepted. Please coordinate with the other trader to arrange the exchange.\n\n📋 **Important:** All traded items have been automatically marked as 'TRADED' and removed from the marketplace. Happy trading!"
+    : "😔 This trade didn't work out, but don't give up! There are many other great trading opportunities waiting for you."
 }
 
 ---
-*This is an automated message from AM-T*`;
+*Automated notification from the AM-T Trading Platform*`;
 
-    // Message for the trade recipient (person who accepted/rejected)
-    const recipientMessage = `${statusEmoji} **Trade ${statusText}**
+      // Message for the trade recipient (person who accepted/rejected)
+      recipientMessage = `${statusEmoji} **Trade ${statusText}**
 
 You have **${statusText.toLowerCase()}** a trade request from ${
-      tradeRequest.fromUser.firstName || tradeRequest.fromUser.username
-    }.
+        tradeRequest.fromUser.firstName || tradeRequest.fromUser.username
+      }.
 
-**Trade Details:**
-🎯 **You were offered:**
+**Trade Summary:**
+🎁 **They Offered You:**
 ${initiatorItems}
 
-📦 **You would trade:**
+💼 **You Would Trade:**
 ${targetItems}
 
 ${
   isAccepted
-    ? "🎉 Great choice! Please coordinate with the other party to complete the exchange."
-    : "No worries! You can always reconsider similar trades in the future."
+    ? "🎉 Excellent choice! Please coordinate with the other trader to complete your exchange.\n\n📋 **Important:** All traded items have been automatically marked as 'TRADED' and removed from the marketplace. Enjoy your new items!"
+    : "👍 No problem! You can always reconsider similar trades in the future. Keep exploring!"
 }
 
 ---
-*This is an automated message from AM-T*`;
+*Automated notification from the AM-T Trading Platform*`;
+    }
 
     // Send message to initiator
     await client.message.create({
@@ -150,12 +189,11 @@ export async function PATCH(
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const { action } = await request.json(); // "ACCEPTED", "REJECTED", or "CANCELED"
 
-    const { action } = await request.json(); // "ACCEPTED" or "REJECTED"
-
-    if (!["ACCEPTED", "REJECTED"].includes(action)) {
+    if (!["ACCEPTED", "REJECTED", "CANCELED"].includes(action)) {
       return NextResponse.json(
-        { error: "Invalid action. Must be ACCEPTED or REJECTED" },
+        { error: "Invalid action. Must be ACCEPTED, REJECTED, or CANCELED" },
         { status: 400 }
       );
     }
@@ -185,24 +223,45 @@ export async function PATCH(
         { error: "Trade request not found" },
         { status: 404 }
       );
-    }
+    } // Verify that the current user is involved in the trade request
+    const isRecipient = tradeRequest.toUserId === dbUser.id;
+    const isInitiator = tradeRequest.fromUserId === dbUser.id;
 
-    // Verify that the current user is the recipient of the trade request
-    if (tradeRequest.toUserId !== dbUser.id) {
+    if (!isRecipient && !isInitiator) {
       return NextResponse.json(
-        { error: "You can only respond to trade requests sent to you" },
+        { error: "You can only respond to trade requests you are involved in" },
         { status: 403 }
       );
     }
 
-    // Check if the trade request is still pending
-    if (tradeRequest.status !== "PENDING") {
+    // For acceptance and rejection, only the recipient can respond
+    if ((action === "ACCEPTED" || action === "REJECTED") && !isRecipient) {
       return NextResponse.json(
-        { error: "This trade request has already been responded to" },
-        { status: 400 }
+        { error: "Only the trade recipient can accept or reject requests" },
+        { status: 403 }
       );
     }
-    // Update the trade request status
+
+    // For cancellation, both parties can cancel, but only pending or accepted trades
+    if (action === "CANCELED") {
+      if (
+        tradeRequest.status !== "PENDING" &&
+        tradeRequest.status !== "ACCEPTED"
+      ) {
+        return NextResponse.json(
+          { error: "Only pending or accepted trades can be canceled" },
+          { status: 400 }
+        );
+      }
+    } else {
+      // Check if the trade request is still pending (for accept/reject)
+      if (tradeRequest.status !== "PENDING") {
+        return NextResponse.json(
+          { error: "This trade request has already been responded to" },
+          { status: 400 }
+        );
+      }
+    } // Update the trade request status
     const updatedTradeRequest = await client.tradeRequest.update({
       where: { id: params.id },
       data: {
@@ -239,7 +298,62 @@ export async function PATCH(
           },
         },
       },
-    });
+    }); // If trade is accepted, automatically delist all involved listings
+    if (action === "ACCEPTED") {
+      const allListingIds = [
+        ...updatedTradeRequest.initiatorListings.map((listing) => listing.id),
+        ...updatedTradeRequest.targetListings.map((listing) => listing.id),
+      ];
+
+      // Update all involved listings to SOLD status
+      await client.listing.updateMany({
+        where: {
+          id: { in: allListingIds },
+          status: "ACTIVE", // Only update currently active listings
+        },
+        data: {
+          status: "SOLD",
+          updatedAt: new Date(),
+        },
+      });
+
+      console.log(
+        `Auto-delisted ${allListingIds.length} listings as TRADED for accepted trade ${params.id}`
+      );
+    } // If trade is canceled, automatically relist all involved listings that were previously SOLD
+    if (action === "CANCELED") {
+      const allListingIds = [
+        ...updatedTradeRequest.initiatorListings.map((listing) => listing.id),
+        ...updatedTradeRequest.targetListings.map((listing) => listing.id),
+      ];
+
+      // Delete all reviews related to this trade
+      const deletedReviews = await client.review.deleteMany({
+        where: {
+          tradeId: params.id,
+        },
+      });
+
+      console.log(
+        `Deleted ${deletedReviews.count} review(s) related to canceled trade ${params.id}`
+      );
+
+      // Update all involved listings back to ACTIVE status if they were SOLD
+      await client.listing.updateMany({
+        where: {
+          id: { in: allListingIds },
+          status: "SOLD", // Only update listings that were marked as sold
+        },
+        data: {
+          status: "ACTIVE",
+          updatedAt: new Date(),
+        },
+      });
+
+      console.log(
+        `Auto-relisted ${allListingIds.length} listings as ACTIVE for canceled trade ${params.id}`
+      );
+    }
 
     // Send automated messages to both parties
     await sendTradeStatusMessages(updatedTradeRequest, action);

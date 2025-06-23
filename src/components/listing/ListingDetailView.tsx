@@ -21,6 +21,11 @@ import SimilarListings from "./SimilarListings";
 import TradeModal from "@/components/trade/TradeModal";
 import MessageModal from "@/components/messaging/MessageModal";
 import {
+  ReviewsList,
+  SellerReviewsSection,
+  SellerReviewsSidebar,
+} from "@/components/reviews";
+import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -167,23 +172,23 @@ const ListingDetailView = ({
             </div>
           </div>
         </div>
-      </div>
+      </div>{" "}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {" "}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Image Gallery */}
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Image Gallery - Now takes up 2/3 of the width */}
+          <div className="lg:col-span-2 space-y-4">
             <div className="relative">
               <Carousel className="w-full">
                 <CarouselContent>
+                  {" "}
                   {listing.imageUrls?.map((imageUrl: string, index: number) => (
                     <CarouselItem key={index}>
-                      <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100">
+                      <div className="aspect-[4/5] relative overflow-hidden rounded-lg bg-white">
                         <Image
                           src={imageUrl}
                           alt={`${listing.title} - Image ${index + 1}`}
                           fill
-                          className="object-cover"
+                          className="object-contain"
                           priority={index === 0}
                         />
                       </div>
@@ -198,16 +203,15 @@ const ListingDetailView = ({
                 )}
               </Carousel>
             </div>
-
-            {/* Thumbnail navigation */}
+            {/* Thumbnail navigation */}{" "}
             {listing.imageUrls?.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto">
+              <div className="flex gap-3 overflow-x-auto">
                 {listing.imageUrls.map((imageUrl: string, index: number) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
                     className={cn(
-                      "flex-shrink-0 w-16 h-16 relative overflow-hidden rounded-md border-2",
+                      "flex-shrink-0 w-20 h-20 relative overflow-hidden rounded-md border-2",
                       selectedImageIndex === index
                         ? "border-black"
                         : "border-gray-200"
@@ -223,203 +227,213 @@ const ListingDetailView = ({
                 ))}
               </div>
             )}
-          </div>
-
-          {/* Listing Details */}
-          <div className="space-y-6">
-            {" "}
-            {/* Title */}
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                {listing.title}
-              </h1>
-            </div>
-            {/* Status and Private indicators */}
-            <div className="flex gap-2">
-              <Badge
-                variant={listing.status === "ACTIVE" ? "default" : "secondary"}
-                className="uppercase"
-              >
-                {listing.status}
-              </Badge>
-              {listing.isPrivate && (
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <Package className="h-3 w-3" />
-                  Private
-                </Badge>
-              )}
-            </div>{" "}
-            {/* Tags */}
-            {listing.tags?.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {listing.tags.map((tag: any) => (
-                  <Link
-                    key={tag.id}
-                    href={`/search?tags=${encodeURIComponent(tag.name)}`}
-                  >
-                    <Badge
-                      variant="outline"
-                      className="hover:bg-gray-100 cursor-pointer transition-colors"
-                    >
-                      #{tag.name}
-                    </Badge>
-                  </Link>
-                ))}
-              </div>
-            )}
-            {/* Description */}
-            {listing.description && (
+          </div>{" "}
+          {/* Right Column - All listing details and reviews */}
+          <div className="lg:col-span-1 space-y-8">
+            {/* Listing Details */}
+            <div className="space-y-6">
+              {" "}
+              {/* Title */}
               <div>
-                <h3 className="text-lg font-semibold mb-2">Description</h3>
-                <p className="text-gray-700 whitespace-pre-wrap">
-                  {listing.description}
-                </p>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  {listing.title}
+                </h1>
               </div>
-            )}
-            <Separator />
-            {/* Seller Information */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Seller</h3>
-              <Link
-                href={`/profile/${listing.user.username}`}
-                className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <div className="relative h-12 w-12 rounded-full overflow-hidden">
-                  {sellerProfileImage ? (
-                    <Image
-                      src={sellerProfileImage}
-                      alt={listing.user.username || "Seller"}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-gray-200 flex items-center justify-center">
-                      <User className="h-6 w-6 text-gray-500" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <p className="font-semibold text-gray-900">
-                    @{listing.user.username}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    {listing.user.firstName} {listing.user.lastName}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Member since {formatDate(listing.user.createdAt)}
-                  </p>
-                </div>
-              </Link>
-            </div>{" "}
-            {/* Action Buttons */}
-            {!isOwner && (
-              <div className="space-y-3">
-                <Button
-                  className="w-full bg-gray-800 hover:bg-gray-900 text-white"
-                  size="lg"
-                  onClick={() => setIsMessageModalOpen(true)}
-                  disabled={!userId}
+              {/* Status and Private indicators */}{" "}
+              <div className="flex gap-2">
+                <Badge
+                  variant={
+                    listing.status === "ACTIVE" ? "default" : "secondary"
+                  }
+                  className="uppercase"
                 >
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  Message Seller
-                </Button>
-
-                <div className="grid grid-cols-2 gap-3">
-                  {" "}
-                  <Button
-                    variant="outline"
-                    onClick={handleFavorite}
-                    className={cn(
-                      "flex items-center gap-2",
-                      isFavorited && "text-red-500 border-red-500"
+                  {listing.status === "SOLD" ? "TRADED" : listing.status}
+                </Badge>
+                {listing.isPrivate && (
+                  <Badge variant="outline" className="flex items-center gap-1">
+                    <Package className="h-3 w-3" />
+                    Private
+                  </Badge>
+                )}
+              </div>{" "}
+              {/* Tags */}
+              {listing.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {listing.tags.map((tag: any) => (
+                    <Link
+                      key={tag.id}
+                      href={`/search?tags=${encodeURIComponent(tag.name)}`}
+                    >
+                      <Badge
+                        variant="outline"
+                        className="hover:bg-gray-100 cursor-pointer transition-colors"
+                      >
+                        #{tag.name}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
+              )}
+              {/* Description */}
+              {listing.description && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Description</h3>
+                  <p className="text-gray-700 whitespace-pre-wrap">
+                    {listing.description}
+                  </p>
+                </div>
+              )}
+              <Separator />
+              {/* Seller Information */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Seller</h3>
+                <Link
+                  href={`/profile/${listing.user.username}`}
+                  className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <div className="relative h-12 w-12 rounded-full overflow-hidden">
+                    {sellerProfileImage ? (
+                      <Image
+                        src={sellerProfileImage}
+                        alt={listing.user.username || "Seller"}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+                        <User className="h-6 w-6 text-gray-500" />
+                      </div>
                     )}
-                  >
-                    <Heart
-                      className={cn("h-4 w-4", isFavorited && "fill-current")}
-                    />
-                    {isFavorited ? "Favorited" : "Favorite"}
-                  </Button>{" "}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-900">
+                      @{listing.user.username}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {listing.user.firstName} {listing.user.lastName}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Member since {formatDate(listing.user.createdAt)}
+                    </p>
+                  </div>
+                </Link>
+              </div>{" "}
+              {/* Action Buttons */}
+              {!isOwner && (
+                <div className="space-y-3">
                   <Button
-                    variant="outline"
-                    className="flex items-center gap-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
-                    onClick={() => setIsTradeModalOpen(true)}
+                    className="w-full bg-gray-800 hover:bg-gray-900 text-white"
+                    size="lg"
+                    onClick={() => setIsMessageModalOpen(true)}
                     disabled={!userId}
                   >
-                    <Repeat2 className="h-4 w-4" />
-                    Trade
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Message Seller
                   </Button>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    {" "}
+                    <Button
+                      variant="outline"
+                      onClick={handleFavorite}
+                      className={cn(
+                        "flex items-center gap-2",
+                        isFavorited && "text-red-500 border-red-500"
+                      )}
+                    >
+                      <Heart
+                        className={cn("h-4 w-4", isFavorited && "fill-current")}
+                      />
+                      {isFavorited ? "Favorited" : "Favorite"}
+                    </Button>{" "}
+                    <Button
+                      variant="outline"
+                      className="flex items-center gap-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                      onClick={() => setIsTradeModalOpen(true)}
+                      disabled={!userId}
+                    >
+                      <Repeat2 className="h-4 w-4" />
+                      Trade
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}{" "}
-            {/* Owner Actions */}
-            {isOwner && (
-              <div className="space-y-3">
-                <p className="text-sm text-gray-600 text-center py-2">
-                  This is your listing
-                </p>
-                <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" asChild>
+              )}{" "}
+              {/* Owner Actions */}
+              {isOwner && (
+                <div className="space-y-3">
+                  <p className="text-sm text-gray-600 text-center py-2">
+                    This is your listing
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className="w-full"
+                  >
                     <Link href={`/listing/${listing.id}/edit`}>
                       Edit Listing
                     </Link>
                   </Button>
-                  <Button variant="outline" asChild>
-                    <Link href={`/settings/listings/${listing.id}/manage`}>
-                      Manage
-                    </Link>
-                  </Button>
+                </div>
+              )}
+              {/* Listing Stats */}{" "}
+              <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t">
+                <div className="flex items-center gap-1">
+                  <Heart className="h-4 w-4" />
+                  <span>{favoriteCount} favorites</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  <span>Listed {formatDate(listing.createdAt)}</span>
                 </div>
               </div>
-            )}
-            {/* Listing Stats */}{" "}
-            <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t">
-              <div className="flex items-center gap-1">
-                <Heart className="h-4 w-4" />
-                <span>{favoriteCount} favorites</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>Listed {formatDate(listing.createdAt)}</span>
-              </div>
-            </div>
-            {/* Trade Preferences */}
-            {listing.tradePreferences?.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold mb-3">
-                  Trade Preferences
-                </h3>
-                <div className="space-y-2">
-                  {listing.tradePreferences.map((preference: any) => (
-                    <div
-                      key={preference.id}
-                      className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg"
-                    >
-                      {preference.imageUrl && (
-                        <div className="relative h-12 w-12 rounded overflow-hidden">
-                          <Image
-                            src={preference.imageUrl}
-                            alt={preference.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="flex-1">
-                        <p className="font-medium">{preference.title}</p>
-                        {preference.notes && (
-                          <p className="text-sm text-gray-600">
-                            {preference.notes}
-                          </p>
+              {/* Trade Preferences */}
+              {listing.tradePreferences?.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Trade Preferences
+                  </h3>
+                  <div className="space-y-2">
+                    {listing.tradePreferences.map((preference: any) => (
+                      <div
+                        key={preference.id}
+                        className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg"
+                      >
+                        {preference.imageUrl && (
+                          <div className="relative h-12 w-12 rounded overflow-hidden">
+                            <Image
+                              src={preference.imageUrl}
+                              alt={preference.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
                         )}
+                        <div className="flex-1">
+                          <p className="font-medium">{preference.title}</p>{" "}
+                          {preference.notes && (
+                            <p className="text-sm text-gray-600">
+                              {preference.notes}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
+            {/* Reviews Section */}
+            <div>
+              <SellerReviewsSidebar
+                sellerId={listing.user.id}
+                sellerName={listing.user.username}
+              />
+            </div>
           </div>
         </div>
-      </div>{" "}
+      </div>
       {/* Similar Listings Section */}
       <SimilarListings
         listingId={listing.id}

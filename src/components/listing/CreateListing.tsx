@@ -12,6 +12,88 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { X, Upload, Plus, Camera } from "lucide-react";
 import Image from "next/image";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+interface DraggableImageProps {
+  url: string;
+  index: number;
+  onRemove: (index: number) => void;
+}
+
+const DraggableImage: React.FC<DraggableImageProps> = ({
+  url,
+  index,
+  onRemove,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: url }); // Use URL as stable ID
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.8 : 1,
+    cursor: isDragging ? "grabbing" : "grab",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="relative group"
+      {...attributes}
+      {...listeners}
+    >
+      <div className="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded">
+        {index + 1}
+      </div>
+      <Image
+        src={url}
+        alt={`Upload ${index + 1}`}
+        width={300}
+        height={300}
+        className="w-full h-56 object-cover rounded-lg border border-gray-300 shadow-md select-none"
+        draggable={false}
+      />
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(index);
+        }}
+        className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg z-20"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      {isDragging && (
+        <div className="absolute inset-0 bg-blue-500/20 border-2 border-blue-500 border-dashed rounded-lg flex items-center justify-center">
+          <span className="text-blue-700 font-medium">Moving...</span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 interface CreateListingProps {
   onSuccess?: () => void;
@@ -32,6 +114,31 @@ export default function CreateListing({ onSuccess }: CreateListingProps) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const activeUrl = active.id as string;
+      const overUrl = over.id as string;
+
+      const activeIndex = imageUrls.findIndex((url) => url === activeUrl);
+      const overIndex = imageUrls.findIndex((url) => url === overUrl);
+
+      if (activeIndex !== -1 && overIndex !== -1) {
+        // Reorder both images and imageUrls arrays
+        setImages((items) => arrayMove(items, activeIndex, overIndex));
+        setImageUrls((items) => arrayMove(items, activeIndex, overIndex));
+      }
+    }
+  };
 
   const handleImageUpload = async (files: FileList) => {
     if (images.length + files.length > 5) {
@@ -286,7 +393,6 @@ export default function CreateListing({ onSuccess }: CreateListingProps) {
                     <label className="block text-lg font-medium text-black mb-4">
                       Photos * (up to 5)
                     </label>
-
                     {/* Upload Area */}
                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-16 text-center hover:border-black transition-colors min-h-[300px] flex flex-col justify-center">
                       <input
@@ -311,29 +417,37 @@ export default function CreateListing({ onSuccess }: CreateListingProps) {
                           PNG, JPG up to 5MB each • Maximum 5 photos
                         </p>
                       </label>
-                    </div>
-
+                    </div>{" "}
                     {/* Image Previews */}
                     {imageUrls.length > 0 && (
-                      <div className="grid grid-cols-2 gap-6 mt-8">
-                        {imageUrls.map((url, index) => (
-                          <div key={index} className="relative">
-                            <Image
-                              src={url}
-                              alt={`Upload ${index + 1}`}
-                              width={300}
-                              height={300}
-                              className="w-full h-56 object-cover rounded-lg border border-gray-300 shadow-md"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => removeImage(index)}
-                              className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
-                            >
-                              <X className="h-4 w-4" />
-                            </button>
-                          </div>
-                        ))}
+                      <div className="mt-8">
+                        <p className="text-sm text-gray-600 mb-4">
+                          Tap and drag images to reorder them. The first image
+                          will be the main preview.
+                        </p>
+                        <DndContext
+                          sensors={sensors}
+                          collisionDetection={closestCenter}
+                          onDragEnd={handleDragEnd}
+                        >
+                          {" "}
+                          <SortableContext
+                            items={imageUrls}
+                            strategy={rectSortingStrategy}
+                          >
+                            <div className="grid grid-cols-2 gap-6">
+                              {" "}
+                              {imageUrls.map((url, index) => (
+                                <DraggableImage
+                                  key={url}
+                                  url={url}
+                                  index={index}
+                                  onRemove={removeImage}
+                                />
+                              ))}
+                            </div>
+                          </SortableContext>
+                        </DndContext>
                       </div>
                     )}
                   </div>

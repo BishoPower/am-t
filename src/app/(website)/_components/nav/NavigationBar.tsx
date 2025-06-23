@@ -9,7 +9,6 @@ import {
   Search,
   X,
   User,
-  ShoppingBag,
   Heart,
   MessageSquare,
   Bell,
@@ -33,7 +32,7 @@ const mainNavLinks = [
     variant: "outline" as const,
     className: "border-black hover:bg-black hover:text-white transition-colors",
     borderWidth: "border-2",
-    href: "/trade",
+    href: "/profile", // Will be dynamically updated to user's profile
   },
   {
     label: "Listings",
@@ -404,9 +403,11 @@ export const NavigationBar: React.FC = () => {
                   </div>
                 ) : isSignedIn /* Authenticated user UI */ ? (
                   <div className="flex items-center space-x-1 sm:space-x-1 md:space-x-2">
-                    {/* Icon buttons */}
+                    {/* Icon buttons */}{" "}
                     <Link
-                      href="/favorites"
+                      href={`/profile/${
+                        userData.username || user?.username
+                      }?tab=favorites`}
                       className="p-2 hover:bg-gray-100 rounded-full flex items-center justify-center"
                       aria-label="Favorites"
                     >
@@ -424,13 +425,6 @@ export const NavigationBar: React.FC = () => {
                         className="h-5 w-5"
                       />
                     </Link>{" "}
-                    <Link
-                      href={`/profile/${userData.username || user?.username}`}
-                      className="p-2 hover:bg-gray-100 rounded-full flex items-center justify-center"
-                      aria-label="My Profile"
-                    >
-                      <ShoppingBag className="h-5 w-5" />
-                    </Link>
                     {/* Profile Button */}
                     <ProfileButton />
                   </div>
@@ -455,16 +449,26 @@ export const NavigationBar: React.FC = () => {
                 )}{" "}
                 {/* Desktop Navigation Links - Main nav links - always visible */}
                 <div className="hidden lg:flex items-center ml-2 xl:ml-3 space-x-2 xl:space-x-3">
-                  {mainNavLinks.map((link, index) => (
-                    <NavLink
-                      key={index}
-                      {...link}
-                      className={`${
-                        link.className || ""
-                      } px-3 py-2 text-sm xl:text-base whitespace-nowrap`}
-                      href={link.href}
-                    />
-                  ))}
+                  {mainNavLinks.map((link, index) => {
+                    // Update TRADE button to point to user's closet when logged in
+                    const href =
+                      link.label === "Trade" &&
+                      isSignedIn &&
+                      (userData.username || user?.username)
+                        ? `/profile/${userData.username || user?.username}`
+                        : link.href;
+
+                    return (
+                      <NavLink
+                        key={index}
+                        {...link}
+                        className={`${
+                          link.className || ""
+                        } px-3 py-2 text-sm xl:text-base whitespace-nowrap`}
+                        href={href}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -559,17 +563,16 @@ export const NavigationBar: React.FC = () => {
                 >
                   My Settings
                 </Link>
-              </div>
-
+              </div>{" "}
               <div className="flex flex-col space-y-3 mb-6 px-2">
                 {" "}
                 <Link
                   href={`/profile/${userData.username || user?.username}`}
                   className="flex items-center space-x-2 text-sm"
                 >
-                  <ShoppingBag className="h-4 w-4" />
                   <span>My Profile</span>
-                </Link>{" "}                <Link
+                </Link>{" "}
+                <Link
                   href={`/profile/${
                     userData.username || user?.username
                   }?tab=messages`}
@@ -580,9 +583,11 @@ export const NavigationBar: React.FC = () => {
                     className="h-4 w-4"
                   />
                   <span>Messages</span>
-                </Link>
+                </Link>{" "}
                 <Link
-                  href="/favorites"
+                  href={`/profile/${
+                    userData.username || user?.username
+                  }?tab=favorites`}
                   className="flex items-center space-x-2 text-sm"
                 >
                   <Heart className="h-4 w-4" />
@@ -617,24 +622,31 @@ export const NavigationBar: React.FC = () => {
               </div>
               <div className="border-t border-gray-200 w-full my-2"></div>
             </>
-          )}
-
+          )}{" "}
           {/* Main nav links */}
           <div className="w-full flex flex-col space-y-2 mb-4">
-            {mainNavLinks.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href || "#"}
-                className="w-full px-2 py-2 text-base font-medium text-left hover:text-gray-600 transition-colors"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {mainNavLinks.map((link, index) => {
+              // Update TRADE button to point to user's closet when logged in
+              const href =
+                link.label === "Trade" &&
+                isSignedIn &&
+                (userData.username || user?.username)
+                  ? `/profile/${userData.username || user?.username}`
+                  : link.href || "#";
+
+              return (
+                <Link
+                  key={index}
+                  href={href}
+                  className="w-full px-2 py-2 text-base font-medium text-left hover:text-gray-600 transition-colors"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
-
           <div className="border-t border-gray-200 w-full my-2"></div>
-
           <h3 className="font-bold px-2 pb-1">Categories</h3>
           <div className="flex flex-col w-full">
             {categoryLinks.map((link, index) => (

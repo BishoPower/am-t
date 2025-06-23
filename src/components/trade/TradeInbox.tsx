@@ -92,6 +92,7 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
       setIsLoading(false);
     }
   };
+
   const handleTradeResponse = async (
     requestId: string,
     action: "accept" | "reject"
@@ -143,6 +144,7 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
     setSelectedRequestForCounter(request);
     setIsCounterModalOpen(true);
   };
+
   const handleCounterTradeSubmit = async (
     offerListings: any[],
     targetListings: any[],
@@ -279,7 +281,6 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
 
       <CardContent className="pt-0">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {" "}
           {/* Target Items */}
           <div>
             <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
@@ -307,7 +308,7 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
                 </Link>
               ))}
             </div>
-          </div>{" "}
+          </div>
           {/* Offer Items */}
           <div>
             <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
@@ -344,7 +345,7 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
               <span className="font-medium">Message:</span> {request.message}
             </p>
           </div>
-        )}{" "}
+        )}
         {/* Actions for received pending requests */}
         {isReceived && request.status === "PENDING" && (
           <div className="mt-4 flex gap-2 flex-wrap">
@@ -379,6 +380,7 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
       </CardContent>
     </Card>
   );
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -388,74 +390,92 @@ const TradeInbox = ({ onTradeUpdate }: TradeInboxProps) => {
       </div>
     );
   }
+
   return (
     <div className="w-full">
       <Tabs defaultValue="received" className="w-full">
-        {" "}
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="received" className="flex items-center gap-2">
-            <Package className="h-4 w-4" />
-            Received (
-            {receivedRequests.filter((req) => req.status === "PENDING").length})
-          </TabsTrigger>
-          <TabsTrigger value="sent" className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            Sent (
-            {sentRequests.filter((req) => req.status === "PENDING").length})
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="received" className="mt-6">
-          {receivedRequests.filter((req) => req.status === "PENDING").length ===
-          0 ? (
-            <div className="text-center py-8">
-              <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No trade requests
-              </h3>
-              <p className="text-gray-600">
-                You haven't received any trade requests yet.
-              </p>
-            </div>
-          ) : (
-            <div>
-              {receivedRequests
-                .filter((req) => req.status === "PENDING")
-                .map((request) => (
-                  <TradeRequestCard
-                    key={request.id}
-                    request={request}
-                    isReceived={true}
-                  />
-                ))}
-            </div>
-          )}
-        </TabsContent>
-        <TabsContent value="sent" className="mt-6">
-          {sentRequests.filter((req) => req.status === "PENDING").length ===
-          0 ? (
-            <div className="text-center py-8">
-              <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No trade requests sent
-              </h3>
-              <p className="text-gray-600">
-                You haven't sent any trade requests yet.
-              </p>
-            </div>
-          ) : (
-            <div>
-              {sentRequests
-                .filter((req) => req.status === "PENDING")
-                .map((request) => (
-                  <TradeRequestCard
-                    key={request.id}
-                    request={request}
-                    isReceived={false}
-                  />
-                ))}
-            </div>
-          )}
-        </TabsContent>
+        <div className="flex gap-6">
+          {/* Vertical tabs on the left */}
+          <TabsList className="flex flex-col h-fit w-auto space-y-1 bg-transparent p-0">
+            <TabsTrigger
+              value="received"
+              className="flex items-center gap-2 w-full justify-start data-[state=active]:bg-gray-100 data-[state=active]:text-gray-900 px-4 py-3 rounded-lg text-left min-w-[140px]"
+            >
+              <Package className="h-4 w-4" />
+              Received (
+              {
+                receivedRequests.filter((req) => req.status === "PENDING")
+                  .length
+              }
+              )
+            </TabsTrigger>
+            <TabsTrigger
+              value="sent"
+              className="flex items-center gap-2 w-full justify-start data-[state=active]:bg-gray-100 data-[state=active]:text-gray-900 px-4 py-3 rounded-lg text-left min-w-[140px]"
+            >
+              <User className="h-4 w-4" />
+              Sent (
+              {sentRequests.filter((req) => req.status === "PENDING").length})
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Content area on the right */}
+          <div className="flex-1">
+            <TabsContent value="received" className="mt-0">
+              {receivedRequests.filter((req) => req.status === "PENDING")
+                .length === 0 ? (
+                <div className="text-center py-8">
+                  <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    No trade requests
+                  </h3>
+                  <p className="text-gray-600">
+                    You haven't received any trade requests yet.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  {receivedRequests
+                    .filter((req) => req.status === "PENDING")
+                    .map((request) => (
+                      <TradeRequestCard
+                        key={request.id}
+                        request={request}
+                        isReceived={true}
+                      />
+                    ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="sent" className="mt-0">
+              {sentRequests.filter((req) => req.status === "PENDING").length ===
+              0 ? (
+                <div className="text-center py-8">
+                  <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    No trade requests sent
+                  </h3>
+                  <p className="text-gray-600">
+                    You haven't sent any trade requests yet.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  {sentRequests
+                    .filter((req) => req.status === "PENDING")
+                    .map((request) => (
+                      <TradeRequestCard
+                        key={request.id}
+                        request={request}
+                        isReceived={false}
+                      />
+                    ))}
+                </div>
+              )}
+            </TabsContent>
+          </div>
+        </div>
       </Tabs>
 
       {/* Counter Trade Modal */}

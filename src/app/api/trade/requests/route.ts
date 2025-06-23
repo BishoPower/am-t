@@ -159,12 +159,12 @@ export async function GET() {
 
     if (!dbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
-    } // Fetch trade requests sent and received by the user (only PENDING ones for the inbox)
+    } // Fetch trade requests sent and received by the user (PENDING and ACCEPTED for cancelation)
     const [sentRequests, receivedRequests] = await Promise.all([
       client.tradeRequest.findMany({
         where: {
           fromUserId: dbUser.id,
-          status: "PENDING",
+          status: { in: ["PENDING", "ACCEPTED"] },
         },
         include: {
           fromUser: {
@@ -201,7 +201,7 @@ export async function GET() {
       client.tradeRequest.findMany({
         where: {
           toUserId: dbUser.id,
-          status: "PENDING",
+          status: { in: ["PENDING", "ACCEPTED"] },
         },
         include: {
           fromUser: {

@@ -214,14 +214,16 @@ const MessagesInbox = ({ onMessagesRead }: MessagesInboxProps) => {
                 <p className="text-xs text-gray-500 mb-2 truncate">
                   Re: {conversation.listing.title}
                 </p>
+              )}{" "}
+              {!isSystemUser && (
+                <p
+                  className={`text-sm truncate ${
+                    isUnread ? "font-medium text-gray-900" : "text-gray-600"
+                  }`}
+                >
+                  {conversation.lastMessage.content}
+                </p>
               )}
-              <p
-                className={`text-sm truncate ${
-                  isUnread ? "font-medium text-gray-900" : "text-gray-600"
-                }`}
-              >
-                {conversation.lastMessage.content}
-              </p>
               <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
                 <Clock className="h-3 w-3" />
                 {formatMessageTime(conversation.lastMessage.timestamp)}

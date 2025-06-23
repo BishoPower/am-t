@@ -57,6 +57,7 @@ export const getUserData = async (username: string) => {
         username: true,
         firstName: true,
         lastName: true,
+        displayName: true,
         email: true,
         image: true,
         bio: true,

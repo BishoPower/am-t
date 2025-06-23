@@ -80,7 +80,7 @@ const ListingCard = ({
               <span>Private</span>
             </Badge>
           </div>
-        )}
+        )}{" "}
         {/* Status badge for sold or archived items */}
         {listing.status !== "ACTIVE" && (
           <div className="absolute top-2 right-2">
@@ -88,10 +88,10 @@ const ListingCard = ({
               variant={listing.status === "SOLD" ? "default" : "secondary"}
               className="uppercase"
             >
-              {listing.status}
+              {listing.status === "SOLD" ? "TRADED" : listing.status}
             </Badge>
           </div>
-        )}
+        )}{" "}
         {/* Favorite count */}
         <div className="absolute bottom-2 right-2">
           <Badge
@@ -99,7 +99,9 @@ const ListingCard = ({
             className="bg-white/80 flex items-center gap-1"
           >
             <Heart className="h-3 w-3 fill-current" />
-            <span>{listing.favorites?.length || 0}</span>
+            <span>
+              {listing._count?.favorites || listing.favorites?.length || 0}
+            </span>
           </Badge>
         </div>
       </div>

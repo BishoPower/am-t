@@ -6,9 +6,13 @@ import { formatDate, getProfileImageUrl } from "@/lib/utils";
 import ListingCard from "@/components/listing/ListingCard";
 import DraggableListingsGrid from "@/components/listing/DraggableListingsGrid";
 import TradeInbox from "@/components/trade/TradeInbox";
+import CompletedTrades from "@/components/trade/CompletedTrades";
 import MessagesInbox from "@/components/messaging/MessagesInbox";
-import { PlusCircle, Settings } from "lucide-react";
+import { ReviewsList } from "@/components/reviews";
+import { useReviewsCount } from "@/hooks/use-reviews-count";
+import { PlusCircle, Settings, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -48,6 +52,9 @@ const PrivateProfileView = ({
   const [tabLoading, setTabLoading] = useState(false);
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const { userId } = useAuth();
+
+  // Get reviews count for this user
+  const { count: reviewsCount } = useReviewsCount(user.id);
 
   // Fetch pending trade requests count
   const fetchPendingTradesCount = useCallback(async () => {
@@ -181,7 +188,7 @@ const PrivateProfileView = ({
     { id: "favorites", label: "Favorites", count: favorites.length },
     { id: "trades", label: "Trades", count: pendingTradesCount },
     { id: "messages", label: "Messages", count: unreadMessagesCount },
-    { id: "reviews", label: "Reviews", count: 0 },
+    { id: "reviews", label: "Reviews", count: reviewsCount },
   ];
   const renderTabContent = () => {
     switch (activeTab) {
@@ -212,11 +219,11 @@ const PrivateProfileView = ({
                   <Button>Create Your First Listing</Button>
                 </Link>
               </div>
-            )}
+            )}{" "}
             {soldListings.length > 0 && (
               <details className="mt-8">
                 <summary className="text-lg font-medium cursor-pointer mb-4 text-gray-700">
-                  Sold Items ({soldListings.length})
+                  Traded Items ({soldListings.length})
                 </summary>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {soldListings.map((listing) => (
@@ -271,8 +278,27 @@ const PrivateProfileView = ({
       case "trades":
         return (
           <div className="space-y-6">
-            <h3 className="text-lg font-medium">Trade Requests</h3>
-            <TradeInbox onTradeUpdate={fetchPendingTradesCount} />
+            <Tabs defaultValue="active" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="active" className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  Active Trades
+                </TabsTrigger>
+                <TabsTrigger
+                  value="completed"
+                  className="flex items-center gap-2"
+                >
+                  <CheckCircle className="h-4 w-4" />
+                  Completed
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="active" className="mt-6">
+                <TradeInbox onTradeUpdate={fetchPendingTradesCount} />
+              </TabsContent>
+              <TabsContent value="completed" className="mt-6">
+                <CompletedTrades />
+              </TabsContent>
+            </Tabs>
           </div>
         );
       case "messages":
@@ -284,10 +310,7 @@ const PrivateProfileView = ({
       case "reviews":
         return (
           <div className="space-y-6">
-            <h3 className="text-lg font-medium">Reviews</h3>
-            <div className="text-center py-12">
-              <p className="text-gray-500">No reviews yet.</p>
-            </div>
+            <ReviewsList revieweeId={user.id} showTitle={false} />
           </div>
         );
       default:
@@ -316,15 +339,27 @@ const PrivateProfileView = ({
                   </span>
                 </div>
               )}
-            </div>
-
+            </div>{" "}
             <div className="flex-1">
               <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">
-                    {user.username}
+                    {user.displayName || user.username}
                   </h1>
-                  <p className="text-gray-600 text-sm">
+                  {user.displayName && (
+                    <p className="text-gray-500 text-sm">@{user.username}</p>
+                  )}
+                  {user.bio && (
+                    <p className="text-gray-700 text-sm mt-2 max-w-md">
+                      {user.bio}
+                    </p>
+                  )}
+                  {user.location && (
+                    <p className="text-gray-600 text-sm mt-1">
+                      📍 {user.location}
+                    </p>
+                  )}
+                  <p className="text-gray-600 text-sm mt-1">
                     Member since {formatDate(user.createdAt)}
                   </p>
                 </div>

@@ -25,6 +25,88 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+interface DraggableImageProps {
+  url: string;
+  index: number;
+  onRemove: (index: number) => void;
+}
+
+const DraggableImage: React.FC<DraggableImageProps> = ({
+  url,
+  index,
+  onRemove,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: url }); // Use URL as stable ID
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.8 : 1,
+    cursor: isDragging ? "grabbing" : "grab",
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="relative group"
+      {...attributes}
+      {...listeners}
+    >
+      <div className="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs px-2 py-1 rounded">
+        {index + 1}
+      </div>
+      <Image
+        src={url}
+        alt={`Image ${index + 1}`}
+        width={300}
+        height={300}
+        className="w-full h-56 object-cover rounded-lg border border-gray-300 shadow-md select-none"
+        draggable={false}
+      />
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(index);
+        }}
+        className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg z-20"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      {isDragging && (
+        <div className="absolute inset-0 bg-blue-500/20 border-2 border-blue-500 border-dashed rounded-lg flex items-center justify-center">
+          <span className="text-blue-700 font-medium">Moving...</span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 interface EditListingProps {
   listingId: string;
@@ -58,12 +140,35 @@ export default function EditListing({ listingId }: EditListingProps) {
   const [newImages, setNewImages] = useState<File[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
-  // Loading states
+  const [isPrivate, setIsPrivate] = useState(false); // Loading states
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false); // Load listing data
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const activeUrl = active.id as string;
+      const overUrl = over.id as string;
+
+      const activeIndex = imageUrls.findIndex((url) => url === activeUrl);
+      const overIndex = imageUrls.findIndex((url) => url === overUrl);
+
+      if (activeIndex !== -1 && overIndex !== -1) {
+        // Reorder imageUrls array
+        setImageUrls((items) => arrayMove(items, activeIndex, overIndex));
+      }
+    }
+  }; // Load listing data
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -437,32 +542,39 @@ export default function EditListing({ listingId }: EditListingProps) {
                   <div>
                     <label className="block text-lg font-medium text-black mb-4">
                       Photos * (up to 5)
-                    </label>
-
+                    </label>{" "}
                     {/* Current Images */}
                     {imageUrls.length > 0 && (
-                      <div className="grid grid-cols-2 gap-6 mb-8">
-                        {imageUrls.map((url, index) => (
-                          <div key={index} className="relative">
-                            <Image
-                              src={url}
-                              alt={`Image ${index + 1}`}
-                              width={300}
-                              height={300}
-                              className="w-full h-56 object-cover rounded-lg border border-gray-300 shadow-md"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => removeImage(index)}
-                              className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
-                            >
-                              <X className="h-4 w-4" />
-                            </button>
-                          </div>
-                        ))}
+                      <div className="mb-8">
+                        {" "}
+                        <p className="text-sm text-gray-600 mb-4">
+                          Tap and drag images to reorder them. The first image
+                          will be the main preview.
+                        </p>
+                        <DndContext
+                          sensors={sensors}
+                          collisionDetection={closestCenter}
+                          onDragEnd={handleDragEnd}
+                        >
+                          {" "}
+                          <SortableContext
+                            items={imageUrls}
+                            strategy={rectSortingStrategy}
+                          >
+                            <div className="grid grid-cols-2 gap-6">
+                              {imageUrls.map((url, index) => (
+                                <DraggableImage
+                                  key={url}
+                                  url={url}
+                                  index={index}
+                                  onRemove={removeImage}
+                                />
+                              ))}
+                            </div>
+                          </SortableContext>
+                        </DndContext>
                       </div>
                     )}
-
                     {/* Upload Area */}
                     {imageUrls.length < 5 && (
                       <div className="border-2 border-dashed border-gray-300 rounded-lg p-16 text-center hover:border-black transition-colors min-h-[300px] flex flex-col justify-center">

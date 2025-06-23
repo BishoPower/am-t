@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { formatDate, getProfileImageUrl } from "@/lib/utils";
 import ListingCard from "@/components/listing/ListingCard";
+import { ReviewsList } from "@/components/reviews";
+import { useReviewsCount } from "@/hooks/use-reviews-count";
 import { cn } from "@/lib/utils";
 
 // Type for serializable Clerk user data
@@ -28,13 +30,13 @@ const PublicProfileView = ({
   clerkUser,
 }: PublicProfileProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("closet");
+  const { count: reviewsCount } = useReviewsCount(user.id);
 
   // Get the profile image URL with Clerk fallback
   const profileImageUrl = getProfileImageUrl(user.image, clerkUser);
-
   const tabs = [
     { id: "closet", label: "Closet", count: listings.length },
-    { id: "reviews", label: "Reviews", count: 0 },
+    { id: "reviews", label: "Reviews", count: reviewsCount },
   ];
 
   const renderTabContent = () => {
@@ -59,10 +61,7 @@ const PublicProfileView = ({
       case "reviews":
         return (
           <div className="space-y-6">
-            <h3 className="text-lg font-medium">Reviews</h3>
-            <div className="text-center py-12">
-              <p className="text-gray-500">No reviews yet.</p>
-            </div>
+            <ReviewsList revieweeId={user.id} showTitle={false} />
           </div>
         );
       default:
@@ -95,9 +94,22 @@ const PublicProfileView = ({
             <div className="flex-1">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {user.username}
+                  {user.displayName || user.username}
                 </h1>
-                <p className="text-gray-600 text-sm">
+                {user.displayName && (
+                  <p className="text-gray-500 text-sm">@{user.username}</p>
+                )}
+                {user.bio && (
+                  <p className="text-gray-700 text-sm mt-2 max-w-md">
+                    {user.bio}
+                  </p>
+                )}
+                {user.location && (
+                  <p className="text-gray-600 text-sm mt-1">
+                    📍 {user.location}
+                  </p>
+                )}{" "}
+                <p className="text-gray-600 text-sm mt-1">
                   Member since {formatDate(user.createdAt)}
                 </p>
               </div>

@@ -10,6 +10,7 @@ interface UserData {
   username: string;
   firstName: string | null;
   lastName: string | null;
+  displayName: string | null;
   email: string;
   image: string | null;
   bio: string | null;
@@ -22,6 +23,7 @@ interface SettingsContextType {
   isLoading: boolean;
   error: string | null;
   refreshUserData: () => void;
+  refetch: () => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(
@@ -79,12 +81,12 @@ export const SettingsProvider = ({
       refreshUserData();
     }
   }, [username]);
-
   const value: SettingsContextType = {
     userData: data || null,
     isLoading,
     error: error?.message || null,
     refreshUserData,
+    refetch,
   };
 
   return (
