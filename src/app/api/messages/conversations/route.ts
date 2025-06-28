@@ -14,10 +14,31 @@ export async function GET() {
     const currentDbUser = await client.user.findUnique({
       where: { clerkid: user.id },
     });
-
     if (!currentDbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
-    } // Get all messages involving this user, grouped by conversation
+    }
+
+    // Get blocked users to filter out
+    const blockedUsers = await client.blockedUser.findMany({
+      where: {
+        OR: [{ blockerId: currentDbUser.id }, { blockedId: currentDbUser.id }],
+      },
+      select: {
+        blockerId: true,
+        blockedId: true,
+      },
+    });
+
+    const blockedUserIds = new Set();
+    blockedUsers.forEach((block) => {
+      if (block.blockerId === currentDbUser.id) {
+        blockedUserIds.add(block.blockedId);
+      } else {
+        blockedUserIds.add(block.blockerId);
+      }
+    });
+
+    // Get all messages involving this user, grouped by conversation
     const messages = await client.message.findMany({
       where: {
         OR: [{ fromId: currentDbUser.id }, { toId: currentDbUser.id }],
@@ -61,12 +82,16 @@ export async function GET() {
 
     // Group messages by conversation (other user + listing)
     const conversationsMap = new Map();
-
     messages.forEach((message) => {
       const otherUserId =
         message.fromId === currentDbUser.id ? message.toId : message.fromId;
       const otherUser =
         message.fromId === currentDbUser.id ? message.to : message.from;
+
+      // Skip messages from/to blocked users
+      if (blockedUserIds.has(otherUserId)) {
+        return;
+      }
 
       // Create a unique key for the conversation (other user + listing)
       const conversationKey = `${otherUserId}-${

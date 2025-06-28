@@ -91,7 +91,41 @@ export const searchListings = async (
       typeof tags,
       "length:",
       tags?.length
-    ); // Handle tag-only search
+    );
+
+    // Get current user for block filtering
+    const user = await currentUser();
+    let blockedUserIds: string[] = [];
+
+    if (user) {
+      const dbUser = await client.user.findUnique({
+        where: { clerkid: user.id },
+      });
+
+      if (dbUser) {
+        // Get blocked user IDs
+        const blockedRelations = await client.blockedUser.findMany({
+          where: {
+            OR: [{ blockerId: dbUser.id }, { blockedId: dbUser.id }],
+          },
+          select: {
+            blockerId: true,
+            blockedId: true,
+          },
+        });
+
+        const blockedUserIdsSet = new Set<string>();
+        blockedRelations.forEach((relation) => {
+          if (relation.blockerId === dbUser.id) {
+            blockedUserIdsSet.add(relation.blockedId);
+          } else {
+            blockedUserIdsSet.add(relation.blockerId);
+          }
+        });
+
+        blockedUserIds = Array.from(blockedUserIdsSet);
+      }
+    } // Handle tag-only search
     if (
       tags &&
       tags.trim().length > 0 &&

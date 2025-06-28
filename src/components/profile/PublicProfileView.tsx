@@ -6,6 +6,8 @@ import ListingCard from "@/components/listing/ListingCard";
 import { ReviewsList } from "@/components/reviews";
 import { useReviewsCount } from "@/hooks/use-reviews-count";
 import { cn } from "@/lib/utils";
+import BlockUserButton from "@/components/user/BlockUserButton";
+import { useAuth } from "@clerk/nextjs";
 
 // Type for serializable Clerk user data
 type SerializableClerkUser = {
@@ -20,6 +22,7 @@ type PublicProfileProps = {
   user: any; // Type this properly based on your actual user structure
   listings: any[]; // Type this properly based on your actual listing structure
   clerkUser?: SerializableClerkUser; // Serializable Clerk user data for image fallback
+  isBlocked?: boolean; // Whether the users have blocked each other
 };
 
 type TabType = "closet" | "reviews";
@@ -28,24 +31,43 @@ const PublicProfileView = ({
   user,
   listings,
   clerkUser,
+  isBlocked = false,
 }: PublicProfileProps) => {
   const [activeTab, setActiveTab] = useState<TabType>("closet");
   const { count: reviewsCount } = useReviewsCount(user.id);
-
+  const { userId } = useAuth();
   // Get the profile image URL with Clerk fallback
   const profileImageUrl = getProfileImageUrl(user.image, clerkUser);
-  const tabs = [
-    { id: "closet", label: "Closet", count: listings.length },
-    { id: "reviews", label: "Reviews", count: reviewsCount },
-  ];
 
+  // Check if this is the current user's own profile
+  // Compare the profile user's clerkid with the current user's userId
+  const isOwnProfile = user.clerkid === userId;
+  const tabs = [
+    { id: "closet", label: "Closet", count: isBlocked ? 0 : listings.length },
+    { id: "reviews", label: "Reviews", count: isBlocked ? 0 : reviewsCount },
+  ];
   const renderTabContent = () => {
     switch (activeTab) {
       case "closet":
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-medium">Closet</h3>
-            {listings.length > 0 ? (
+            {isBlocked ? (
+              <div className="text-center py-12">
+                <div className="max-w-md mx-auto">
+                  <div className="bg-gray-50 rounded-lg p-6">
+                    <p className="text-gray-600 mb-4">
+                      Content is not available because you have blocked each
+                      other.
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      You can unblock this user using the button above if you
+                      want to see their content.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : listings.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {listings.map((listing) => (
                   <ListingCard key={listing.id} listing={listing} />
@@ -61,7 +83,24 @@ const PublicProfileView = ({
       case "reviews":
         return (
           <div className="space-y-6">
-            <ReviewsList revieweeId={user.id} showTitle={false} />
+            {isBlocked ? (
+              <div className="text-center py-12">
+                <div className="max-w-md mx-auto">
+                  <div className="bg-gray-50 rounded-lg p-6">
+                    <p className="text-gray-600 mb-4">
+                      Reviews are not available because you have blocked each
+                      other.
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      You can unblock this user using the button above if you
+                      want to see their reviews.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <ReviewsList revieweeId={user.id} showTitle={false} />
+            )}
           </div>
         );
       default:
@@ -112,13 +151,27 @@ const PublicProfileView = ({
                 <p className="text-gray-600 text-sm mt-1">
                   Member since {formatDate(user.createdAt)}
                 </p>
-              </div>
-
+                {/* Block button for other users */}
+                {!isOwnProfile && userId && (
+                  <div className="mt-3">
+                    <BlockUserButton
+                      userId={user.id}
+                      username={user.username}
+                      displayName={
+                        user.displayName ||
+                        `${user.firstName || ""} ${user.lastName || ""}`.trim()
+                      }
+                      variant="outline"
+                      size="sm"
+                    />
+                  </div>
+                )}
+              </div>{" "}
               {/* Public profile stats */}
               <div className="mt-4 flex flex-wrap gap-6 text-sm">
                 <div className="flex items-center gap-1">
                   <span className="font-semibold text-gray-900">
-                    {listings.length}
+                    {isBlocked ? 0 : listings.length}
                   </span>{" "}
                   <span className="text-gray-600">items</span>
                 </div>

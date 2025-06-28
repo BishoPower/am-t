@@ -1,6 +1,24 @@
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { client as prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma";
+
+// Helper function to get blocked user IDs for the current user
+async function getBlockedUserIds(currentUserId: string): Promise<string[]> {
+  const blocks = await prisma.blockedUser.findMany({
+    where: {
+      OR: [{ blockerId: currentUserId }, { blockedId: currentUserId }],
+    },
+    select: {
+      blockerId: true,
+      blockedId: true,
+    },
+  });
+
+  return blocks.map((block) =>
+    block.blockerId === currentUserId ? block.blockedId : block.blockerId
+  );
+}
 
 // Helper function to filter out common words that don't help with similarity
 function isCommonWord(word: string): boolean {
@@ -118,9 +136,22 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { userId } = await auth();
     const { id } = await params;
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get("limit") || "6");
+
+    // Get blocked user IDs if user is authenticated
+    let blockedUserIds: string[] = [];
+    if (userId) {
+      const dbUser = await prisma.user.findUnique({
+        where: { clerkid: userId },
+        select: { id: true },
+      });
+      if (dbUser) {
+        blockedUserIds = await getBlockedUserIds(dbUser.id);
+      }
+    }
 
     // First, get the current listing to analyze its properties
     const currentListing = await prisma.listing.findUnique({
@@ -199,15 +230,17 @@ export async function GET(
       return NextResponse.json([]);
     }
 
-    console.log("Built", conditions.length, "conditions for similarity search");
-
-    // Find similar listings using the conditions we built
+    console.log("Built", conditions.length, "conditions for similarity search"); // Find similar listings using the conditions we built
     const similarListings = await prisma.listing.findMany({
       where: {
         AND: [
           { id: { not: id } }, // Exclude current listing
-          { isPrivate: false }, // Only public listings          { status: "ACTIVE" }, // Only active listings
+          { isPrivate: false }, // Only public listings
+          { status: "ACTIVE" }, // Only active listings
           { userId: { not: currentListing.userId } }, // Exclude listings from same user
+          ...(blockedUserIds.length > 0
+            ? [{ userId: { notIn: blockedUserIds } }]
+            : []), // Exclude blocked users
           {
             OR: conditions.slice(0, 8), // Allow more conditions to get more potential matches
           },

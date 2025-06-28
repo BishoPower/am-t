@@ -8,6 +8,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { userId } = await auth();
     const { id } = await params;
 
     const listing = await prisma.listing.findUnique({
@@ -26,6 +27,33 @@ export async function GET(
 
     if (!listing) {
       return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    }
+
+    // Check if users have blocked each other (if user is authenticated)
+    if (userId) {
+      const dbUser = await prisma.user.findUnique({
+        where: { clerkid: userId },
+        select: { id: true },
+      });
+
+      if (dbUser && dbUser.id !== listing.userId) {
+        // Check if either user has blocked the other
+        const blockExists = await prisma.blockedUser.findFirst({
+          where: {
+            OR: [
+              { blockerId: dbUser.id, blockedId: listing.userId },
+              { blockerId: listing.userId, blockedId: dbUser.id },
+            ],
+          },
+        });
+
+        if (blockExists) {
+          return NextResponse.json(
+            { error: "Listing not found" },
+            { status: 404 }
+          );
+        }
+      }
     }
 
     return NextResponse.json(listing);

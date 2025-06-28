@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    const { userId } = await auth();
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "12");
@@ -96,6 +97,42 @@ export async function GET(request: NextRequest) {
       isPrivate: false,
       status: "ACTIVE",
     };
+
+    // Filter out blocked users' listings if user is authenticated
+    if (userId) {
+      const currentUser = await prisma.user.findUnique({
+        where: { clerkid: userId },
+      });
+
+      if (currentUser) {
+        // Get all blocked user IDs (both users I blocked and users who blocked me)
+        const blockedRelations = await prisma.blockedUser.findMany({
+          where: {
+            OR: [{ blockerId: currentUser.id }, { blockedId: currentUser.id }],
+          },
+          select: {
+            blockerId: true,
+            blockedId: true,
+          },
+        });
+
+        const blockedUserIds = new Set<string>();
+        blockedRelations.forEach((relation) => {
+          if (relation.blockerId === currentUser.id) {
+            blockedUserIds.add(relation.blockedId);
+          } else {
+            blockedUserIds.add(relation.blockerId);
+          }
+        });
+
+        // Exclude listings from blocked users
+        if (blockedUserIds.size > 0) {
+          where.userId = {
+            notIn: Array.from(blockedUserIds),
+          };
+        }
+      }
+    }
 
     if (search) {
       where.OR = [

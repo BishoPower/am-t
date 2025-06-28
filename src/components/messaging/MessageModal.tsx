@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { useToast } from "@/hooks/use-toast";
 import { formatMessageTime } from "@/lib/utils";
+import BlockUserButton from "@/components/user/BlockUserButton";
 
 type Message = {
   id: string;
@@ -72,7 +73,10 @@ const MessageModal = ({
   // Wrapped onClose to refresh navbar count
   const handleClose = useCallback(() => {
     // Refresh navbar unread count when modal closes
-    if (typeof window !== 'undefined' && (window as any).refreshNavUnreadCount) {
+    if (
+      typeof window !== "undefined" &&
+      (window as any).refreshNavUnreadCount
+    ) {
       (window as any).refreshNavUnreadCount();
     }
     onClose();
@@ -99,7 +103,10 @@ const MessageModal = ({
         method: "PATCH",
       });
       // Refresh navbar unread count
-      if (typeof window !== 'undefined' && (window as any).refreshNavUnreadCount) {
+      if (
+        typeof window !== "undefined" &&
+        (window as any).refreshNavUnreadCount
+      ) {
         (window as any).refreshNavUnreadCount();
       }
       // Don't call onMessagesRead here to avoid infinite loop
@@ -150,9 +157,8 @@ const MessageModal = ({
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
   const sendMessage = async () => {
-    if (!newMessage.trim() || isSending) return;
+    if (!newMessage.trim() || isSending || isSystemUser) return;
 
     try {
       setIsSending(true);
@@ -177,7 +183,18 @@ const MessageModal = ({
             "Your message has been sent. Check your profile Messages tab to continue the conversation.",
         });
       } else {
-        throw new Error("Failed to send message");
+        const errorData = await response.json();
+        if (response.status === 403) {
+          // User is blocked
+          toast({
+            title: "Cannot send message",
+            description: "This user is not available for messaging.",
+            variant: "destructive",
+          });
+          handleClose(); // Close the modal
+          return;
+        }
+        throw new Error(errorData.error || "Failed to send message");
       }
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -249,16 +266,33 @@ const MessageModal = ({
                 <p className="text-sm text-muted-foreground">
                   @{otherUser.username}
                 </p>
-              </div>
+              </div>{" "}
             </div>
-            {listingTitle && (
-              <Badge
-                variant="outline"
-                className="bg-muted text-muted-foreground mt-7"
-              >
-                Re: {listingTitle}
-              </Badge>
-            )}
+            <div className="flex items-center gap-2">
+              {/* Block button for non-system users */}
+              {!isSystemUser && (
+                <BlockUserButton
+                  userId={otherUser.id}
+                  username={otherUser.username}
+                  displayName={displayName}
+                  variant="outline"
+                  size="sm"
+                  onBlockStatusChange={(isBlocked) => {
+                    if (isBlocked) {
+                      handleClose(); // Close modal if user is blocked
+                    }
+                  }}
+                />
+              )}
+              {listingTitle && (
+                <Badge
+                  variant="outline"
+                  className="bg-muted text-muted-foreground"
+                >
+                  Re: {listingTitle}
+                </Badge>
+              )}
+            </div>
           </div>
         </DialogHeader>{" "}
         {/* Messages Area */}

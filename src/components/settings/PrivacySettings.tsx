@@ -1,4 +1,5 @@
 import React from "react";
+import BlockedUsersManager from "@/components/user/BlockedUsersManager";
 
 interface PrivacySettingsProps {
   username: string;
@@ -26,7 +27,6 @@ export const PrivacySettings = ({ username }: PrivacySettingsProps) => {
             <option>Friends Only</option>
           </select>
         </div>
-
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-base font-medium text-gray-900">
@@ -41,7 +41,6 @@ export const PrivacySettings = ({ username }: PrivacySettingsProps) => {
             className="rounded border-gray-300 text-black focus:ring-black"
           />
         </div>
-
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-base font-medium text-gray-900">
@@ -57,7 +56,6 @@ export const PrivacySettings = ({ username }: PrivacySettingsProps) => {
             defaultChecked
           />
         </div>
-
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-base font-medium text-gray-900">
@@ -72,11 +70,14 @@ export const PrivacySettings = ({ username }: PrivacySettingsProps) => {
             className="rounded border-gray-300 text-black focus:ring-black"
             defaultChecked
           />
-        </div>
-
+        </div>{" "}
         <button className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors">
           Save Privacy Settings
         </button>
+        {/* Blocked Users Management */}
+        <div className="pt-6 border-t">
+          <BlockedUsersManager />
+        </div>
       </div>
     </div>
   );

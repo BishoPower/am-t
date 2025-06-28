@@ -1,33 +1,73 @@
 import { NextRequest, NextResponse } from "next/server";
 import { client } from "@/lib/prisma";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
+
+// Helper function to get blocked user IDs for the current user
+async function getBlockedUserIds(currentUserId: string): Promise<string[]> {
+  const blocks = await client.blockedUser.findMany({
+    where: {
+      OR: [{ blockerId: currentUserId }, { blockedId: currentUserId }],
+    },
+    select: {
+      blockerId: true,
+      blockedId: true,
+    },
+  });
+
+  return blocks.map((block) =>
+    block.blockerId === currentUserId ? block.blockedId : block.blockerId
+  );
+}
 
 // GET /api/reviews - Get reviews for a user or listing
 export async function GET(request: NextRequest) {
   try {
+    const { userId } = await auth();
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
+    const userIdParam = searchParams.get("userId");
     const listingId = searchParams.get("listingId");
     const revieweeId = searchParams.get("revieweeId");
     console.log("GET /api/reviews - Parameters:", {
-      userId,
+      userId: userIdParam,
       listingId,
       revieweeId,
     });
 
-    if (!userId && !listingId && !revieweeId) {
+    if (!userIdParam && !listingId && !revieweeId) {
       return NextResponse.json(
         { error: "Must provide userId, listingId, or revieweeId parameter" },
         { status: 400 }
       );
     }
 
+    // Get blocked user IDs if user is authenticated
+    let blockedUserIds: string[] = [];
+    if (userId) {
+      const dbUser = await client.user.findUnique({
+        where: { clerkid: userId },
+        select: { id: true },
+      });
+      if (dbUser) {
+        blockedUserIds = await getBlockedUserIds(dbUser.id);
+      }
+    }
+
     let reviews;
 
     if (revieweeId) {
-      // Get all reviews for a specific user (reviewee)
+      // Get all reviews for a specific user (reviewee), excluding blocked users
       reviews = await client.review.findMany({
-        where: { revieweeId },
+        where: {
+          revieweeId,
+          ...(blockedUserIds.length > 0
+            ? {
+                AND: [
+                  { reviewerId: { notIn: blockedUserIds } },
+                  { revieweeId: { notIn: blockedUserIds } },
+                ],
+              }
+            : {}),
+        },
         include: {
           reviewer: {
             select: {
@@ -47,9 +87,19 @@ export async function GET(request: NextRequest) {
         orderBy: { createdAt: "desc" },
       });
     } else if (listingId) {
-      // Get reviews related to a specific listing
+      // Get reviews related to a specific listing, excluding blocked users
       reviews = await client.review.findMany({
-        where: { listingId },
+        where: {
+          listingId,
+          ...(blockedUserIds.length > 0
+            ? {
+                AND: [
+                  { reviewerId: { notIn: blockedUserIds } },
+                  { revieweeId: { notIn: blockedUserIds } },
+                ],
+              }
+            : {}),
+        },
         include: {
           reviewer: {
             select: {
@@ -69,9 +119,19 @@ export async function GET(request: NextRequest) {
         orderBy: { createdAt: "desc" },
       });
     } else {
-      // Get reviews given by a user (reviewer)
+      // Get reviews given by a user (reviewer), excluding blocked users
       reviews = await client.review.findMany({
-        where: { reviewerId: userId! },
+        where: {
+          reviewerId: userIdParam!,
+          ...(blockedUserIds.length > 0
+            ? {
+                AND: [
+                  { reviewerId: { notIn: blockedUserIds } },
+                  { revieweeId: { notIn: blockedUserIds } },
+                ],
+              }
+            : {}),
+        },
         include: {
           reviewee: {
             select: {
@@ -111,14 +171,14 @@ export async function GET(request: NextRequest) {
 // POST /api/reviews - Create a new review
 export async function POST(request: NextRequest) {
   try {
-    const user = await currentUser();
-    if (!user) {
+    const { userId } = await auth();
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Find the user in our database
     const dbUser = await client.user.findUnique({
-      where: { clerkid: user.id },
+      where: { clerkid: userId },
     });
 
     if (!dbUser) {
@@ -142,13 +202,28 @@ export async function POST(request: NextRequest) {
         { error: "Rating must be between 1 and 5" },
         { status: 400 }
       );
-    }
-
-    // Prevent self-reviews
+    } // Prevent self-reviews
     if (revieweeId === dbUser.id) {
       return NextResponse.json(
         { error: "Cannot review yourself" },
         { status: 400 }
+      );
+    }
+
+    // Check if users have blocked each other
+    const blockExists = await client.blockedUser.findFirst({
+      where: {
+        OR: [
+          { blockerId: dbUser.id, blockedId: revieweeId },
+          { blockerId: revieweeId, blockedId: dbUser.id },
+        ],
+      },
+    });
+
+    if (blockExists) {
+      return NextResponse.json(
+        { error: "Cannot review blocked users" },
+        { status: 403 }
       );
     } // Verify reviewee exists
     const reviewee = await client.user.findUnique({

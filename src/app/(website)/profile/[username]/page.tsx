@@ -48,39 +48,62 @@ export default async function ProfilePage({
       closet: true,
     },
   });
-
   if (!profileUser) {
     return notFound();
   }
-  // Fetch listings for this user's closet
-  // For the owner, show all listings including private ones  // For others, only show public, active listings
-  const listings = await db.listing.findMany({
-    where: {
-      userId: profileUser.id,
-      isPrivate: isOwner ? undefined : false, // Show all listings if own profile, only public listings for others
-      status: isOwner ? undefined : "ACTIVE", // Show all statuses if own profile, only active if not
-    },
-    include: {
-      tags: true,
-      _count: {
-        select: {
-          favorites: true,
+  // Check if users have blocked each other (if viewer is authenticated and not viewing own profile)
+  let isBlocked = false;
+  if (clerkUser && !isOwner) {
+    const currentDbUser = await db.user.findUnique({
+      where: { clerkid: clerkUser.id },
+      select: { id: true },
+    });
+
+    if (currentDbUser) {
+      const blockExists = await db.blockedUser.findFirst({
+        where: {
+          OR: [
+            { blockerId: currentDbUser.id, blockedId: profileUser.id },
+            { blockerId: profileUser.id, blockedId: currentDbUser.id },
+          ],
         },
-      },
-    },
-    orderBy: [
-      {
-        order: "asc", // Sort by custom order first
-      },
-      {
-        createdAt: "desc", // Then by creation date for items without order
-      },
-    ],
-  });
+      });
+
+      isBlocked = !!blockExists;
+    }
+  } // Fetch listings for this user's closet
+  // For the owner, show all listings including private ones
+  // For others, only show public, active listings
+  // If users have blocked each other, show empty array
+  const listings = isBlocked
+    ? []
+    : await db.listing.findMany({
+        where: {
+          userId: profileUser.id,
+          isPrivate: isOwner ? undefined : false, // Show all listings if own profile, only public listings for others
+          status: isOwner ? undefined : "ACTIVE", // Show all statuses if own profile, only active if not
+        },
+        include: {
+          tags: true,
+          _count: {
+            select: {
+              favorites: true,
+            },
+          },
+        },
+        orderBy: [
+          {
+            order: "asc", // Sort by custom order first
+          },
+          {
+            createdAt: "desc", // Then by creation date for items without order
+          },
+        ],
+      });
 
   // Fetch favorites only for the profile owner
   let favorites: any[] | undefined = [];
-  if (isOwner) {
+  if (isOwner && !isBlocked) {
     favorites = await db.favorite.findMany({
       where: {
         userId: profileUser.id,
@@ -127,6 +150,7 @@ export default async function ProfilePage({
         user={profileUser}
         listings={listings}
         clerkUser={serializableClerkUser}
+        isBlocked={isBlocked}
       />
     );
   }

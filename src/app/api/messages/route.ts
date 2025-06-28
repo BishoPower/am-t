@@ -38,13 +38,28 @@ export async function POST(request: NextRequest) {
         { error: "Recipient not found" },
         { status: 404 }
       );
-    }
-
-    // Prevent self-messaging
+    } // Prevent self-messaging
     if (fromUser.id === toId) {
       return NextResponse.json(
         { error: "Cannot send message to yourself" },
         { status: 400 }
+      );
+    }
+
+    // Check if either user has blocked the other
+    const blockCheck = await client.blockedUser.findFirst({
+      where: {
+        OR: [
+          { blockerId: fromUser.id, blockedId: toId },
+          { blockerId: toId, blockedId: fromUser.id },
+        ],
+      },
+    });
+
+    if (blockCheck) {
+      return NextResponse.json(
+        { error: "Cannot send message to this user" },
+        { status: 403 }
       );
     }
 

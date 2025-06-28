@@ -64,13 +64,28 @@ export async function POST(request: NextRequest) {
         { error: "All target listings must belong to the same user" },
         { status: 400 }
       );
-    }
-
-    // Prevent self-trades
+    } // Prevent self-trades
     if (toUserId === fromUser.id) {
       return NextResponse.json(
         { error: "Cannot trade with yourself" },
         { status: 400 }
+      );
+    }
+
+    // Check if either user has blocked the other
+    const blockCheck = await client.blockedUser.findFirst({
+      where: {
+        OR: [
+          { blockerId: fromUser.id, blockedId: toUserId },
+          { blockerId: toUserId, blockedId: fromUser.id },
+        ],
+      },
+    });
+
+    if (blockCheck) {
+      return NextResponse.json(
+        { error: "Cannot send trade request to this user" },
+        { status: 403 }
       );
     }
 

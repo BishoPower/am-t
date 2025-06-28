@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Get personalized recommendations
+    // Get personalized recommendations with blocked user filtering
     const [
       featuredArticles,
       recommendedForUser,
@@ -43,8 +43,8 @@ export async function GET(request: NextRequest) {
       getRecommendedListings(dbUser.id),
       getListingsBasedOnViewed(dbUser.id),
       getListingsBasedOnSearches(dbUser.id),
-      getTrendingListings(),
-      getRecentListings(12),
+      getTrendingListings(dbUser.id),
+      getRecentListings(12, dbUser.id),
     ]);
 
     return NextResponse.json({
@@ -115,6 +115,9 @@ async function getFeaturedArticles() {
 }
 
 async function getRecommendedListings(userId: string) {
+  // Get blocked user IDs
+  const blockedUserIds = await getBlockedUserIds(userId);
+
   // Get listings similar to user's favorite tags
   const userTags = await client.listing.findMany({
     where: {
@@ -132,19 +135,29 @@ async function getRecommendedListings(userId: string) {
   );
 
   if (userTagNames.length === 0) {
-    return getTrendingListings();
+    return getTrendingListings(userId);
+  }
+
+  const where: any = {
+    status: "ACTIVE",
+    userId: { not: userId },
+    tags: {
+      some: {
+        name: { in: userTagNames },
+      },
+    },
+  };
+
+  // Filter out blocked users
+  if (blockedUserIds.length > 0) {
+    where.userId = {
+      not: userId,
+      notIn: blockedUserIds,
+    };
   }
 
   return client.listing.findMany({
-    where: {
-      status: "ACTIVE",
-      userId: { not: userId },
-      tags: {
-        some: {
-          name: { in: userTagNames },
-        },
-      },
-    },
+    where,
     include: {
       tags: true,
       user: {
@@ -162,13 +175,26 @@ async function getRecommendedListings(userId: string) {
 }
 
 async function getListingsBasedOnViewed(userId: string) {
+  // Get blocked user IDs
+  const blockedUserIds = await getBlockedUserIds(userId);
+
   // This would require tracking listing views - for now, return recent listings
   // In a real implementation, you'd track user listing views and find similar items
+  const where: any = {
+    status: "ACTIVE",
+    userId: { not: userId },
+  };
+
+  // Filter out blocked users
+  if (blockedUserIds.length > 0) {
+    where.userId = {
+      not: userId,
+      notIn: blockedUserIds,
+    };
+  }
+
   return client.listing.findMany({
-    where: {
-      status: "ACTIVE",
-      userId: { not: userId },
-    },
+    where,
     include: {
       tags: true,
       user: {
@@ -186,13 +212,26 @@ async function getListingsBasedOnViewed(userId: string) {
 }
 
 async function getListingsBasedOnSearches(userId: string) {
+  // Get blocked user IDs
+  const blockedUserIds = await getBlockedUserIds(userId);
+
   // This would require tracking search history - for now, return popular items
   // In a real implementation, you'd track user searches and find matching listings
+  const where: any = {
+    status: "ACTIVE",
+    userId: { not: userId },
+  };
+
+  // Filter out blocked users
+  if (blockedUserIds.length > 0) {
+    where.userId = {
+      not: userId,
+      notIn: blockedUserIds,
+    };
+  }
+
   return client.listing.findMany({
-    where: {
-      status: "ACTIVE",
-      userId: { not: userId },
-    },
+    where,
     include: {
       tags: true,
       user: {
@@ -209,11 +248,23 @@ async function getListingsBasedOnSearches(userId: string) {
   });
 }
 
-async function getTrendingListings() {
+async function getTrendingListings(userId?: string) {
+  const where: any = {
+    status: "ACTIVE",
+  };
+
+  // Filter out blocked users if authenticated
+  if (userId) {
+    const blockedUserIds = await getBlockedUserIds(userId);
+    if (blockedUserIds.length > 0) {
+      where.userId = {
+        notIn: blockedUserIds,
+      };
+    }
+  }
+
   return client.listing.findMany({
-    where: {
-      status: "ACTIVE",
-    },
+    where,
     include: {
       tags: true,
       user: {
@@ -230,11 +281,23 @@ async function getTrendingListings() {
   });
 }
 
-async function getRecentListings(limit: number) {
+async function getRecentListings(limit: number, userId?: string) {
+  const where: any = {
+    status: "ACTIVE",
+  };
+
+  // Filter out blocked users if authenticated
+  if (userId) {
+    const blockedUserIds = await getBlockedUserIds(userId);
+    if (blockedUserIds.length > 0) {
+      where.userId = {
+        notIn: blockedUserIds,
+      };
+    }
+  }
+
   return client.listing.findMany({
-    where: {
-      status: "ACTIVE",
-    },
+    where,
     include: {
       tags: true,
       user: {
@@ -272,4 +335,28 @@ async function getTopCategories() {
     name: tag.name,
     count: tag._count.listings,
   }));
+}
+
+// Helper function to get blocked user IDs
+async function getBlockedUserIds(userId: string): Promise<string[]> {
+  const blockedRelations = await client.blockedUser.findMany({
+    where: {
+      OR: [{ blockerId: userId }, { blockedId: userId }],
+    },
+    select: {
+      blockerId: true,
+      blockedId: true,
+    },
+  });
+
+  const blockedUserIds = new Set<string>();
+  blockedRelations.forEach((relation) => {
+    if (relation.blockerId === userId) {
+      blockedUserIds.add(relation.blockedId);
+    } else {
+      blockedUserIds.add(relation.blockerId);
+    }
+  });
+
+  return Array.from(blockedUserIds);
 }
