@@ -15,6 +15,12 @@ type Article = {
   category: string;
   slug: string;
   date: string;
+  author?: {
+    username: string;
+    displayName?: string;
+    firstName?: string;
+    lastName?: string;
+  };
 };
 
 type MagazineCarouselProps = {
@@ -24,6 +30,11 @@ type MagazineCarouselProps = {
 export default function MagazineCarousel({ articles }: MagazineCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // Don't render if no articles
+  if (!articles || articles.length === 0) {
+    return null;
+  }
 
   // Auto-play functionality
   useEffect(() => {
@@ -109,7 +120,11 @@ export default function MagazineCarousel({ articles }: MagazineCarouselProps) {
             {currentArticle.subtitle}
           </p>
 
-          <Link href={`/editorial/article/${currentArticle.slug}`}>
+          <Link
+            href={`/editorial/article/${
+              currentArticle.author?.username || "admin"
+            }/${currentArticle.slug}`}
+          >
             <Button
               size="lg"
               className="bg-white text-black hover:bg-gray-100 font-bold transition-all hover:scale-105 uppercase tracking-wide border-2 border-white"

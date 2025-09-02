@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Settings, User, Shield, Bell } from "lucide-react";
+import { Settings, User, Shield, Bell, Users } from "lucide-react";
 import { useSettings } from "./SettingsProvider";
 
 interface SettingsNavigationProps {
@@ -20,6 +20,7 @@ export const SettingsNavigation = ({
     { id: "profile", label: "Profile", icon: User },
     { id: "account", label: "Account", icon: Settings },
     { id: "privacy", label: "Privacy", icon: Shield },
+    { id: "friends", label: "Friends", icon: Users },
     { id: "notifications", label: "Notifications", icon: Bell },
   ];
 

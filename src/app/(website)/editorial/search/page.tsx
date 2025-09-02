@@ -13,33 +13,33 @@ import { useSearchParams } from "next/navigation";
 const searchResults = [
   {
     id: "1",
-    title: "The Summer of Micro Trends",
-    excerpt: "How small fashion movements are reshaping the trading landscape",
-    image: "/api/placeholder/300/200",
-    category: "SURFACED",
-    date: "June 25, 2025",
-    readTime: "5 min read",
-    slug: "summer-micro-trends",
+    title: "Welcome to AM-T",
+    excerpt: "Your premier destination for authentic streetwear trading",
+    image: "/amtlogo-static.png",
+    category: "FEATURED",
+    date: "July 3, 2025",
+    readTime: "3 min read",
+    slug: "welcome-to-am-t",
   },
   {
     id: "2",
-    title: "Why Hedi Slimane is Having a Moment",
-    excerpt: "An analysis of the designer's current cultural influence",
-    image: "/api/placeholder/300/200",
-    category: "MASTER CLASS",
-    date: "June 24, 2025",
-    readTime: "8 min read",
-    slug: "hedi-slimane-moment",
+    title: "Getting Started with AM-T",
+    excerpt: "Everything you need to know to begin trading on AM-T",
+    image: "/amtlogo-static.png",
+    category: "GUIDE",
+    date: "July 3, 2025",
+    readTime: "5 min read",
+    slug: "getting-started-guide",
   },
   {
     id: "3",
-    title: "Street Style: Tokyo Fashion Week",
-    excerpt: "The best looks from the streets of Harajuku and Shibuya",
-    image: "/api/placeholder/300/200",
-    category: "STREET STYLE",
-    date: "June 22, 2025",
+    title: "Building Your Trading Profile",
+    excerpt: "How to create an attractive and trustworthy trader profile",
+    image: "/amtlogo-static.png",
+    category: "TIPS",
+    date: "July 3, 2025",
     readTime: "4 min read",
-    slug: "tokyo-fashion-week-street-style",
+    slug: "building-trading-profile",
   },
 ];
 
@@ -118,7 +118,7 @@ export default function EditorialSearchPage() {
             {searchResults.map((article) => (
               <Link
                 key={article.id}
-                href={`/editorial/article/${article.slug}`}
+                href={`/editorial/article/admin/${article.slug}`}
               >
                 <Card className="border-2 hover:border-black transition-colors group cursor-pointer">
                   <CardContent className="p-0">

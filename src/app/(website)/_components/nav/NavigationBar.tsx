@@ -9,7 +9,6 @@ import {
   Search,
   X,
   User,
-  ShoppingBag,
   Heart,
   MessageSquare,
   Bell,
@@ -62,16 +61,6 @@ const authLinks = [
     onClick: "signup" as const,
     className: "hover:bg-black/80 transition-colors",
   },
-];
-
-const categoryLinks = [
-  { label: "DESIGNERS", href: "/designers" },
-  { label: "MENSWEAR", href: "/menswear" },
-  { label: "WOMENSWEAR", href: "/womenswear" },
-  { label: "SNEAKERS", href: "/sneakers" },
-  { label: "STAFF PICKS", href: "/staff-picks" },
-  { label: "COLLECTIONS", href: "/collections" },
-  { label: "EDITORIAL", href: "/editorial" },
 ];
 
 // Component for message icon with notification badge
@@ -212,7 +201,6 @@ export const NavigationBar: React.FC = () => {
   }, [fetchUnreadMessagesCount]);
 
   const handleSearch = (query: string) => {
-    console.log("Search query:", query);
     setSearchOpen(false);
     // Navigate to search page with the query
     if (query.trim()) {
@@ -406,7 +394,9 @@ export const NavigationBar: React.FC = () => {
                   <div className="flex items-center space-x-1 sm:space-x-1 md:space-x-2">
                     {/* Icon buttons */}
                     <Link
-                      href="/favorites"
+                      href={`/profile/${
+                        userData.username || user?.username
+                      }?tab=favorites`}
                       className="p-2 hover:bg-gray-100 rounded-full flex items-center justify-center"
                       aria-label="Favorites"
                     >
@@ -424,13 +414,6 @@ export const NavigationBar: React.FC = () => {
                         className="h-5 w-5"
                       />
                     </Link>{" "}
-                    <Link
-                      href={`/profile/${userData.username || user?.username}`}
-                      className="p-2 hover:bg-gray-100 rounded-full flex items-center justify-center"
-                      aria-label="My Profile"
-                    >
-                      <ShoppingBag className="h-5 w-5" />
-                    </Link>
                     {/* Profile Button */}
                     <ProfileButton />
                   </div>
@@ -455,16 +438,24 @@ export const NavigationBar: React.FC = () => {
                 )}{" "}
                 {/* Desktop Navigation Links - Main nav links - always visible */}
                 <div className="hidden lg:flex items-center ml-2 xl:ml-3 space-x-2 xl:space-x-3">
-                  {mainNavLinks.map((link, index) => (
-                    <NavLink
-                      key={index}
-                      {...link}
-                      className={`${
-                        link.className || ""
-                      } px-3 py-2 text-sm xl:text-base whitespace-nowrap`}
-                      href={link.href}
-                    />
-                  ))}
+                  {mainNavLinks.map((link, index) => {
+                    // If it's the Trade link and user is signed in, link to their closet
+                    const href =
+                      link.label === "Trade" && isSignedIn && userData.username
+                        ? `/profile/${userData.username}`
+                        : link.href;
+
+                    return (
+                      <NavLink
+                        key={index}
+                        {...link}
+                        className={`${
+                          link.className || ""
+                        } px-3 py-2 text-sm xl:text-base whitespace-nowrap`}
+                        href={href}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -482,27 +473,7 @@ export const NavigationBar: React.FC = () => {
             )}
           </div>
         </div>
-      </nav>{" "}
-      {/* Secondary Navigation (Categories) - Desktop only */}
-      <div className="hidden lg:block bg-white border-b border-gray-100 py-3 sticky top-[61px] z-40">
-        <div className="w-full px-8 md:px-16 lg:px-24 flex justify-center">
-          <div className="w-full max-w-[1400px]">
-            <div className="flex items-center justify-center">
-              <div className="flex items-center justify-between w-full max-w-5xl">
-                {categoryLinks.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    className="text-xs font-bold hover:text-gray-600 transition-colors uppercase tracking-wide"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </nav>
       {/* Overlay when sidebar is open */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden ${
@@ -567,7 +538,7 @@ export const NavigationBar: React.FC = () => {
                   href={`/profile/${userData.username || user?.username}`}
                   className="flex items-center space-x-2 text-sm"
                 >
-                  <ShoppingBag className="h-4 w-4" />
+                  <User className="h-4 w-4" />
                   <span>My Profile</span>
                 </Link>{" "}
                 <Link
@@ -583,7 +554,9 @@ export const NavigationBar: React.FC = () => {
                   <span>Messages</span>
                 </Link>
                 <Link
-                  href="/favorites"
+                  href={`/profile/${
+                    userData.username || user?.username
+                  }?tab=favorites`}
                   className="flex items-center space-x-2 text-sm"
                 >
                   <Heart className="h-4 w-4" />
@@ -622,32 +595,24 @@ export const NavigationBar: React.FC = () => {
 
           {/* Main nav links */}
           <div className="w-full flex flex-col space-y-2 mb-4">
-            {mainNavLinks.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href || "#"}
-                className="w-full px-2 py-2 text-base font-medium text-left hover:text-gray-600 transition-colors"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+            {mainNavLinks.map((link, index) => {
+              // If it's the Trade link and user is signed in, link to their closet
+              const href =
+                link.label === "Trade" && isSignedIn && userData.username
+                  ? `/profile/${userData.username}`
+                  : link.href || "#";
 
-          <div className="border-t border-gray-200 w-full my-2"></div>
-
-          <h3 className="font-bold px-2 pb-1">Categories</h3>
-          <div className="flex flex-col w-full">
-            {categoryLinks.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href}
-                className="w-full px-2 py-2 text-sm font-medium text-left hover:text-gray-600 transition-colors block"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}{" "}
+              return (
+                <Link
+                  key={index}
+                  href={href}
+                  className="w-full px-2 py-2 text-base font-medium text-left hover:text-gray-600 transition-colors"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -95,7 +95,6 @@ const DraggableListingsGrid: React.FC<DraggableListingsGridProps> = ({
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      console.log("Drag detected, setting hasUnsavedChanges to true");
       setHasUnsavedChanges(true);
 
       setListings((items) => {
@@ -136,7 +135,6 @@ const DraggableListingsGrid: React.FC<DraggableListingsGridProps> = ({
       });
 
       // Clear unsaved changes flag to hide the button
-      console.log("Save completed, setting hasUnsavedChanges to false");
       setHasUnsavedChanges(false);
 
       // Reload the page to refresh the state
@@ -153,7 +151,6 @@ const DraggableListingsGrid: React.FC<DraggableListingsGridProps> = ({
       setIsReordering(false);
     }
   };
-  console.log("hasUnsavedChanges:", hasUnsavedChanges);
 
   return (
     <div className="space-y-4">

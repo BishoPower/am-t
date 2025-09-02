@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 
+export const GET = async () =>
+  NextResponse.json({ message: "Upload endpoint is working" });
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -24,14 +27,31 @@ export async function POST(
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Check if listing exists
+    // Check if listing exists and get the listing owner
     const listing = await db.listing.findUnique({
       where: { id: listingId },
-      select: { id: true },
+      select: { id: true, userId: true },
     });
 
     if (!listing) {
       return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    }
+
+    // Check if there's a block relationship between the users
+    const blockExists = await db.blockedUser.findFirst({
+      where: {
+        OR: [
+          { blockerId: user.id, blockedId: listing.userId },
+          { blockerId: listing.userId, blockedId: user.id },
+        ],
+      },
+    });
+
+    if (blockExists) {
+      return NextResponse.json(
+        { error: "Cannot favorite this listing" },
+        { status: 403 }
+      );
     }
 
     // Check if already favorited

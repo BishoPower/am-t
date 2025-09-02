@@ -167,8 +167,9 @@ export default function CreateListing({ onSuccess }: CreateListingProps) {
 
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("type", "listing"); // Specify listing type
 
-        const response = await fetch("/api/upload", {
+        const response = await fetch("/api/upload-file", {
           method: "POST",
           body: formData,
         });

@@ -6,6 +6,7 @@ import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { AccountSettings } from "@/components/settings/AccountSettings";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
+import FriendsManager from "@/components/user/FriendsManager";
 import { useSettings } from "@/components/settings/SettingsProvider";
 
 type Props = {
@@ -32,6 +33,8 @@ const SettingsPage = ({ params, searchParams }: Props) => {
         );
       case "privacy":
         return <PrivacySettings username={resolvedParams.username} />;
+      case "friends":
+        return <FriendsManager />;
       case "notifications":
         return <NotificationSettings username={resolvedParams.username} />;
       default:

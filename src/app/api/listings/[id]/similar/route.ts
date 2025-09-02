@@ -177,15 +177,8 @@ export async function GET(
       .slice(0, 10); // Limit to first 10 meaningful words
 
     const tagNames = currentListing.tags.map((tag) => tag.name);
-    console.log("Finding similar listings for:", currentListing.title);
-    console.log("Using tags:", tagNames);
-    console.log("Using title keywords:", titleWords.slice(0, 5));
-    console.log("Current listing ID:", id);
-    console.log("Current listing user ID:", currentListing.userId);
-
     // If no tags and no meaningful keywords, return empty array
     if (tagNames.length === 0 && titleWords.length === 0) {
-      console.log("No tags or keywords found, returning empty array");
       return NextResponse.json([]);
     }
 

@@ -10,22 +10,10 @@ export default async function ListingPage({
 }) {
   const { id } = await params;
 
-  // Debug logging
-  console.log("Listing page ID parameter:", id);
-  console.log("ID type:", typeof id);
-  console.log("ID length:", id?.length);
-  console.log("ID as JSON:", JSON.stringify(id));
-  console.log(
-    "ID char codes:",
-    id ? Array.from(id).map((c) => c.charCodeAt(0)) : "null"
-  );
-
   // Validate UUID format
   const uuidRegex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   if (!id || !uuidRegex.test(id)) {
-    console.error("Invalid UUID format:", id);
-    console.error("Expected format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
     return notFound();
   }
   // Get current user for favoriting and ownership checking
@@ -44,14 +32,11 @@ export default async function ListingPage({
   let listing;
   try {
     // Try a simple query first to isolate the issue
-    console.log("About to query database with ID:", id);
     listing = await db.listing.findUnique({
       where: { id: id },
     });
-    console.log("Simple query result:", listing ? "Found" : "Not found");
 
     if (!listing) {
-      console.log("Listing not found with ID:", id);
       return notFound();
     }
 

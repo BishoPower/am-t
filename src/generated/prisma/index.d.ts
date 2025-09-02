@@ -63,12 +63,41 @@ export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
  * 
  */
 export type BlockedUser = $Result.DefaultSelection<Prisma.$BlockedUserPayload>
+/**
+ * Model Friendship
+ * 
+ */
+export type Friendship = $Result.DefaultSelection<Prisma.$FriendshipPayload>
+/**
+ * Model Editorial
+ * 
+ */
+export type Editorial = $Result.DefaultSelection<Prisma.$EditorialPayload>
+/**
+ * Model EditorialLike
+ * 
+ */
+export type EditorialLike = $Result.DefaultSelection<Prisma.$EditorialLikePayload>
+/**
+ * Model EditorialComment
+ * 
+ */
+export type EditorialComment = $Result.DefaultSelection<Prisma.$EditorialCommentPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const TradeStatus: {
+  export const FriendshipStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
+export type FriendshipStatus = (typeof FriendshipStatus)[keyof typeof FriendshipStatus]
+
+
+export const TradeStatus: {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
@@ -86,7 +115,20 @@ export const ListingStatus: {
 
 export type ListingStatus = (typeof ListingStatus)[keyof typeof ListingStatus]
 
+
+export const ProfileVisibility: {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+  FRIENDS_ONLY: 'FRIENDS_ONLY'
+};
+
+export type ProfileVisibility = (typeof ProfileVisibility)[keyof typeof ProfileVisibility]
+
 }
+
+export type FriendshipStatus = $Enums.FriendshipStatus
+
+export const FriendshipStatus: typeof $Enums.FriendshipStatus
 
 export type TradeStatus = $Enums.TradeStatus
 
@@ -95,6 +137,10 @@ export const TradeStatus: typeof $Enums.TradeStatus
 export type ListingStatus = $Enums.ListingStatus
 
 export const ListingStatus: typeof $Enums.ListingStatus
+
+export type ProfileVisibility = $Enums.ProfileVisibility
+
+export const ProfileVisibility: typeof $Enums.ProfileVisibility
 
 /**
  * ##  Prisma Client ʲˢ
@@ -320,6 +366,46 @@ export class PrismaClient<
     * ```
     */
   get blockedUser(): Prisma.BlockedUserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.friendship`: Exposes CRUD operations for the **Friendship** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Friendships
+    * const friendships = await prisma.friendship.findMany()
+    * ```
+    */
+  get friendship(): Prisma.FriendshipDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.editorial`: Exposes CRUD operations for the **Editorial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Editorials
+    * const editorials = await prisma.editorial.findMany()
+    * ```
+    */
+  get editorial(): Prisma.EditorialDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.editorialLike`: Exposes CRUD operations for the **EditorialLike** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EditorialLikes
+    * const editorialLikes = await prisma.editorialLike.findMany()
+    * ```
+    */
+  get editorialLike(): Prisma.EditorialLikeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.editorialComment`: Exposes CRUD operations for the **EditorialComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EditorialComments
+    * const editorialComments = await prisma.editorialComment.findMany()
+    * ```
+    */
+  get editorialComment(): Prisma.EditorialCommentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -769,7 +855,11 @@ export namespace Prisma {
     Favorite: 'Favorite',
     Message: 'Message',
     Review: 'Review',
-    BlockedUser: 'BlockedUser'
+    BlockedUser: 'BlockedUser',
+    Friendship: 'Friendship',
+    Editorial: 'Editorial',
+    EditorialLike: 'EditorialLike',
+    EditorialComment: 'EditorialComment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -788,7 +878,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "closet" | "listing" | "tradePreference" | "tradeRequest" | "tag" | "favorite" | "message" | "review" | "blockedUser"
+      modelProps: "user" | "closet" | "listing" | "tradePreference" | "tradeRequest" | "tag" | "favorite" | "message" | "review" | "blockedUser" | "friendship" | "editorial" | "editorialLike" | "editorialComment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1532,6 +1622,302 @@ export namespace Prisma {
           }
         }
       }
+      Friendship: {
+        payload: Prisma.$FriendshipPayload<ExtArgs>
+        fields: Prisma.FriendshipFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FriendshipFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FriendshipFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>
+          }
+          findFirst: {
+            args: Prisma.FriendshipFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FriendshipFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>
+          }
+          findMany: {
+            args: Prisma.FriendshipFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>[]
+          }
+          create: {
+            args: Prisma.FriendshipCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>
+          }
+          createMany: {
+            args: Prisma.FriendshipCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FriendshipCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>[]
+          }
+          delete: {
+            args: Prisma.FriendshipDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>
+          }
+          update: {
+            args: Prisma.FriendshipUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>
+          }
+          deleteMany: {
+            args: Prisma.FriendshipDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FriendshipUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FriendshipUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>[]
+          }
+          upsert: {
+            args: Prisma.FriendshipUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FriendshipPayload>
+          }
+          aggregate: {
+            args: Prisma.FriendshipAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFriendship>
+          }
+          groupBy: {
+            args: Prisma.FriendshipGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FriendshipGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FriendshipCountArgs<ExtArgs>
+            result: $Utils.Optional<FriendshipCountAggregateOutputType> | number
+          }
+        }
+      }
+      Editorial: {
+        payload: Prisma.$EditorialPayload<ExtArgs>
+        fields: Prisma.EditorialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EditorialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EditorialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>
+          }
+          findFirst: {
+            args: Prisma.EditorialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EditorialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>
+          }
+          findMany: {
+            args: Prisma.EditorialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>[]
+          }
+          create: {
+            args: Prisma.EditorialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>
+          }
+          createMany: {
+            args: Prisma.EditorialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EditorialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>[]
+          }
+          delete: {
+            args: Prisma.EditorialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>
+          }
+          update: {
+            args: Prisma.EditorialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>
+          }
+          deleteMany: {
+            args: Prisma.EditorialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EditorialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EditorialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>[]
+          }
+          upsert: {
+            args: Prisma.EditorialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialPayload>
+          }
+          aggregate: {
+            args: Prisma.EditorialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEditorial>
+          }
+          groupBy: {
+            args: Prisma.EditorialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EditorialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EditorialCountArgs<ExtArgs>
+            result: $Utils.Optional<EditorialCountAggregateOutputType> | number
+          }
+        }
+      }
+      EditorialLike: {
+        payload: Prisma.$EditorialLikePayload<ExtArgs>
+        fields: Prisma.EditorialLikeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EditorialLikeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EditorialLikeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>
+          }
+          findFirst: {
+            args: Prisma.EditorialLikeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EditorialLikeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>
+          }
+          findMany: {
+            args: Prisma.EditorialLikeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>[]
+          }
+          create: {
+            args: Prisma.EditorialLikeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>
+          }
+          createMany: {
+            args: Prisma.EditorialLikeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EditorialLikeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>[]
+          }
+          delete: {
+            args: Prisma.EditorialLikeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>
+          }
+          update: {
+            args: Prisma.EditorialLikeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>
+          }
+          deleteMany: {
+            args: Prisma.EditorialLikeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EditorialLikeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EditorialLikeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>[]
+          }
+          upsert: {
+            args: Prisma.EditorialLikeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialLikePayload>
+          }
+          aggregate: {
+            args: Prisma.EditorialLikeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEditorialLike>
+          }
+          groupBy: {
+            args: Prisma.EditorialLikeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EditorialLikeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EditorialLikeCountArgs<ExtArgs>
+            result: $Utils.Optional<EditorialLikeCountAggregateOutputType> | number
+          }
+        }
+      }
+      EditorialComment: {
+        payload: Prisma.$EditorialCommentPayload<ExtArgs>
+        fields: Prisma.EditorialCommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EditorialCommentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EditorialCommentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>
+          }
+          findFirst: {
+            args: Prisma.EditorialCommentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EditorialCommentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>
+          }
+          findMany: {
+            args: Prisma.EditorialCommentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>[]
+          }
+          create: {
+            args: Prisma.EditorialCommentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>
+          }
+          createMany: {
+            args: Prisma.EditorialCommentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EditorialCommentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>[]
+          }
+          delete: {
+            args: Prisma.EditorialCommentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>
+          }
+          update: {
+            args: Prisma.EditorialCommentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.EditorialCommentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EditorialCommentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EditorialCommentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>[]
+          }
+          upsert: {
+            args: Prisma.EditorialCommentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EditorialCommentPayload>
+          }
+          aggregate: {
+            args: Prisma.EditorialCommentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEditorialComment>
+          }
+          groupBy: {
+            args: Prisma.EditorialCommentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EditorialCommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EditorialCommentCountArgs<ExtArgs>
+            result: $Utils.Optional<EditorialCommentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1626,6 +2012,10 @@ export namespace Prisma {
     message?: MessageOmit
     review?: ReviewOmit
     blockedUser?: BlockedUserOmit
+    friendship?: FriendshipOmit
+    editorial?: EditorialOmit
+    editorialLike?: EditorialLikeOmit
+    editorialComment?: EditorialCommentOmit
   }
 
   /* Types for Logging */
@@ -1731,6 +2121,11 @@ export namespace Prisma {
     tradeRequestsReceived: number
     blockedUsers: number
     blockedByUsers: number
+    editorials: number
+    editorialLikes: number
+    editorialComments: number
+    friendshipsSent: number
+    friendshipsReceived: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1745,6 +2140,11 @@ export namespace Prisma {
     tradeRequestsReceived?: boolean | UserCountOutputTypeCountTradeRequestsReceivedArgs
     blockedUsers?: boolean | UserCountOutputTypeCountBlockedUsersArgs
     blockedByUsers?: boolean | UserCountOutputTypeCountBlockedByUsersArgs
+    editorials?: boolean | UserCountOutputTypeCountEditorialsArgs
+    editorialLikes?: boolean | UserCountOutputTypeCountEditorialLikesArgs
+    editorialComments?: boolean | UserCountOutputTypeCountEditorialCommentsArgs
+    friendshipsSent?: boolean | UserCountOutputTypeCountFriendshipsSentArgs
+    friendshipsReceived?: boolean | UserCountOutputTypeCountFriendshipsReceivedArgs
   }
 
   // Custom InputTypes
@@ -1833,6 +2233,41 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountBlockedByUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BlockedUserWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEditorialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEditorialLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialLikeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEditorialCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialCommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFriendshipsSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FriendshipWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFriendshipsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FriendshipWhereInput
   }
 
 
@@ -2033,6 +2468,46 @@ export namespace Prisma {
 
 
   /**
+   * Count Type EditorialCountOutputType
+   */
+
+  export type EditorialCountOutputType = {
+    likes: number
+    comments: number
+  }
+
+  export type EditorialCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    likes?: boolean | EditorialCountOutputTypeCountLikesArgs
+    comments?: boolean | EditorialCountOutputTypeCountCommentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * EditorialCountOutputType without action
+   */
+  export type EditorialCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialCountOutputType
+     */
+    select?: EditorialCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * EditorialCountOutputType without action
+   */
+  export type EditorialCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialLikeWhereInput
+  }
+
+  /**
+   * EditorialCountOutputType without action
+   */
+  export type EditorialCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialCommentWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -2057,6 +2532,10 @@ export namespace Prisma {
     image: string | null
     bio: string | null
     location: string | null
+    isAdmin: boolean | null
+    profileVisibility: $Enums.ProfileVisibility | null
+    allowDirectMessages: boolean | null
+    showTradingHistory: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2072,6 +2551,10 @@ export namespace Prisma {
     image: string | null
     bio: string | null
     location: string | null
+    isAdmin: boolean | null
+    profileVisibility: $Enums.ProfileVisibility | null
+    allowDirectMessages: boolean | null
+    showTradingHistory: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2087,6 +2570,10 @@ export namespace Prisma {
     image: number
     bio: number
     location: number
+    isAdmin: number
+    profileVisibility: number
+    allowDirectMessages: number
+    showTradingHistory: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2104,6 +2591,10 @@ export namespace Prisma {
     image?: true
     bio?: true
     location?: true
+    isAdmin?: true
+    profileVisibility?: true
+    allowDirectMessages?: true
+    showTradingHistory?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2119,6 +2610,10 @@ export namespace Prisma {
     image?: true
     bio?: true
     location?: true
+    isAdmin?: true
+    profileVisibility?: true
+    allowDirectMessages?: true
+    showTradingHistory?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2134,6 +2629,10 @@ export namespace Prisma {
     image?: true
     bio?: true
     location?: true
+    isAdmin?: true
+    profileVisibility?: true
+    allowDirectMessages?: true
+    showTradingHistory?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2222,6 +2721,10 @@ export namespace Prisma {
     image: string | null
     bio: string | null
     location: string | null
+    isAdmin: boolean
+    profileVisibility: $Enums.ProfileVisibility
+    allowDirectMessages: boolean
+    showTradingHistory: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2254,6 +2757,10 @@ export namespace Prisma {
     image?: boolean
     bio?: boolean
     location?: boolean
+    isAdmin?: boolean
+    profileVisibility?: boolean
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     closet?: boolean | User$closetArgs<ExtArgs>
@@ -2268,6 +2775,11 @@ export namespace Prisma {
     tradeRequestsReceived?: boolean | User$tradeRequestsReceivedArgs<ExtArgs>
     blockedUsers?: boolean | User$blockedUsersArgs<ExtArgs>
     blockedByUsers?: boolean | User$blockedByUsersArgs<ExtArgs>
+    editorials?: boolean | User$editorialsArgs<ExtArgs>
+    editorialLikes?: boolean | User$editorialLikesArgs<ExtArgs>
+    editorialComments?: boolean | User$editorialCommentsArgs<ExtArgs>
+    friendshipsSent?: boolean | User$friendshipsSentArgs<ExtArgs>
+    friendshipsReceived?: boolean | User$friendshipsReceivedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2282,6 +2794,10 @@ export namespace Prisma {
     image?: boolean
     bio?: boolean
     location?: boolean
+    isAdmin?: boolean
+    profileVisibility?: boolean
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2297,6 +2813,10 @@ export namespace Prisma {
     image?: boolean
     bio?: boolean
     location?: boolean
+    isAdmin?: boolean
+    profileVisibility?: boolean
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2312,11 +2832,15 @@ export namespace Prisma {
     image?: boolean
     bio?: boolean
     location?: boolean
+    isAdmin?: boolean
+    profileVisibility?: boolean
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "firstName" | "lastName" | "displayName" | "clerkid" | "image" | "bio" | "location" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "firstName" | "lastName" | "displayName" | "clerkid" | "image" | "bio" | "location" | "isAdmin" | "profileVisibility" | "allowDirectMessages" | "showTradingHistory" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     closet?: boolean | User$closetArgs<ExtArgs>
     favorites?: boolean | User$favoritesArgs<ExtArgs>
@@ -2330,6 +2854,11 @@ export namespace Prisma {
     tradeRequestsReceived?: boolean | User$tradeRequestsReceivedArgs<ExtArgs>
     blockedUsers?: boolean | User$blockedUsersArgs<ExtArgs>
     blockedByUsers?: boolean | User$blockedByUsersArgs<ExtArgs>
+    editorials?: boolean | User$editorialsArgs<ExtArgs>
+    editorialLikes?: boolean | User$editorialLikesArgs<ExtArgs>
+    editorialComments?: boolean | User$editorialCommentsArgs<ExtArgs>
+    friendshipsSent?: boolean | User$friendshipsSentArgs<ExtArgs>
+    friendshipsReceived?: boolean | User$friendshipsReceivedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2350,6 +2879,11 @@ export namespace Prisma {
       tradeRequestsReceived: Prisma.$TradeRequestPayload<ExtArgs>[]
       blockedUsers: Prisma.$BlockedUserPayload<ExtArgs>[]
       blockedByUsers: Prisma.$BlockedUserPayload<ExtArgs>[]
+      editorials: Prisma.$EditorialPayload<ExtArgs>[]
+      editorialLikes: Prisma.$EditorialLikePayload<ExtArgs>[]
+      editorialComments: Prisma.$EditorialCommentPayload<ExtArgs>[]
+      friendshipsSent: Prisma.$FriendshipPayload<ExtArgs>[]
+      friendshipsReceived: Prisma.$FriendshipPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2362,6 +2896,10 @@ export namespace Prisma {
       image: string | null
       bio: string | null
       location: string | null
+      isAdmin: boolean
+      profileVisibility: $Enums.ProfileVisibility
+      allowDirectMessages: boolean
+      showTradingHistory: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2770,6 +3308,11 @@ export namespace Prisma {
     tradeRequestsReceived<T extends User$tradeRequestsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, User$tradeRequestsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TradeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     blockedUsers<T extends User$blockedUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$blockedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     blockedByUsers<T extends User$blockedByUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$blockedByUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    editorials<T extends User$editorialsArgs<ExtArgs> = {}>(args?: Subset<T, User$editorialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    editorialLikes<T extends User$editorialLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$editorialLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    editorialComments<T extends User$editorialCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$editorialCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    friendshipsSent<T extends User$friendshipsSentArgs<ExtArgs> = {}>(args?: Subset<T, User$friendshipsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    friendshipsReceived<T extends User$friendshipsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, User$friendshipsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2809,6 +3352,10 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly bio: FieldRef<"User", 'String'>
     readonly location: FieldRef<"User", 'String'>
+    readonly isAdmin: FieldRef<"User", 'Boolean'>
+    readonly profileVisibility: FieldRef<"User", 'ProfileVisibility'>
+    readonly allowDirectMessages: FieldRef<"User", 'Boolean'>
+    readonly showTradingHistory: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -3479,6 +4026,126 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BlockedUserScalarFieldEnum | BlockedUserScalarFieldEnum[]
+  }
+
+  /**
+   * User.editorials
+   */
+  export type User$editorialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    where?: EditorialWhereInput
+    orderBy?: EditorialOrderByWithRelationInput | EditorialOrderByWithRelationInput[]
+    cursor?: EditorialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EditorialScalarFieldEnum | EditorialScalarFieldEnum[]
+  }
+
+  /**
+   * User.editorialLikes
+   */
+  export type User$editorialLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    where?: EditorialLikeWhereInput
+    orderBy?: EditorialLikeOrderByWithRelationInput | EditorialLikeOrderByWithRelationInput[]
+    cursor?: EditorialLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EditorialLikeScalarFieldEnum | EditorialLikeScalarFieldEnum[]
+  }
+
+  /**
+   * User.editorialComments
+   */
+  export type User$editorialCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    where?: EditorialCommentWhereInput
+    orderBy?: EditorialCommentOrderByWithRelationInput | EditorialCommentOrderByWithRelationInput[]
+    cursor?: EditorialCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EditorialCommentScalarFieldEnum | EditorialCommentScalarFieldEnum[]
+  }
+
+  /**
+   * User.friendshipsSent
+   */
+  export type User$friendshipsSentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    where?: FriendshipWhereInput
+    orderBy?: FriendshipOrderByWithRelationInput | FriendshipOrderByWithRelationInput[]
+    cursor?: FriendshipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FriendshipScalarFieldEnum | FriendshipScalarFieldEnum[]
+  }
+
+  /**
+   * User.friendshipsReceived
+   */
+  export type User$friendshipsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    where?: FriendshipWhereInput
+    orderBy?: FriendshipOrderByWithRelationInput | FriendshipOrderByWithRelationInput[]
+    cursor?: FriendshipWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FriendshipScalarFieldEnum | FriendshipScalarFieldEnum[]
   }
 
   /**
@@ -13693,6 +14360,4446 @@ export namespace Prisma {
 
 
   /**
+   * Model Friendship
+   */
+
+  export type AggregateFriendship = {
+    _count: FriendshipCountAggregateOutputType | null
+    _min: FriendshipMinAggregateOutputType | null
+    _max: FriendshipMaxAggregateOutputType | null
+  }
+
+  export type FriendshipMinAggregateOutputType = {
+    id: string | null
+    requesterId: string | null
+    receiverId: string | null
+    status: $Enums.FriendshipStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FriendshipMaxAggregateOutputType = {
+    id: string | null
+    requesterId: string | null
+    receiverId: string | null
+    status: $Enums.FriendshipStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FriendshipCountAggregateOutputType = {
+    id: number
+    requesterId: number
+    receiverId: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FriendshipMinAggregateInputType = {
+    id?: true
+    requesterId?: true
+    receiverId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FriendshipMaxAggregateInputType = {
+    id?: true
+    requesterId?: true
+    receiverId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FriendshipCountAggregateInputType = {
+    id?: true
+    requesterId?: true
+    receiverId?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FriendshipAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Friendship to aggregate.
+     */
+    where?: FriendshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Friendships to fetch.
+     */
+    orderBy?: FriendshipOrderByWithRelationInput | FriendshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FriendshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Friendships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Friendships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Friendships
+    **/
+    _count?: true | FriendshipCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FriendshipMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FriendshipMaxAggregateInputType
+  }
+
+  export type GetFriendshipAggregateType<T extends FriendshipAggregateArgs> = {
+        [P in keyof T & keyof AggregateFriendship]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFriendship[P]>
+      : GetScalarType<T[P], AggregateFriendship[P]>
+  }
+
+
+
+
+  export type FriendshipGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FriendshipWhereInput
+    orderBy?: FriendshipOrderByWithAggregationInput | FriendshipOrderByWithAggregationInput[]
+    by: FriendshipScalarFieldEnum[] | FriendshipScalarFieldEnum
+    having?: FriendshipScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FriendshipCountAggregateInputType | true
+    _min?: FriendshipMinAggregateInputType
+    _max?: FriendshipMaxAggregateInputType
+  }
+
+  export type FriendshipGroupByOutputType = {
+    id: string
+    requesterId: string
+    receiverId: string
+    status: $Enums.FriendshipStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: FriendshipCountAggregateOutputType | null
+    _min: FriendshipMinAggregateOutputType | null
+    _max: FriendshipMaxAggregateOutputType | null
+  }
+
+  type GetFriendshipGroupByPayload<T extends FriendshipGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FriendshipGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FriendshipGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FriendshipGroupByOutputType[P]>
+            : GetScalarType<T[P], FriendshipGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FriendshipSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requesterId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requester?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["friendship"]>
+
+  export type FriendshipSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requesterId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requester?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["friendship"]>
+
+  export type FriendshipSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requesterId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requester?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["friendship"]>
+
+  export type FriendshipSelectScalar = {
+    id?: boolean
+    requesterId?: boolean
+    receiverId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FriendshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "requesterId" | "receiverId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["friendship"]>
+  export type FriendshipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requester?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FriendshipIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requester?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type FriendshipIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requester?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $FriendshipPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Friendship"
+    objects: {
+      requester: Prisma.$UserPayload<ExtArgs>
+      receiver: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      requesterId: string
+      receiverId: string
+      status: $Enums.FriendshipStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["friendship"]>
+    composites: {}
+  }
+
+  type FriendshipGetPayload<S extends boolean | null | undefined | FriendshipDefaultArgs> = $Result.GetResult<Prisma.$FriendshipPayload, S>
+
+  type FriendshipCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FriendshipFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FriendshipCountAggregateInputType | true
+    }
+
+  export interface FriendshipDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Friendship'], meta: { name: 'Friendship' } }
+    /**
+     * Find zero or one Friendship that matches the filter.
+     * @param {FriendshipFindUniqueArgs} args - Arguments to find a Friendship
+     * @example
+     * // Get one Friendship
+     * const friendship = await prisma.friendship.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FriendshipFindUniqueArgs>(args: SelectSubset<T, FriendshipFindUniqueArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Friendship that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FriendshipFindUniqueOrThrowArgs} args - Arguments to find a Friendship
+     * @example
+     * // Get one Friendship
+     * const friendship = await prisma.friendship.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FriendshipFindUniqueOrThrowArgs>(args: SelectSubset<T, FriendshipFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Friendship that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipFindFirstArgs} args - Arguments to find a Friendship
+     * @example
+     * // Get one Friendship
+     * const friendship = await prisma.friendship.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FriendshipFindFirstArgs>(args?: SelectSubset<T, FriendshipFindFirstArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Friendship that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipFindFirstOrThrowArgs} args - Arguments to find a Friendship
+     * @example
+     * // Get one Friendship
+     * const friendship = await prisma.friendship.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FriendshipFindFirstOrThrowArgs>(args?: SelectSubset<T, FriendshipFindFirstOrThrowArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Friendships that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Friendships
+     * const friendships = await prisma.friendship.findMany()
+     * 
+     * // Get first 10 Friendships
+     * const friendships = await prisma.friendship.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const friendshipWithIdOnly = await prisma.friendship.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FriendshipFindManyArgs>(args?: SelectSubset<T, FriendshipFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Friendship.
+     * @param {FriendshipCreateArgs} args - Arguments to create a Friendship.
+     * @example
+     * // Create one Friendship
+     * const Friendship = await prisma.friendship.create({
+     *   data: {
+     *     // ... data to create a Friendship
+     *   }
+     * })
+     * 
+     */
+    create<T extends FriendshipCreateArgs>(args: SelectSubset<T, FriendshipCreateArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Friendships.
+     * @param {FriendshipCreateManyArgs} args - Arguments to create many Friendships.
+     * @example
+     * // Create many Friendships
+     * const friendship = await prisma.friendship.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FriendshipCreateManyArgs>(args?: SelectSubset<T, FriendshipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Friendships and returns the data saved in the database.
+     * @param {FriendshipCreateManyAndReturnArgs} args - Arguments to create many Friendships.
+     * @example
+     * // Create many Friendships
+     * const friendship = await prisma.friendship.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Friendships and only return the `id`
+     * const friendshipWithIdOnly = await prisma.friendship.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FriendshipCreateManyAndReturnArgs>(args?: SelectSubset<T, FriendshipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Friendship.
+     * @param {FriendshipDeleteArgs} args - Arguments to delete one Friendship.
+     * @example
+     * // Delete one Friendship
+     * const Friendship = await prisma.friendship.delete({
+     *   where: {
+     *     // ... filter to delete one Friendship
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FriendshipDeleteArgs>(args: SelectSubset<T, FriendshipDeleteArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Friendship.
+     * @param {FriendshipUpdateArgs} args - Arguments to update one Friendship.
+     * @example
+     * // Update one Friendship
+     * const friendship = await prisma.friendship.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FriendshipUpdateArgs>(args: SelectSubset<T, FriendshipUpdateArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Friendships.
+     * @param {FriendshipDeleteManyArgs} args - Arguments to filter Friendships to delete.
+     * @example
+     * // Delete a few Friendships
+     * const { count } = await prisma.friendship.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FriendshipDeleteManyArgs>(args?: SelectSubset<T, FriendshipDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Friendships.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Friendships
+     * const friendship = await prisma.friendship.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FriendshipUpdateManyArgs>(args: SelectSubset<T, FriendshipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Friendships and returns the data updated in the database.
+     * @param {FriendshipUpdateManyAndReturnArgs} args - Arguments to update many Friendships.
+     * @example
+     * // Update many Friendships
+     * const friendship = await prisma.friendship.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Friendships and only return the `id`
+     * const friendshipWithIdOnly = await prisma.friendship.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FriendshipUpdateManyAndReturnArgs>(args: SelectSubset<T, FriendshipUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Friendship.
+     * @param {FriendshipUpsertArgs} args - Arguments to update or create a Friendship.
+     * @example
+     * // Update or create a Friendship
+     * const friendship = await prisma.friendship.upsert({
+     *   create: {
+     *     // ... data to create a Friendship
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Friendship we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FriendshipUpsertArgs>(args: SelectSubset<T, FriendshipUpsertArgs<ExtArgs>>): Prisma__FriendshipClient<$Result.GetResult<Prisma.$FriendshipPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Friendships.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipCountArgs} args - Arguments to filter Friendships to count.
+     * @example
+     * // Count the number of Friendships
+     * const count = await prisma.friendship.count({
+     *   where: {
+     *     // ... the filter for the Friendships we want to count
+     *   }
+     * })
+    **/
+    count<T extends FriendshipCountArgs>(
+      args?: Subset<T, FriendshipCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FriendshipCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Friendship.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FriendshipAggregateArgs>(args: Subset<T, FriendshipAggregateArgs>): Prisma.PrismaPromise<GetFriendshipAggregateType<T>>
+
+    /**
+     * Group by Friendship.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FriendshipGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FriendshipGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FriendshipGroupByArgs['orderBy'] }
+        : { orderBy?: FriendshipGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FriendshipGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFriendshipGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Friendship model
+   */
+  readonly fields: FriendshipFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Friendship.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FriendshipClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    requester<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Friendship model
+   */
+  interface FriendshipFieldRefs {
+    readonly id: FieldRef<"Friendship", 'String'>
+    readonly requesterId: FieldRef<"Friendship", 'String'>
+    readonly receiverId: FieldRef<"Friendship", 'String'>
+    readonly status: FieldRef<"Friendship", 'FriendshipStatus'>
+    readonly createdAt: FieldRef<"Friendship", 'DateTime'>
+    readonly updatedAt: FieldRef<"Friendship", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Friendship findUnique
+   */
+  export type FriendshipFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Friendship to fetch.
+     */
+    where: FriendshipWhereUniqueInput
+  }
+
+  /**
+   * Friendship findUniqueOrThrow
+   */
+  export type FriendshipFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Friendship to fetch.
+     */
+    where: FriendshipWhereUniqueInput
+  }
+
+  /**
+   * Friendship findFirst
+   */
+  export type FriendshipFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Friendship to fetch.
+     */
+    where?: FriendshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Friendships to fetch.
+     */
+    orderBy?: FriendshipOrderByWithRelationInput | FriendshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Friendships.
+     */
+    cursor?: FriendshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Friendships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Friendships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Friendships.
+     */
+    distinct?: FriendshipScalarFieldEnum | FriendshipScalarFieldEnum[]
+  }
+
+  /**
+   * Friendship findFirstOrThrow
+   */
+  export type FriendshipFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Friendship to fetch.
+     */
+    where?: FriendshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Friendships to fetch.
+     */
+    orderBy?: FriendshipOrderByWithRelationInput | FriendshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Friendships.
+     */
+    cursor?: FriendshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Friendships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Friendships.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Friendships.
+     */
+    distinct?: FriendshipScalarFieldEnum | FriendshipScalarFieldEnum[]
+  }
+
+  /**
+   * Friendship findMany
+   */
+  export type FriendshipFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * Filter, which Friendships to fetch.
+     */
+    where?: FriendshipWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Friendships to fetch.
+     */
+    orderBy?: FriendshipOrderByWithRelationInput | FriendshipOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Friendships.
+     */
+    cursor?: FriendshipWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Friendships from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Friendships.
+     */
+    skip?: number
+    distinct?: FriendshipScalarFieldEnum | FriendshipScalarFieldEnum[]
+  }
+
+  /**
+   * Friendship create
+   */
+  export type FriendshipCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Friendship.
+     */
+    data: XOR<FriendshipCreateInput, FriendshipUncheckedCreateInput>
+  }
+
+  /**
+   * Friendship createMany
+   */
+  export type FriendshipCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Friendships.
+     */
+    data: FriendshipCreateManyInput | FriendshipCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Friendship createManyAndReturn
+   */
+  export type FriendshipCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * The data used to create many Friendships.
+     */
+    data: FriendshipCreateManyInput | FriendshipCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Friendship update
+   */
+  export type FriendshipUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Friendship.
+     */
+    data: XOR<FriendshipUpdateInput, FriendshipUncheckedUpdateInput>
+    /**
+     * Choose, which Friendship to update.
+     */
+    where: FriendshipWhereUniqueInput
+  }
+
+  /**
+   * Friendship updateMany
+   */
+  export type FriendshipUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Friendships.
+     */
+    data: XOR<FriendshipUpdateManyMutationInput, FriendshipUncheckedUpdateManyInput>
+    /**
+     * Filter which Friendships to update
+     */
+    where?: FriendshipWhereInput
+    /**
+     * Limit how many Friendships to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Friendship updateManyAndReturn
+   */
+  export type FriendshipUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * The data used to update Friendships.
+     */
+    data: XOR<FriendshipUpdateManyMutationInput, FriendshipUncheckedUpdateManyInput>
+    /**
+     * Filter which Friendships to update
+     */
+    where?: FriendshipWhereInput
+    /**
+     * Limit how many Friendships to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Friendship upsert
+   */
+  export type FriendshipUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Friendship to update in case it exists.
+     */
+    where: FriendshipWhereUniqueInput
+    /**
+     * In case the Friendship found by the `where` argument doesn't exist, create a new Friendship with this data.
+     */
+    create: XOR<FriendshipCreateInput, FriendshipUncheckedCreateInput>
+    /**
+     * In case the Friendship was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FriendshipUpdateInput, FriendshipUncheckedUpdateInput>
+  }
+
+  /**
+   * Friendship delete
+   */
+  export type FriendshipDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+    /**
+     * Filter which Friendship to delete.
+     */
+    where: FriendshipWhereUniqueInput
+  }
+
+  /**
+   * Friendship deleteMany
+   */
+  export type FriendshipDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Friendships to delete
+     */
+    where?: FriendshipWhereInput
+    /**
+     * Limit how many Friendships to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Friendship without action
+   */
+  export type FriendshipDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Friendship
+     */
+    select?: FriendshipSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Friendship
+     */
+    omit?: FriendshipOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FriendshipInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Editorial
+   */
+
+  export type AggregateEditorial = {
+    _count: EditorialCountAggregateOutputType | null
+    _min: EditorialMinAggregateOutputType | null
+    _max: EditorialMaxAggregateOutputType | null
+  }
+
+  export type EditorialMinAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    title: string | null
+    subtitle: string | null
+    content: string | null
+    excerpt: string | null
+    image: string | null
+    category: string | null
+    authorId: string | null
+    published: boolean | null
+    isStaffPicked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EditorialMaxAggregateOutputType = {
+    id: string | null
+    slug: string | null
+    title: string | null
+    subtitle: string | null
+    content: string | null
+    excerpt: string | null
+    image: string | null
+    category: string | null
+    authorId: string | null
+    published: boolean | null
+    isStaffPicked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EditorialCountAggregateOutputType = {
+    id: number
+    slug: number
+    title: number
+    subtitle: number
+    content: number
+    excerpt: number
+    image: number
+    category: number
+    authorId: number
+    published: number
+    tags: number
+    isStaffPicked: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EditorialMinAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    subtitle?: true
+    content?: true
+    excerpt?: true
+    image?: true
+    category?: true
+    authorId?: true
+    published?: true
+    isStaffPicked?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EditorialMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    subtitle?: true
+    content?: true
+    excerpt?: true
+    image?: true
+    category?: true
+    authorId?: true
+    published?: true
+    isStaffPicked?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EditorialCountAggregateInputType = {
+    id?: true
+    slug?: true
+    title?: true
+    subtitle?: true
+    content?: true
+    excerpt?: true
+    image?: true
+    category?: true
+    authorId?: true
+    published?: true
+    tags?: true
+    isStaffPicked?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EditorialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Editorial to aggregate.
+     */
+    where?: EditorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Editorials to fetch.
+     */
+    orderBy?: EditorialOrderByWithRelationInput | EditorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EditorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Editorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Editorials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Editorials
+    **/
+    _count?: true | EditorialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EditorialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EditorialMaxAggregateInputType
+  }
+
+  export type GetEditorialAggregateType<T extends EditorialAggregateArgs> = {
+        [P in keyof T & keyof AggregateEditorial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEditorial[P]>
+      : GetScalarType<T[P], AggregateEditorial[P]>
+  }
+
+
+
+
+  export type EditorialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialWhereInput
+    orderBy?: EditorialOrderByWithAggregationInput | EditorialOrderByWithAggregationInput[]
+    by: EditorialScalarFieldEnum[] | EditorialScalarFieldEnum
+    having?: EditorialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EditorialCountAggregateInputType | true
+    _min?: EditorialMinAggregateInputType
+    _max?: EditorialMaxAggregateInputType
+  }
+
+  export type EditorialGroupByOutputType = {
+    id: string
+    slug: string
+    title: string
+    subtitle: string | null
+    content: string
+    excerpt: string | null
+    image: string | null
+    category: string
+    authorId: string
+    published: boolean
+    tags: string[]
+    isStaffPicked: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: EditorialCountAggregateOutputType | null
+    _min: EditorialMinAggregateOutputType | null
+    _max: EditorialMaxAggregateOutputType | null
+  }
+
+  type GetEditorialGroupByPayload<T extends EditorialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EditorialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EditorialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EditorialGroupByOutputType[P]>
+            : GetScalarType<T[P], EditorialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EditorialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    subtitle?: boolean
+    content?: boolean
+    excerpt?: boolean
+    image?: boolean
+    category?: boolean
+    authorId?: boolean
+    published?: boolean
+    tags?: boolean
+    isStaffPicked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    likes?: boolean | Editorial$likesArgs<ExtArgs>
+    comments?: boolean | Editorial$commentsArgs<ExtArgs>
+    _count?: boolean | EditorialCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorial"]>
+
+  export type EditorialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    subtitle?: boolean
+    content?: boolean
+    excerpt?: boolean
+    image?: boolean
+    category?: boolean
+    authorId?: boolean
+    published?: boolean
+    tags?: boolean
+    isStaffPicked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorial"]>
+
+  export type EditorialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    subtitle?: boolean
+    content?: boolean
+    excerpt?: boolean
+    image?: boolean
+    category?: boolean
+    authorId?: boolean
+    published?: boolean
+    tags?: boolean
+    isStaffPicked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorial"]>
+
+  export type EditorialSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    title?: boolean
+    subtitle?: boolean
+    content?: boolean
+    excerpt?: boolean
+    image?: boolean
+    category?: boolean
+    authorId?: boolean
+    published?: boolean
+    tags?: boolean
+    isStaffPicked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EditorialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "subtitle" | "content" | "excerpt" | "image" | "category" | "authorId" | "published" | "tags" | "isStaffPicked" | "createdAt" | "updatedAt", ExtArgs["result"]["editorial"]>
+  export type EditorialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    likes?: boolean | Editorial$likesArgs<ExtArgs>
+    comments?: boolean | Editorial$commentsArgs<ExtArgs>
+    _count?: boolean | EditorialCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type EditorialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EditorialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $EditorialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Editorial"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+      likes: Prisma.$EditorialLikePayload<ExtArgs>[]
+      comments: Prisma.$EditorialCommentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      slug: string
+      title: string
+      subtitle: string | null
+      content: string
+      excerpt: string | null
+      image: string | null
+      category: string
+      authorId: string
+      published: boolean
+      tags: string[]
+      isStaffPicked: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["editorial"]>
+    composites: {}
+  }
+
+  type EditorialGetPayload<S extends boolean | null | undefined | EditorialDefaultArgs> = $Result.GetResult<Prisma.$EditorialPayload, S>
+
+  type EditorialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EditorialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EditorialCountAggregateInputType | true
+    }
+
+  export interface EditorialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Editorial'], meta: { name: 'Editorial' } }
+    /**
+     * Find zero or one Editorial that matches the filter.
+     * @param {EditorialFindUniqueArgs} args - Arguments to find a Editorial
+     * @example
+     * // Get one Editorial
+     * const editorial = await prisma.editorial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EditorialFindUniqueArgs>(args: SelectSubset<T, EditorialFindUniqueArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Editorial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EditorialFindUniqueOrThrowArgs} args - Arguments to find a Editorial
+     * @example
+     * // Get one Editorial
+     * const editorial = await prisma.editorial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EditorialFindUniqueOrThrowArgs>(args: SelectSubset<T, EditorialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Editorial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialFindFirstArgs} args - Arguments to find a Editorial
+     * @example
+     * // Get one Editorial
+     * const editorial = await prisma.editorial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EditorialFindFirstArgs>(args?: SelectSubset<T, EditorialFindFirstArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Editorial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialFindFirstOrThrowArgs} args - Arguments to find a Editorial
+     * @example
+     * // Get one Editorial
+     * const editorial = await prisma.editorial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EditorialFindFirstOrThrowArgs>(args?: SelectSubset<T, EditorialFindFirstOrThrowArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Editorials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Editorials
+     * const editorials = await prisma.editorial.findMany()
+     * 
+     * // Get first 10 Editorials
+     * const editorials = await prisma.editorial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const editorialWithIdOnly = await prisma.editorial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EditorialFindManyArgs>(args?: SelectSubset<T, EditorialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Editorial.
+     * @param {EditorialCreateArgs} args - Arguments to create a Editorial.
+     * @example
+     * // Create one Editorial
+     * const Editorial = await prisma.editorial.create({
+     *   data: {
+     *     // ... data to create a Editorial
+     *   }
+     * })
+     * 
+     */
+    create<T extends EditorialCreateArgs>(args: SelectSubset<T, EditorialCreateArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Editorials.
+     * @param {EditorialCreateManyArgs} args - Arguments to create many Editorials.
+     * @example
+     * // Create many Editorials
+     * const editorial = await prisma.editorial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EditorialCreateManyArgs>(args?: SelectSubset<T, EditorialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Editorials and returns the data saved in the database.
+     * @param {EditorialCreateManyAndReturnArgs} args - Arguments to create many Editorials.
+     * @example
+     * // Create many Editorials
+     * const editorial = await prisma.editorial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Editorials and only return the `id`
+     * const editorialWithIdOnly = await prisma.editorial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EditorialCreateManyAndReturnArgs>(args?: SelectSubset<T, EditorialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Editorial.
+     * @param {EditorialDeleteArgs} args - Arguments to delete one Editorial.
+     * @example
+     * // Delete one Editorial
+     * const Editorial = await prisma.editorial.delete({
+     *   where: {
+     *     // ... filter to delete one Editorial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EditorialDeleteArgs>(args: SelectSubset<T, EditorialDeleteArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Editorial.
+     * @param {EditorialUpdateArgs} args - Arguments to update one Editorial.
+     * @example
+     * // Update one Editorial
+     * const editorial = await prisma.editorial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EditorialUpdateArgs>(args: SelectSubset<T, EditorialUpdateArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Editorials.
+     * @param {EditorialDeleteManyArgs} args - Arguments to filter Editorials to delete.
+     * @example
+     * // Delete a few Editorials
+     * const { count } = await prisma.editorial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EditorialDeleteManyArgs>(args?: SelectSubset<T, EditorialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Editorials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Editorials
+     * const editorial = await prisma.editorial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EditorialUpdateManyArgs>(args: SelectSubset<T, EditorialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Editorials and returns the data updated in the database.
+     * @param {EditorialUpdateManyAndReturnArgs} args - Arguments to update many Editorials.
+     * @example
+     * // Update many Editorials
+     * const editorial = await prisma.editorial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Editorials and only return the `id`
+     * const editorialWithIdOnly = await prisma.editorial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EditorialUpdateManyAndReturnArgs>(args: SelectSubset<T, EditorialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Editorial.
+     * @param {EditorialUpsertArgs} args - Arguments to update or create a Editorial.
+     * @example
+     * // Update or create a Editorial
+     * const editorial = await prisma.editorial.upsert({
+     *   create: {
+     *     // ... data to create a Editorial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Editorial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EditorialUpsertArgs>(args: SelectSubset<T, EditorialUpsertArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Editorials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCountArgs} args - Arguments to filter Editorials to count.
+     * @example
+     * // Count the number of Editorials
+     * const count = await prisma.editorial.count({
+     *   where: {
+     *     // ... the filter for the Editorials we want to count
+     *   }
+     * })
+    **/
+    count<T extends EditorialCountArgs>(
+      args?: Subset<T, EditorialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EditorialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Editorial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EditorialAggregateArgs>(args: Subset<T, EditorialAggregateArgs>): Prisma.PrismaPromise<GetEditorialAggregateType<T>>
+
+    /**
+     * Group by Editorial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EditorialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EditorialGroupByArgs['orderBy'] }
+        : { orderBy?: EditorialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EditorialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEditorialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Editorial model
+   */
+  readonly fields: EditorialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Editorial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EditorialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    likes<T extends Editorial$likesArgs<ExtArgs> = {}>(args?: Subset<T, Editorial$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends Editorial$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Editorial$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Editorial model
+   */
+  interface EditorialFieldRefs {
+    readonly id: FieldRef<"Editorial", 'String'>
+    readonly slug: FieldRef<"Editorial", 'String'>
+    readonly title: FieldRef<"Editorial", 'String'>
+    readonly subtitle: FieldRef<"Editorial", 'String'>
+    readonly content: FieldRef<"Editorial", 'String'>
+    readonly excerpt: FieldRef<"Editorial", 'String'>
+    readonly image: FieldRef<"Editorial", 'String'>
+    readonly category: FieldRef<"Editorial", 'String'>
+    readonly authorId: FieldRef<"Editorial", 'String'>
+    readonly published: FieldRef<"Editorial", 'Boolean'>
+    readonly tags: FieldRef<"Editorial", 'String[]'>
+    readonly isStaffPicked: FieldRef<"Editorial", 'Boolean'>
+    readonly createdAt: FieldRef<"Editorial", 'DateTime'>
+    readonly updatedAt: FieldRef<"Editorial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Editorial findUnique
+   */
+  export type EditorialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * Filter, which Editorial to fetch.
+     */
+    where: EditorialWhereUniqueInput
+  }
+
+  /**
+   * Editorial findUniqueOrThrow
+   */
+  export type EditorialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * Filter, which Editorial to fetch.
+     */
+    where: EditorialWhereUniqueInput
+  }
+
+  /**
+   * Editorial findFirst
+   */
+  export type EditorialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * Filter, which Editorial to fetch.
+     */
+    where?: EditorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Editorials to fetch.
+     */
+    orderBy?: EditorialOrderByWithRelationInput | EditorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Editorials.
+     */
+    cursor?: EditorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Editorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Editorials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Editorials.
+     */
+    distinct?: EditorialScalarFieldEnum | EditorialScalarFieldEnum[]
+  }
+
+  /**
+   * Editorial findFirstOrThrow
+   */
+  export type EditorialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * Filter, which Editorial to fetch.
+     */
+    where?: EditorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Editorials to fetch.
+     */
+    orderBy?: EditorialOrderByWithRelationInput | EditorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Editorials.
+     */
+    cursor?: EditorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Editorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Editorials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Editorials.
+     */
+    distinct?: EditorialScalarFieldEnum | EditorialScalarFieldEnum[]
+  }
+
+  /**
+   * Editorial findMany
+   */
+  export type EditorialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * Filter, which Editorials to fetch.
+     */
+    where?: EditorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Editorials to fetch.
+     */
+    orderBy?: EditorialOrderByWithRelationInput | EditorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Editorials.
+     */
+    cursor?: EditorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Editorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Editorials.
+     */
+    skip?: number
+    distinct?: EditorialScalarFieldEnum | EditorialScalarFieldEnum[]
+  }
+
+  /**
+   * Editorial create
+   */
+  export type EditorialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Editorial.
+     */
+    data: XOR<EditorialCreateInput, EditorialUncheckedCreateInput>
+  }
+
+  /**
+   * Editorial createMany
+   */
+  export type EditorialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Editorials.
+     */
+    data: EditorialCreateManyInput | EditorialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Editorial createManyAndReturn
+   */
+  export type EditorialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * The data used to create many Editorials.
+     */
+    data: EditorialCreateManyInput | EditorialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Editorial update
+   */
+  export type EditorialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Editorial.
+     */
+    data: XOR<EditorialUpdateInput, EditorialUncheckedUpdateInput>
+    /**
+     * Choose, which Editorial to update.
+     */
+    where: EditorialWhereUniqueInput
+  }
+
+  /**
+   * Editorial updateMany
+   */
+  export type EditorialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Editorials.
+     */
+    data: XOR<EditorialUpdateManyMutationInput, EditorialUncheckedUpdateManyInput>
+    /**
+     * Filter which Editorials to update
+     */
+    where?: EditorialWhereInput
+    /**
+     * Limit how many Editorials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Editorial updateManyAndReturn
+   */
+  export type EditorialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * The data used to update Editorials.
+     */
+    data: XOR<EditorialUpdateManyMutationInput, EditorialUncheckedUpdateManyInput>
+    /**
+     * Filter which Editorials to update
+     */
+    where?: EditorialWhereInput
+    /**
+     * Limit how many Editorials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Editorial upsert
+   */
+  export type EditorialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Editorial to update in case it exists.
+     */
+    where: EditorialWhereUniqueInput
+    /**
+     * In case the Editorial found by the `where` argument doesn't exist, create a new Editorial with this data.
+     */
+    create: XOR<EditorialCreateInput, EditorialUncheckedCreateInput>
+    /**
+     * In case the Editorial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EditorialUpdateInput, EditorialUncheckedUpdateInput>
+  }
+
+  /**
+   * Editorial delete
+   */
+  export type EditorialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+    /**
+     * Filter which Editorial to delete.
+     */
+    where: EditorialWhereUniqueInput
+  }
+
+  /**
+   * Editorial deleteMany
+   */
+  export type EditorialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Editorials to delete
+     */
+    where?: EditorialWhereInput
+    /**
+     * Limit how many Editorials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Editorial.likes
+   */
+  export type Editorial$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    where?: EditorialLikeWhereInput
+    orderBy?: EditorialLikeOrderByWithRelationInput | EditorialLikeOrderByWithRelationInput[]
+    cursor?: EditorialLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EditorialLikeScalarFieldEnum | EditorialLikeScalarFieldEnum[]
+  }
+
+  /**
+   * Editorial.comments
+   */
+  export type Editorial$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    where?: EditorialCommentWhereInput
+    orderBy?: EditorialCommentOrderByWithRelationInput | EditorialCommentOrderByWithRelationInput[]
+    cursor?: EditorialCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EditorialCommentScalarFieldEnum | EditorialCommentScalarFieldEnum[]
+  }
+
+  /**
+   * Editorial without action
+   */
+  export type EditorialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Editorial
+     */
+    select?: EditorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Editorial
+     */
+    omit?: EditorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EditorialLike
+   */
+
+  export type AggregateEditorialLike = {
+    _count: EditorialLikeCountAggregateOutputType | null
+    _min: EditorialLikeMinAggregateOutputType | null
+    _max: EditorialLikeMaxAggregateOutputType | null
+  }
+
+  export type EditorialLikeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    editorialId: string | null
+    createdAt: Date | null
+  }
+
+  export type EditorialLikeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    editorialId: string | null
+    createdAt: Date | null
+  }
+
+  export type EditorialLikeCountAggregateOutputType = {
+    id: number
+    userId: number
+    editorialId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type EditorialLikeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    editorialId?: true
+    createdAt?: true
+  }
+
+  export type EditorialLikeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    editorialId?: true
+    createdAt?: true
+  }
+
+  export type EditorialLikeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    editorialId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type EditorialLikeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EditorialLike to aggregate.
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialLikes to fetch.
+     */
+    orderBy?: EditorialLikeOrderByWithRelationInput | EditorialLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EditorialLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EditorialLikes
+    **/
+    _count?: true | EditorialLikeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EditorialLikeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EditorialLikeMaxAggregateInputType
+  }
+
+  export type GetEditorialLikeAggregateType<T extends EditorialLikeAggregateArgs> = {
+        [P in keyof T & keyof AggregateEditorialLike]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEditorialLike[P]>
+      : GetScalarType<T[P], AggregateEditorialLike[P]>
+  }
+
+
+
+
+  export type EditorialLikeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialLikeWhereInput
+    orderBy?: EditorialLikeOrderByWithAggregationInput | EditorialLikeOrderByWithAggregationInput[]
+    by: EditorialLikeScalarFieldEnum[] | EditorialLikeScalarFieldEnum
+    having?: EditorialLikeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EditorialLikeCountAggregateInputType | true
+    _min?: EditorialLikeMinAggregateInputType
+    _max?: EditorialLikeMaxAggregateInputType
+  }
+
+  export type EditorialLikeGroupByOutputType = {
+    id: string
+    userId: string
+    editorialId: string
+    createdAt: Date
+    _count: EditorialLikeCountAggregateOutputType | null
+    _min: EditorialLikeMinAggregateOutputType | null
+    _max: EditorialLikeMaxAggregateOutputType | null
+  }
+
+  type GetEditorialLikeGroupByPayload<T extends EditorialLikeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EditorialLikeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EditorialLikeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EditorialLikeGroupByOutputType[P]>
+            : GetScalarType<T[P], EditorialLikeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EditorialLikeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorialLike"]>
+
+  export type EditorialLikeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorialLike"]>
+
+  export type EditorialLikeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorialLike"]>
+
+  export type EditorialLikeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+  }
+
+  export type EditorialLikeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "editorialId" | "createdAt", ExtArgs["result"]["editorialLike"]>
+  export type EditorialLikeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }
+  export type EditorialLikeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }
+  export type EditorialLikeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }
+
+  export type $EditorialLikePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EditorialLike"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      editorial: Prisma.$EditorialPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      editorialId: string
+      createdAt: Date
+    }, ExtArgs["result"]["editorialLike"]>
+    composites: {}
+  }
+
+  type EditorialLikeGetPayload<S extends boolean | null | undefined | EditorialLikeDefaultArgs> = $Result.GetResult<Prisma.$EditorialLikePayload, S>
+
+  type EditorialLikeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EditorialLikeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EditorialLikeCountAggregateInputType | true
+    }
+
+  export interface EditorialLikeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EditorialLike'], meta: { name: 'EditorialLike' } }
+    /**
+     * Find zero or one EditorialLike that matches the filter.
+     * @param {EditorialLikeFindUniqueArgs} args - Arguments to find a EditorialLike
+     * @example
+     * // Get one EditorialLike
+     * const editorialLike = await prisma.editorialLike.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EditorialLikeFindUniqueArgs>(args: SelectSubset<T, EditorialLikeFindUniqueArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EditorialLike that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EditorialLikeFindUniqueOrThrowArgs} args - Arguments to find a EditorialLike
+     * @example
+     * // Get one EditorialLike
+     * const editorialLike = await prisma.editorialLike.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EditorialLikeFindUniqueOrThrowArgs>(args: SelectSubset<T, EditorialLikeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EditorialLike that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeFindFirstArgs} args - Arguments to find a EditorialLike
+     * @example
+     * // Get one EditorialLike
+     * const editorialLike = await prisma.editorialLike.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EditorialLikeFindFirstArgs>(args?: SelectSubset<T, EditorialLikeFindFirstArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EditorialLike that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeFindFirstOrThrowArgs} args - Arguments to find a EditorialLike
+     * @example
+     * // Get one EditorialLike
+     * const editorialLike = await prisma.editorialLike.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EditorialLikeFindFirstOrThrowArgs>(args?: SelectSubset<T, EditorialLikeFindFirstOrThrowArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EditorialLikes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EditorialLikes
+     * const editorialLikes = await prisma.editorialLike.findMany()
+     * 
+     * // Get first 10 EditorialLikes
+     * const editorialLikes = await prisma.editorialLike.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const editorialLikeWithIdOnly = await prisma.editorialLike.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EditorialLikeFindManyArgs>(args?: SelectSubset<T, EditorialLikeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EditorialLike.
+     * @param {EditorialLikeCreateArgs} args - Arguments to create a EditorialLike.
+     * @example
+     * // Create one EditorialLike
+     * const EditorialLike = await prisma.editorialLike.create({
+     *   data: {
+     *     // ... data to create a EditorialLike
+     *   }
+     * })
+     * 
+     */
+    create<T extends EditorialLikeCreateArgs>(args: SelectSubset<T, EditorialLikeCreateArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EditorialLikes.
+     * @param {EditorialLikeCreateManyArgs} args - Arguments to create many EditorialLikes.
+     * @example
+     * // Create many EditorialLikes
+     * const editorialLike = await prisma.editorialLike.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EditorialLikeCreateManyArgs>(args?: SelectSubset<T, EditorialLikeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EditorialLikes and returns the data saved in the database.
+     * @param {EditorialLikeCreateManyAndReturnArgs} args - Arguments to create many EditorialLikes.
+     * @example
+     * // Create many EditorialLikes
+     * const editorialLike = await prisma.editorialLike.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EditorialLikes and only return the `id`
+     * const editorialLikeWithIdOnly = await prisma.editorialLike.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EditorialLikeCreateManyAndReturnArgs>(args?: SelectSubset<T, EditorialLikeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EditorialLike.
+     * @param {EditorialLikeDeleteArgs} args - Arguments to delete one EditorialLike.
+     * @example
+     * // Delete one EditorialLike
+     * const EditorialLike = await prisma.editorialLike.delete({
+     *   where: {
+     *     // ... filter to delete one EditorialLike
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EditorialLikeDeleteArgs>(args: SelectSubset<T, EditorialLikeDeleteArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EditorialLike.
+     * @param {EditorialLikeUpdateArgs} args - Arguments to update one EditorialLike.
+     * @example
+     * // Update one EditorialLike
+     * const editorialLike = await prisma.editorialLike.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EditorialLikeUpdateArgs>(args: SelectSubset<T, EditorialLikeUpdateArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EditorialLikes.
+     * @param {EditorialLikeDeleteManyArgs} args - Arguments to filter EditorialLikes to delete.
+     * @example
+     * // Delete a few EditorialLikes
+     * const { count } = await prisma.editorialLike.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EditorialLikeDeleteManyArgs>(args?: SelectSubset<T, EditorialLikeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EditorialLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EditorialLikes
+     * const editorialLike = await prisma.editorialLike.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EditorialLikeUpdateManyArgs>(args: SelectSubset<T, EditorialLikeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EditorialLikes and returns the data updated in the database.
+     * @param {EditorialLikeUpdateManyAndReturnArgs} args - Arguments to update many EditorialLikes.
+     * @example
+     * // Update many EditorialLikes
+     * const editorialLike = await prisma.editorialLike.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EditorialLikes and only return the `id`
+     * const editorialLikeWithIdOnly = await prisma.editorialLike.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EditorialLikeUpdateManyAndReturnArgs>(args: SelectSubset<T, EditorialLikeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EditorialLike.
+     * @param {EditorialLikeUpsertArgs} args - Arguments to update or create a EditorialLike.
+     * @example
+     * // Update or create a EditorialLike
+     * const editorialLike = await prisma.editorialLike.upsert({
+     *   create: {
+     *     // ... data to create a EditorialLike
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EditorialLike we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EditorialLikeUpsertArgs>(args: SelectSubset<T, EditorialLikeUpsertArgs<ExtArgs>>): Prisma__EditorialLikeClient<$Result.GetResult<Prisma.$EditorialLikePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EditorialLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeCountArgs} args - Arguments to filter EditorialLikes to count.
+     * @example
+     * // Count the number of EditorialLikes
+     * const count = await prisma.editorialLike.count({
+     *   where: {
+     *     // ... the filter for the EditorialLikes we want to count
+     *   }
+     * })
+    **/
+    count<T extends EditorialLikeCountArgs>(
+      args?: Subset<T, EditorialLikeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EditorialLikeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EditorialLike.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EditorialLikeAggregateArgs>(args: Subset<T, EditorialLikeAggregateArgs>): Prisma.PrismaPromise<GetEditorialLikeAggregateType<T>>
+
+    /**
+     * Group by EditorialLike.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialLikeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EditorialLikeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EditorialLikeGroupByArgs['orderBy'] }
+        : { orderBy?: EditorialLikeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EditorialLikeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEditorialLikeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EditorialLike model
+   */
+  readonly fields: EditorialLikeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EditorialLike.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EditorialLikeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    editorial<T extends EditorialDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EditorialDefaultArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EditorialLike model
+   */
+  interface EditorialLikeFieldRefs {
+    readonly id: FieldRef<"EditorialLike", 'String'>
+    readonly userId: FieldRef<"EditorialLike", 'String'>
+    readonly editorialId: FieldRef<"EditorialLike", 'String'>
+    readonly createdAt: FieldRef<"EditorialLike", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EditorialLike findUnique
+   */
+  export type EditorialLikeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialLike to fetch.
+     */
+    where: EditorialLikeWhereUniqueInput
+  }
+
+  /**
+   * EditorialLike findUniqueOrThrow
+   */
+  export type EditorialLikeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialLike to fetch.
+     */
+    where: EditorialLikeWhereUniqueInput
+  }
+
+  /**
+   * EditorialLike findFirst
+   */
+  export type EditorialLikeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialLike to fetch.
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialLikes to fetch.
+     */
+    orderBy?: EditorialLikeOrderByWithRelationInput | EditorialLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EditorialLikes.
+     */
+    cursor?: EditorialLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EditorialLikes.
+     */
+    distinct?: EditorialLikeScalarFieldEnum | EditorialLikeScalarFieldEnum[]
+  }
+
+  /**
+   * EditorialLike findFirstOrThrow
+   */
+  export type EditorialLikeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialLike to fetch.
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialLikes to fetch.
+     */
+    orderBy?: EditorialLikeOrderByWithRelationInput | EditorialLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EditorialLikes.
+     */
+    cursor?: EditorialLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EditorialLikes.
+     */
+    distinct?: EditorialLikeScalarFieldEnum | EditorialLikeScalarFieldEnum[]
+  }
+
+  /**
+   * EditorialLike findMany
+   */
+  export type EditorialLikeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialLikes to fetch.
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialLikes to fetch.
+     */
+    orderBy?: EditorialLikeOrderByWithRelationInput | EditorialLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EditorialLikes.
+     */
+    cursor?: EditorialLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialLikes.
+     */
+    skip?: number
+    distinct?: EditorialLikeScalarFieldEnum | EditorialLikeScalarFieldEnum[]
+  }
+
+  /**
+   * EditorialLike create
+   */
+  export type EditorialLikeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EditorialLike.
+     */
+    data: XOR<EditorialLikeCreateInput, EditorialLikeUncheckedCreateInput>
+  }
+
+  /**
+   * EditorialLike createMany
+   */
+  export type EditorialLikeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EditorialLikes.
+     */
+    data: EditorialLikeCreateManyInput | EditorialLikeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EditorialLike createManyAndReturn
+   */
+  export type EditorialLikeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * The data used to create many EditorialLikes.
+     */
+    data: EditorialLikeCreateManyInput | EditorialLikeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EditorialLike update
+   */
+  export type EditorialLikeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EditorialLike.
+     */
+    data: XOR<EditorialLikeUpdateInput, EditorialLikeUncheckedUpdateInput>
+    /**
+     * Choose, which EditorialLike to update.
+     */
+    where: EditorialLikeWhereUniqueInput
+  }
+
+  /**
+   * EditorialLike updateMany
+   */
+  export type EditorialLikeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EditorialLikes.
+     */
+    data: XOR<EditorialLikeUpdateManyMutationInput, EditorialLikeUncheckedUpdateManyInput>
+    /**
+     * Filter which EditorialLikes to update
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * Limit how many EditorialLikes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EditorialLike updateManyAndReturn
+   */
+  export type EditorialLikeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * The data used to update EditorialLikes.
+     */
+    data: XOR<EditorialLikeUpdateManyMutationInput, EditorialLikeUncheckedUpdateManyInput>
+    /**
+     * Filter which EditorialLikes to update
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * Limit how many EditorialLikes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EditorialLike upsert
+   */
+  export type EditorialLikeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EditorialLike to update in case it exists.
+     */
+    where: EditorialLikeWhereUniqueInput
+    /**
+     * In case the EditorialLike found by the `where` argument doesn't exist, create a new EditorialLike with this data.
+     */
+    create: XOR<EditorialLikeCreateInput, EditorialLikeUncheckedCreateInput>
+    /**
+     * In case the EditorialLike was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EditorialLikeUpdateInput, EditorialLikeUncheckedUpdateInput>
+  }
+
+  /**
+   * EditorialLike delete
+   */
+  export type EditorialLikeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+    /**
+     * Filter which EditorialLike to delete.
+     */
+    where: EditorialLikeWhereUniqueInput
+  }
+
+  /**
+   * EditorialLike deleteMany
+   */
+  export type EditorialLikeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EditorialLikes to delete
+     */
+    where?: EditorialLikeWhereInput
+    /**
+     * Limit how many EditorialLikes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EditorialLike without action
+   */
+  export type EditorialLikeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialLike
+     */
+    select?: EditorialLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialLike
+     */
+    omit?: EditorialLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialLikeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EditorialComment
+   */
+
+  export type AggregateEditorialComment = {
+    _count: EditorialCommentCountAggregateOutputType | null
+    _min: EditorialCommentMinAggregateOutputType | null
+    _max: EditorialCommentMaxAggregateOutputType | null
+  }
+
+  export type EditorialCommentMinAggregateOutputType = {
+    id: string | null
+    content: string | null
+    userId: string | null
+    editorialId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EditorialCommentMaxAggregateOutputType = {
+    id: string | null
+    content: string | null
+    userId: string | null
+    editorialId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EditorialCommentCountAggregateOutputType = {
+    id: number
+    content: number
+    userId: number
+    editorialId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EditorialCommentMinAggregateInputType = {
+    id?: true
+    content?: true
+    userId?: true
+    editorialId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EditorialCommentMaxAggregateInputType = {
+    id?: true
+    content?: true
+    userId?: true
+    editorialId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EditorialCommentCountAggregateInputType = {
+    id?: true
+    content?: true
+    userId?: true
+    editorialId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EditorialCommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EditorialComment to aggregate.
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialComments to fetch.
+     */
+    orderBy?: EditorialCommentOrderByWithRelationInput | EditorialCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EditorialCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EditorialComments
+    **/
+    _count?: true | EditorialCommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EditorialCommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EditorialCommentMaxAggregateInputType
+  }
+
+  export type GetEditorialCommentAggregateType<T extends EditorialCommentAggregateArgs> = {
+        [P in keyof T & keyof AggregateEditorialComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEditorialComment[P]>
+      : GetScalarType<T[P], AggregateEditorialComment[P]>
+  }
+
+
+
+
+  export type EditorialCommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EditorialCommentWhereInput
+    orderBy?: EditorialCommentOrderByWithAggregationInput | EditorialCommentOrderByWithAggregationInput[]
+    by: EditorialCommentScalarFieldEnum[] | EditorialCommentScalarFieldEnum
+    having?: EditorialCommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EditorialCommentCountAggregateInputType | true
+    _min?: EditorialCommentMinAggregateInputType
+    _max?: EditorialCommentMaxAggregateInputType
+  }
+
+  export type EditorialCommentGroupByOutputType = {
+    id: string
+    content: string
+    userId: string
+    editorialId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: EditorialCommentCountAggregateOutputType | null
+    _min: EditorialCommentMinAggregateOutputType | null
+    _max: EditorialCommentMaxAggregateOutputType | null
+  }
+
+  type GetEditorialCommentGroupByPayload<T extends EditorialCommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EditorialCommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EditorialCommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EditorialCommentGroupByOutputType[P]>
+            : GetScalarType<T[P], EditorialCommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EditorialCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorialComment"]>
+
+  export type EditorialCommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorialComment"]>
+
+  export type EditorialCommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["editorialComment"]>
+
+  export type EditorialCommentSelectScalar = {
+    id?: boolean
+    content?: boolean
+    userId?: boolean
+    editorialId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EditorialCommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "userId" | "editorialId" | "createdAt" | "updatedAt", ExtArgs["result"]["editorialComment"]>
+  export type EditorialCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }
+  export type EditorialCommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }
+  export type EditorialCommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    editorial?: boolean | EditorialDefaultArgs<ExtArgs>
+  }
+
+  export type $EditorialCommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EditorialComment"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      editorial: Prisma.$EditorialPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      content: string
+      userId: string
+      editorialId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["editorialComment"]>
+    composites: {}
+  }
+
+  type EditorialCommentGetPayload<S extends boolean | null | undefined | EditorialCommentDefaultArgs> = $Result.GetResult<Prisma.$EditorialCommentPayload, S>
+
+  type EditorialCommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EditorialCommentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EditorialCommentCountAggregateInputType | true
+    }
+
+  export interface EditorialCommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EditorialComment'], meta: { name: 'EditorialComment' } }
+    /**
+     * Find zero or one EditorialComment that matches the filter.
+     * @param {EditorialCommentFindUniqueArgs} args - Arguments to find a EditorialComment
+     * @example
+     * // Get one EditorialComment
+     * const editorialComment = await prisma.editorialComment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EditorialCommentFindUniqueArgs>(args: SelectSubset<T, EditorialCommentFindUniqueArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EditorialComment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EditorialCommentFindUniqueOrThrowArgs} args - Arguments to find a EditorialComment
+     * @example
+     * // Get one EditorialComment
+     * const editorialComment = await prisma.editorialComment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EditorialCommentFindUniqueOrThrowArgs>(args: SelectSubset<T, EditorialCommentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EditorialComment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentFindFirstArgs} args - Arguments to find a EditorialComment
+     * @example
+     * // Get one EditorialComment
+     * const editorialComment = await prisma.editorialComment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EditorialCommentFindFirstArgs>(args?: SelectSubset<T, EditorialCommentFindFirstArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EditorialComment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentFindFirstOrThrowArgs} args - Arguments to find a EditorialComment
+     * @example
+     * // Get one EditorialComment
+     * const editorialComment = await prisma.editorialComment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EditorialCommentFindFirstOrThrowArgs>(args?: SelectSubset<T, EditorialCommentFindFirstOrThrowArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EditorialComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EditorialComments
+     * const editorialComments = await prisma.editorialComment.findMany()
+     * 
+     * // Get first 10 EditorialComments
+     * const editorialComments = await prisma.editorialComment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const editorialCommentWithIdOnly = await prisma.editorialComment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EditorialCommentFindManyArgs>(args?: SelectSubset<T, EditorialCommentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EditorialComment.
+     * @param {EditorialCommentCreateArgs} args - Arguments to create a EditorialComment.
+     * @example
+     * // Create one EditorialComment
+     * const EditorialComment = await prisma.editorialComment.create({
+     *   data: {
+     *     // ... data to create a EditorialComment
+     *   }
+     * })
+     * 
+     */
+    create<T extends EditorialCommentCreateArgs>(args: SelectSubset<T, EditorialCommentCreateArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EditorialComments.
+     * @param {EditorialCommentCreateManyArgs} args - Arguments to create many EditorialComments.
+     * @example
+     * // Create many EditorialComments
+     * const editorialComment = await prisma.editorialComment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EditorialCommentCreateManyArgs>(args?: SelectSubset<T, EditorialCommentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EditorialComments and returns the data saved in the database.
+     * @param {EditorialCommentCreateManyAndReturnArgs} args - Arguments to create many EditorialComments.
+     * @example
+     * // Create many EditorialComments
+     * const editorialComment = await prisma.editorialComment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EditorialComments and only return the `id`
+     * const editorialCommentWithIdOnly = await prisma.editorialComment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EditorialCommentCreateManyAndReturnArgs>(args?: SelectSubset<T, EditorialCommentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EditorialComment.
+     * @param {EditorialCommentDeleteArgs} args - Arguments to delete one EditorialComment.
+     * @example
+     * // Delete one EditorialComment
+     * const EditorialComment = await prisma.editorialComment.delete({
+     *   where: {
+     *     // ... filter to delete one EditorialComment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EditorialCommentDeleteArgs>(args: SelectSubset<T, EditorialCommentDeleteArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EditorialComment.
+     * @param {EditorialCommentUpdateArgs} args - Arguments to update one EditorialComment.
+     * @example
+     * // Update one EditorialComment
+     * const editorialComment = await prisma.editorialComment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EditorialCommentUpdateArgs>(args: SelectSubset<T, EditorialCommentUpdateArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EditorialComments.
+     * @param {EditorialCommentDeleteManyArgs} args - Arguments to filter EditorialComments to delete.
+     * @example
+     * // Delete a few EditorialComments
+     * const { count } = await prisma.editorialComment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EditorialCommentDeleteManyArgs>(args?: SelectSubset<T, EditorialCommentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EditorialComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EditorialComments
+     * const editorialComment = await prisma.editorialComment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EditorialCommentUpdateManyArgs>(args: SelectSubset<T, EditorialCommentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EditorialComments and returns the data updated in the database.
+     * @param {EditorialCommentUpdateManyAndReturnArgs} args - Arguments to update many EditorialComments.
+     * @example
+     * // Update many EditorialComments
+     * const editorialComment = await prisma.editorialComment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EditorialComments and only return the `id`
+     * const editorialCommentWithIdOnly = await prisma.editorialComment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EditorialCommentUpdateManyAndReturnArgs>(args: SelectSubset<T, EditorialCommentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EditorialComment.
+     * @param {EditorialCommentUpsertArgs} args - Arguments to update or create a EditorialComment.
+     * @example
+     * // Update or create a EditorialComment
+     * const editorialComment = await prisma.editorialComment.upsert({
+     *   create: {
+     *     // ... data to create a EditorialComment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EditorialComment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EditorialCommentUpsertArgs>(args: SelectSubset<T, EditorialCommentUpsertArgs<ExtArgs>>): Prisma__EditorialCommentClient<$Result.GetResult<Prisma.$EditorialCommentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EditorialComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentCountArgs} args - Arguments to filter EditorialComments to count.
+     * @example
+     * // Count the number of EditorialComments
+     * const count = await prisma.editorialComment.count({
+     *   where: {
+     *     // ... the filter for the EditorialComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends EditorialCommentCountArgs>(
+      args?: Subset<T, EditorialCommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EditorialCommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EditorialComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EditorialCommentAggregateArgs>(args: Subset<T, EditorialCommentAggregateArgs>): Prisma.PrismaPromise<GetEditorialCommentAggregateType<T>>
+
+    /**
+     * Group by EditorialComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EditorialCommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EditorialCommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EditorialCommentGroupByArgs['orderBy'] }
+        : { orderBy?: EditorialCommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EditorialCommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEditorialCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EditorialComment model
+   */
+  readonly fields: EditorialCommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EditorialComment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EditorialCommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    editorial<T extends EditorialDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EditorialDefaultArgs<ExtArgs>>): Prisma__EditorialClient<$Result.GetResult<Prisma.$EditorialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EditorialComment model
+   */
+  interface EditorialCommentFieldRefs {
+    readonly id: FieldRef<"EditorialComment", 'String'>
+    readonly content: FieldRef<"EditorialComment", 'String'>
+    readonly userId: FieldRef<"EditorialComment", 'String'>
+    readonly editorialId: FieldRef<"EditorialComment", 'String'>
+    readonly createdAt: FieldRef<"EditorialComment", 'DateTime'>
+    readonly updatedAt: FieldRef<"EditorialComment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EditorialComment findUnique
+   */
+  export type EditorialCommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialComment to fetch.
+     */
+    where: EditorialCommentWhereUniqueInput
+  }
+
+  /**
+   * EditorialComment findUniqueOrThrow
+   */
+  export type EditorialCommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialComment to fetch.
+     */
+    where: EditorialCommentWhereUniqueInput
+  }
+
+  /**
+   * EditorialComment findFirst
+   */
+  export type EditorialCommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialComment to fetch.
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialComments to fetch.
+     */
+    orderBy?: EditorialCommentOrderByWithRelationInput | EditorialCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EditorialComments.
+     */
+    cursor?: EditorialCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EditorialComments.
+     */
+    distinct?: EditorialCommentScalarFieldEnum | EditorialCommentScalarFieldEnum[]
+  }
+
+  /**
+   * EditorialComment findFirstOrThrow
+   */
+  export type EditorialCommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialComment to fetch.
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialComments to fetch.
+     */
+    orderBy?: EditorialCommentOrderByWithRelationInput | EditorialCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EditorialComments.
+     */
+    cursor?: EditorialCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EditorialComments.
+     */
+    distinct?: EditorialCommentScalarFieldEnum | EditorialCommentScalarFieldEnum[]
+  }
+
+  /**
+   * EditorialComment findMany
+   */
+  export type EditorialCommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which EditorialComments to fetch.
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EditorialComments to fetch.
+     */
+    orderBy?: EditorialCommentOrderByWithRelationInput | EditorialCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EditorialComments.
+     */
+    cursor?: EditorialCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EditorialComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EditorialComments.
+     */
+    skip?: number
+    distinct?: EditorialCommentScalarFieldEnum | EditorialCommentScalarFieldEnum[]
+  }
+
+  /**
+   * EditorialComment create
+   */
+  export type EditorialCommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EditorialComment.
+     */
+    data: XOR<EditorialCommentCreateInput, EditorialCommentUncheckedCreateInput>
+  }
+
+  /**
+   * EditorialComment createMany
+   */
+  export type EditorialCommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EditorialComments.
+     */
+    data: EditorialCommentCreateManyInput | EditorialCommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EditorialComment createManyAndReturn
+   */
+  export type EditorialCommentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * The data used to create many EditorialComments.
+     */
+    data: EditorialCommentCreateManyInput | EditorialCommentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EditorialComment update
+   */
+  export type EditorialCommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EditorialComment.
+     */
+    data: XOR<EditorialCommentUpdateInput, EditorialCommentUncheckedUpdateInput>
+    /**
+     * Choose, which EditorialComment to update.
+     */
+    where: EditorialCommentWhereUniqueInput
+  }
+
+  /**
+   * EditorialComment updateMany
+   */
+  export type EditorialCommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EditorialComments.
+     */
+    data: XOR<EditorialCommentUpdateManyMutationInput, EditorialCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which EditorialComments to update
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * Limit how many EditorialComments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EditorialComment updateManyAndReturn
+   */
+  export type EditorialCommentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * The data used to update EditorialComments.
+     */
+    data: XOR<EditorialCommentUpdateManyMutationInput, EditorialCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which EditorialComments to update
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * Limit how many EditorialComments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EditorialComment upsert
+   */
+  export type EditorialCommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EditorialComment to update in case it exists.
+     */
+    where: EditorialCommentWhereUniqueInput
+    /**
+     * In case the EditorialComment found by the `where` argument doesn't exist, create a new EditorialComment with this data.
+     */
+    create: XOR<EditorialCommentCreateInput, EditorialCommentUncheckedCreateInput>
+    /**
+     * In case the EditorialComment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EditorialCommentUpdateInput, EditorialCommentUncheckedUpdateInput>
+  }
+
+  /**
+   * EditorialComment delete
+   */
+  export type EditorialCommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+    /**
+     * Filter which EditorialComment to delete.
+     */
+    where: EditorialCommentWhereUniqueInput
+  }
+
+  /**
+   * EditorialComment deleteMany
+   */
+  export type EditorialCommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EditorialComments to delete
+     */
+    where?: EditorialCommentWhereInput
+    /**
+     * Limit how many EditorialComments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EditorialComment without action
+   */
+  export type EditorialCommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EditorialComment
+     */
+    select?: EditorialCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EditorialComment
+     */
+    omit?: EditorialCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EditorialCommentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13717,6 +18824,10 @@ export namespace Prisma {
     image: 'image',
     bio: 'bio',
     location: 'location',
+    isAdmin: 'isAdmin',
+    profileVisibility: 'profileVisibility',
+    allowDirectMessages: 'allowDirectMessages',
+    showTradingHistory: 'showTradingHistory',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -13834,6 +18945,60 @@ export namespace Prisma {
   export type BlockedUserScalarFieldEnum = (typeof BlockedUserScalarFieldEnum)[keyof typeof BlockedUserScalarFieldEnum]
 
 
+  export const FriendshipScalarFieldEnum: {
+    id: 'id',
+    requesterId: 'requesterId',
+    receiverId: 'receiverId',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FriendshipScalarFieldEnum = (typeof FriendshipScalarFieldEnum)[keyof typeof FriendshipScalarFieldEnum]
+
+
+  export const EditorialScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    title: 'title',
+    subtitle: 'subtitle',
+    content: 'content',
+    excerpt: 'excerpt',
+    image: 'image',
+    category: 'category',
+    authorId: 'authorId',
+    published: 'published',
+    tags: 'tags',
+    isStaffPicked: 'isStaffPicked',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EditorialScalarFieldEnum = (typeof EditorialScalarFieldEnum)[keyof typeof EditorialScalarFieldEnum]
+
+
+  export const EditorialLikeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    editorialId: 'editorialId',
+    createdAt: 'createdAt'
+  };
+
+  export type EditorialLikeScalarFieldEnum = (typeof EditorialLikeScalarFieldEnum)[keyof typeof EditorialLikeScalarFieldEnum]
+
+
+  export const EditorialCommentScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    userId: 'userId',
+    editorialId: 'editorialId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EditorialCommentScalarFieldEnum = (typeof EditorialCommentScalarFieldEnum)[keyof typeof EditorialCommentScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -13878,6 +19043,27 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProfileVisibility'
+   */
+  export type EnumProfileVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileVisibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProfileVisibility[]'
+   */
+  export type ListEnumProfileVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileVisibility[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -13888,13 +19074,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -13941,6 +19120,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'FriendshipStatus'
+   */
+  export type EnumFriendshipStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FriendshipStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'FriendshipStatus[]'
+   */
+  export type ListEnumFriendshipStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FriendshipStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -13971,6 +19164,10 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     bio?: StringNullableFilter<"User"> | string | null
     location?: StringNullableFilter<"User"> | string | null
+    isAdmin?: BoolFilter<"User"> | boolean
+    profileVisibility?: EnumProfileVisibilityFilter<"User"> | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFilter<"User"> | boolean
+    showTradingHistory?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     closet?: XOR<ClosetNullableScalarRelationFilter, ClosetWhereInput> | null
@@ -13985,6 +19182,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestListRelationFilter
     blockedUsers?: BlockedUserListRelationFilter
     blockedByUsers?: BlockedUserListRelationFilter
+    editorials?: EditorialListRelationFilter
+    editorialLikes?: EditorialLikeListRelationFilter
+    editorialComments?: EditorialCommentListRelationFilter
+    friendshipsSent?: FriendshipListRelationFilter
+    friendshipsReceived?: FriendshipListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13998,6 +19200,10 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
+    profileVisibility?: SortOrder
+    allowDirectMessages?: SortOrder
+    showTradingHistory?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     closet?: ClosetOrderByWithRelationInput
@@ -14012,6 +19218,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestOrderByRelationAggregateInput
     blockedUsers?: BlockedUserOrderByRelationAggregateInput
     blockedByUsers?: BlockedUserOrderByRelationAggregateInput
+    editorials?: EditorialOrderByRelationAggregateInput
+    editorialLikes?: EditorialLikeOrderByRelationAggregateInput
+    editorialComments?: EditorialCommentOrderByRelationAggregateInput
+    friendshipsSent?: FriendshipOrderByRelationAggregateInput
+    friendshipsReceived?: FriendshipOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14028,6 +19239,10 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     bio?: StringNullableFilter<"User"> | string | null
     location?: StringNullableFilter<"User"> | string | null
+    isAdmin?: BoolFilter<"User"> | boolean
+    profileVisibility?: EnumProfileVisibilityFilter<"User"> | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFilter<"User"> | boolean
+    showTradingHistory?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     closet?: XOR<ClosetNullableScalarRelationFilter, ClosetWhereInput> | null
@@ -14042,6 +19257,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestListRelationFilter
     blockedUsers?: BlockedUserListRelationFilter
     blockedByUsers?: BlockedUserListRelationFilter
+    editorials?: EditorialListRelationFilter
+    editorialLikes?: EditorialLikeListRelationFilter
+    editorialComments?: EditorialCommentListRelationFilter
+    friendshipsSent?: FriendshipListRelationFilter
+    friendshipsReceived?: FriendshipListRelationFilter
   }, "id" | "username" | "email" | "clerkid">
 
   export type UserOrderByWithAggregationInput = {
@@ -14055,6 +19275,10 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
+    profileVisibility?: SortOrder
+    allowDirectMessages?: SortOrder
+    showTradingHistory?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -14076,6 +19300,10 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     location?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
+    profileVisibility?: EnumProfileVisibilityWithAggregatesFilter<"User"> | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolWithAggregatesFilter<"User"> | boolean
+    showTradingHistory?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -14700,6 +19928,294 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"BlockedUser"> | Date | string
   }
 
+  export type FriendshipWhereInput = {
+    AND?: FriendshipWhereInput | FriendshipWhereInput[]
+    OR?: FriendshipWhereInput[]
+    NOT?: FriendshipWhereInput | FriendshipWhereInput[]
+    id?: StringFilter<"Friendship"> | string
+    requesterId?: UuidFilter<"Friendship"> | string
+    receiverId?: UuidFilter<"Friendship"> | string
+    status?: EnumFriendshipStatusFilter<"Friendship"> | $Enums.FriendshipStatus
+    createdAt?: DateTimeFilter<"Friendship"> | Date | string
+    updatedAt?: DateTimeFilter<"Friendship"> | Date | string
+    requester?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type FriendshipOrderByWithRelationInput = {
+    id?: SortOrder
+    requesterId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    requester?: UserOrderByWithRelationInput
+    receiver?: UserOrderByWithRelationInput
+  }
+
+  export type FriendshipWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    requesterId_receiverId?: FriendshipRequesterIdReceiverIdCompoundUniqueInput
+    AND?: FriendshipWhereInput | FriendshipWhereInput[]
+    OR?: FriendshipWhereInput[]
+    NOT?: FriendshipWhereInput | FriendshipWhereInput[]
+    requesterId?: UuidFilter<"Friendship"> | string
+    receiverId?: UuidFilter<"Friendship"> | string
+    status?: EnumFriendshipStatusFilter<"Friendship"> | $Enums.FriendshipStatus
+    createdAt?: DateTimeFilter<"Friendship"> | Date | string
+    updatedAt?: DateTimeFilter<"Friendship"> | Date | string
+    requester?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "requesterId_receiverId">
+
+  export type FriendshipOrderByWithAggregationInput = {
+    id?: SortOrder
+    requesterId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FriendshipCountOrderByAggregateInput
+    _max?: FriendshipMaxOrderByAggregateInput
+    _min?: FriendshipMinOrderByAggregateInput
+  }
+
+  export type FriendshipScalarWhereWithAggregatesInput = {
+    AND?: FriendshipScalarWhereWithAggregatesInput | FriendshipScalarWhereWithAggregatesInput[]
+    OR?: FriendshipScalarWhereWithAggregatesInput[]
+    NOT?: FriendshipScalarWhereWithAggregatesInput | FriendshipScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Friendship"> | string
+    requesterId?: UuidWithAggregatesFilter<"Friendship"> | string
+    receiverId?: UuidWithAggregatesFilter<"Friendship"> | string
+    status?: EnumFriendshipStatusWithAggregatesFilter<"Friendship"> | $Enums.FriendshipStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Friendship"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Friendship"> | Date | string
+  }
+
+  export type EditorialWhereInput = {
+    AND?: EditorialWhereInput | EditorialWhereInput[]
+    OR?: EditorialWhereInput[]
+    NOT?: EditorialWhereInput | EditorialWhereInput[]
+    id?: UuidFilter<"Editorial"> | string
+    slug?: StringFilter<"Editorial"> | string
+    title?: StringFilter<"Editorial"> | string
+    subtitle?: StringNullableFilter<"Editorial"> | string | null
+    content?: StringFilter<"Editorial"> | string
+    excerpt?: StringNullableFilter<"Editorial"> | string | null
+    image?: StringNullableFilter<"Editorial"> | string | null
+    category?: StringFilter<"Editorial"> | string
+    authorId?: UuidFilter<"Editorial"> | string
+    published?: BoolFilter<"Editorial"> | boolean
+    tags?: StringNullableListFilter<"Editorial">
+    isStaffPicked?: BoolFilter<"Editorial"> | boolean
+    createdAt?: DateTimeFilter<"Editorial"> | Date | string
+    updatedAt?: DateTimeFilter<"Editorial"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    likes?: EditorialLikeListRelationFilter
+    comments?: EditorialCommentListRelationFilter
+  }
+
+  export type EditorialOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrderInput | SortOrder
+    content?: SortOrder
+    excerpt?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    published?: SortOrder
+    tags?: SortOrder
+    isStaffPicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    author?: UserOrderByWithRelationInput
+    likes?: EditorialLikeOrderByRelationAggregateInput
+    comments?: EditorialCommentOrderByRelationAggregateInput
+  }
+
+  export type EditorialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    authorId_slug?: EditorialAuthorIdSlugCompoundUniqueInput
+    AND?: EditorialWhereInput | EditorialWhereInput[]
+    OR?: EditorialWhereInput[]
+    NOT?: EditorialWhereInput | EditorialWhereInput[]
+    slug?: StringFilter<"Editorial"> | string
+    title?: StringFilter<"Editorial"> | string
+    subtitle?: StringNullableFilter<"Editorial"> | string | null
+    content?: StringFilter<"Editorial"> | string
+    excerpt?: StringNullableFilter<"Editorial"> | string | null
+    image?: StringNullableFilter<"Editorial"> | string | null
+    category?: StringFilter<"Editorial"> | string
+    authorId?: UuidFilter<"Editorial"> | string
+    published?: BoolFilter<"Editorial"> | boolean
+    tags?: StringNullableListFilter<"Editorial">
+    isStaffPicked?: BoolFilter<"Editorial"> | boolean
+    createdAt?: DateTimeFilter<"Editorial"> | Date | string
+    updatedAt?: DateTimeFilter<"Editorial"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    likes?: EditorialLikeListRelationFilter
+    comments?: EditorialCommentListRelationFilter
+  }, "id" | "authorId_slug">
+
+  export type EditorialOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrderInput | SortOrder
+    content?: SortOrder
+    excerpt?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    published?: SortOrder
+    tags?: SortOrder
+    isStaffPicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EditorialCountOrderByAggregateInput
+    _max?: EditorialMaxOrderByAggregateInput
+    _min?: EditorialMinOrderByAggregateInput
+  }
+
+  export type EditorialScalarWhereWithAggregatesInput = {
+    AND?: EditorialScalarWhereWithAggregatesInput | EditorialScalarWhereWithAggregatesInput[]
+    OR?: EditorialScalarWhereWithAggregatesInput[]
+    NOT?: EditorialScalarWhereWithAggregatesInput | EditorialScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Editorial"> | string
+    slug?: StringWithAggregatesFilter<"Editorial"> | string
+    title?: StringWithAggregatesFilter<"Editorial"> | string
+    subtitle?: StringNullableWithAggregatesFilter<"Editorial"> | string | null
+    content?: StringWithAggregatesFilter<"Editorial"> | string
+    excerpt?: StringNullableWithAggregatesFilter<"Editorial"> | string | null
+    image?: StringNullableWithAggregatesFilter<"Editorial"> | string | null
+    category?: StringWithAggregatesFilter<"Editorial"> | string
+    authorId?: UuidWithAggregatesFilter<"Editorial"> | string
+    published?: BoolWithAggregatesFilter<"Editorial"> | boolean
+    tags?: StringNullableListFilter<"Editorial">
+    isStaffPicked?: BoolWithAggregatesFilter<"Editorial"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Editorial"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Editorial"> | Date | string
+  }
+
+  export type EditorialLikeWhereInput = {
+    AND?: EditorialLikeWhereInput | EditorialLikeWhereInput[]
+    OR?: EditorialLikeWhereInput[]
+    NOT?: EditorialLikeWhereInput | EditorialLikeWhereInput[]
+    id?: UuidFilter<"EditorialLike"> | string
+    userId?: UuidFilter<"EditorialLike"> | string
+    editorialId?: UuidFilter<"EditorialLike"> | string
+    createdAt?: DateTimeFilter<"EditorialLike"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    editorial?: XOR<EditorialScalarRelationFilter, EditorialWhereInput>
+  }
+
+  export type EditorialLikeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    editorial?: EditorialOrderByWithRelationInput
+  }
+
+  export type EditorialLikeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_editorialId?: EditorialLikeUserIdEditorialIdCompoundUniqueInput
+    AND?: EditorialLikeWhereInput | EditorialLikeWhereInput[]
+    OR?: EditorialLikeWhereInput[]
+    NOT?: EditorialLikeWhereInput | EditorialLikeWhereInput[]
+    userId?: UuidFilter<"EditorialLike"> | string
+    editorialId?: UuidFilter<"EditorialLike"> | string
+    createdAt?: DateTimeFilter<"EditorialLike"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    editorial?: XOR<EditorialScalarRelationFilter, EditorialWhereInput>
+  }, "id" | "userId_editorialId">
+
+  export type EditorialLikeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    _count?: EditorialLikeCountOrderByAggregateInput
+    _max?: EditorialLikeMaxOrderByAggregateInput
+    _min?: EditorialLikeMinOrderByAggregateInput
+  }
+
+  export type EditorialLikeScalarWhereWithAggregatesInput = {
+    AND?: EditorialLikeScalarWhereWithAggregatesInput | EditorialLikeScalarWhereWithAggregatesInput[]
+    OR?: EditorialLikeScalarWhereWithAggregatesInput[]
+    NOT?: EditorialLikeScalarWhereWithAggregatesInput | EditorialLikeScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"EditorialLike"> | string
+    userId?: UuidWithAggregatesFilter<"EditorialLike"> | string
+    editorialId?: UuidWithAggregatesFilter<"EditorialLike"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"EditorialLike"> | Date | string
+  }
+
+  export type EditorialCommentWhereInput = {
+    AND?: EditorialCommentWhereInput | EditorialCommentWhereInput[]
+    OR?: EditorialCommentWhereInput[]
+    NOT?: EditorialCommentWhereInput | EditorialCommentWhereInput[]
+    id?: UuidFilter<"EditorialComment"> | string
+    content?: StringFilter<"EditorialComment"> | string
+    userId?: UuidFilter<"EditorialComment"> | string
+    editorialId?: UuidFilter<"EditorialComment"> | string
+    createdAt?: DateTimeFilter<"EditorialComment"> | Date | string
+    updatedAt?: DateTimeFilter<"EditorialComment"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    editorial?: XOR<EditorialScalarRelationFilter, EditorialWhereInput>
+  }
+
+  export type EditorialCommentOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    editorial?: EditorialOrderByWithRelationInput
+  }
+
+  export type EditorialCommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EditorialCommentWhereInput | EditorialCommentWhereInput[]
+    OR?: EditorialCommentWhereInput[]
+    NOT?: EditorialCommentWhereInput | EditorialCommentWhereInput[]
+    content?: StringFilter<"EditorialComment"> | string
+    userId?: UuidFilter<"EditorialComment"> | string
+    editorialId?: UuidFilter<"EditorialComment"> | string
+    createdAt?: DateTimeFilter<"EditorialComment"> | Date | string
+    updatedAt?: DateTimeFilter<"EditorialComment"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    editorial?: XOR<EditorialScalarRelationFilter, EditorialWhereInput>
+  }, "id">
+
+  export type EditorialCommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EditorialCommentCountOrderByAggregateInput
+    _max?: EditorialCommentMaxOrderByAggregateInput
+    _min?: EditorialCommentMinOrderByAggregateInput
+  }
+
+  export type EditorialCommentScalarWhereWithAggregatesInput = {
+    AND?: EditorialCommentScalarWhereWithAggregatesInput | EditorialCommentScalarWhereWithAggregatesInput[]
+    OR?: EditorialCommentScalarWhereWithAggregatesInput[]
+    NOT?: EditorialCommentScalarWhereWithAggregatesInput | EditorialCommentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"EditorialComment"> | string
+    content?: StringWithAggregatesFilter<"EditorialComment"> | string
+    userId?: UuidWithAggregatesFilter<"EditorialComment"> | string
+    editorialId?: UuidWithAggregatesFilter<"EditorialComment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"EditorialComment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EditorialComment"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     username: string
@@ -14711,6 +20227,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -14725,6 +20245,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14738,6 +20263,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -14752,6 +20281,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUpdateInput = {
@@ -14765,6 +20299,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -14779,6 +20317,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14792,6 +20335,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -14806,6 +20353,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14819,6 +20371,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14834,6 +20390,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14849,6 +20409,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15464,6 +21028,301 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FriendshipCreateInput = {
+    id?: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requester: UserCreateNestedOneWithoutFriendshipsSentInput
+    receiver: UserCreateNestedOneWithoutFriendshipsReceivedInput
+  }
+
+  export type FriendshipUncheckedCreateInput = {
+    id?: string
+    requesterId: string
+    receiverId: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FriendshipUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requester?: UserUpdateOneRequiredWithoutFriendshipsSentNestedInput
+    receiver?: UserUpdateOneRequiredWithoutFriendshipsReceivedNestedInput
+  }
+
+  export type FriendshipUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FriendshipCreateManyInput = {
+    id?: string
+    requesterId: string
+    receiverId: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FriendshipUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FriendshipUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCreateInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutEditorialsInput
+    likes?: EditorialLikeCreateNestedManyWithoutEditorialInput
+    comments?: EditorialCommentCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialUncheckedCreateInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    authorId: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    likes?: EditorialLikeUncheckedCreateNestedManyWithoutEditorialInput
+    comments?: EditorialCommentUncheckedCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutEditorialsNestedInput
+    likes?: EditorialLikeUpdateManyWithoutEditorialNestedInput
+    comments?: EditorialCommentUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type EditorialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: EditorialLikeUncheckedUpdateManyWithoutEditorialNestedInput
+    comments?: EditorialCommentUncheckedUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type EditorialCreateManyInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    authorId: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutEditorialLikesInput
+    editorial: EditorialCreateNestedOneWithoutLikesInput
+  }
+
+  export type EditorialLikeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    editorialId: string
+    createdAt?: Date | string
+  }
+
+  export type EditorialLikeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEditorialLikesNestedInput
+    editorial?: EditorialUpdateOneRequiredWithoutLikesNestedInput
+  }
+
+  export type EditorialLikeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeCreateManyInput = {
+    id?: string
+    userId: string
+    editorialId: string
+    createdAt?: Date | string
+  }
+
+  export type EditorialLikeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentCreateInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEditorialCommentsInput
+    editorial: EditorialCreateNestedOneWithoutCommentsInput
+  }
+
+  export type EditorialCommentUncheckedCreateInput = {
+    id?: string
+    content: string
+    userId: string
+    editorialId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialCommentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEditorialCommentsNestedInput
+    editorial?: EditorialUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type EditorialCommentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentCreateManyInput = {
+    id?: string
+    content: string
+    userId: string
+    editorialId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialCommentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15504,6 +21363,18 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type EnumProfileVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfileVisibility | EnumProfileVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumProfileVisibilityFilter<$PrismaModel> | $Enums.ProfileVisibility
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -15564,6 +21435,30 @@ export namespace Prisma {
     none?: BlockedUserWhereInput
   }
 
+  export type EditorialListRelationFilter = {
+    every?: EditorialWhereInput
+    some?: EditorialWhereInput
+    none?: EditorialWhereInput
+  }
+
+  export type EditorialLikeListRelationFilter = {
+    every?: EditorialLikeWhereInput
+    some?: EditorialLikeWhereInput
+    none?: EditorialLikeWhereInput
+  }
+
+  export type EditorialCommentListRelationFilter = {
+    every?: EditorialCommentWhereInput
+    some?: EditorialCommentWhereInput
+    none?: EditorialCommentWhereInput
+  }
+
+  export type FriendshipListRelationFilter = {
+    every?: FriendshipWhereInput
+    some?: FriendshipWhereInput
+    none?: FriendshipWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -15597,6 +21492,22 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type EditorialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EditorialLikeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EditorialCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FriendshipOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
@@ -15608,6 +21519,10 @@ export namespace Prisma {
     image?: SortOrder
     bio?: SortOrder
     location?: SortOrder
+    isAdmin?: SortOrder
+    profileVisibility?: SortOrder
+    allowDirectMessages?: SortOrder
+    showTradingHistory?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15623,6 +21538,10 @@ export namespace Prisma {
     image?: SortOrder
     bio?: SortOrder
     location?: SortOrder
+    isAdmin?: SortOrder
+    profileVisibility?: SortOrder
+    allowDirectMessages?: SortOrder
+    showTradingHistory?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15638,6 +21557,10 @@ export namespace Prisma {
     image?: SortOrder
     bio?: SortOrder
     location?: SortOrder
+    isAdmin?: SortOrder
+    profileVisibility?: SortOrder
+    allowDirectMessages?: SortOrder
+    showTradingHistory?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15693,6 +21616,24 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumProfileVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfileVisibility | EnumProfileVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumProfileVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.ProfileVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProfileVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumProfileVisibilityFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -15739,11 +21680,6 @@ export namespace Prisma {
     hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -15825,14 +21761,6 @@ export namespace Prisma {
 
   export type ListingSumOrderByAggregateInput = {
     order?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -16154,6 +22082,167 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumFriendshipStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FriendshipStatus | EnumFriendshipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFriendshipStatusFilter<$PrismaModel> | $Enums.FriendshipStatus
+  }
+
+  export type FriendshipRequesterIdReceiverIdCompoundUniqueInput = {
+    requesterId: string
+    receiverId: string
+  }
+
+  export type FriendshipCountOrderByAggregateInput = {
+    id?: SortOrder
+    requesterId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FriendshipMaxOrderByAggregateInput = {
+    id?: SortOrder
+    requesterId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FriendshipMinOrderByAggregateInput = {
+    id?: SortOrder
+    requesterId?: SortOrder
+    receiverId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumFriendshipStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FriendshipStatus | EnumFriendshipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFriendshipStatusWithAggregatesFilter<$PrismaModel> | $Enums.FriendshipStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFriendshipStatusFilter<$PrismaModel>
+    _max?: NestedEnumFriendshipStatusFilter<$PrismaModel>
+  }
+
+  export type EditorialAuthorIdSlugCompoundUniqueInput = {
+    authorId: string
+    slug: string
+  }
+
+  export type EditorialCountOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    content?: SortOrder
+    excerpt?: SortOrder
+    image?: SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    published?: SortOrder
+    tags?: SortOrder
+    isStaffPicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EditorialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    content?: SortOrder
+    excerpt?: SortOrder
+    image?: SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    published?: SortOrder
+    isStaffPicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EditorialMinOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    content?: SortOrder
+    excerpt?: SortOrder
+    image?: SortOrder
+    category?: SortOrder
+    authorId?: SortOrder
+    published?: SortOrder
+    isStaffPicked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EditorialScalarRelationFilter = {
+    is?: EditorialWhereInput
+    isNot?: EditorialWhereInput
+  }
+
+  export type EditorialLikeUserIdEditorialIdCompoundUniqueInput = {
+    userId: string
+    editorialId: string
+  }
+
+  export type EditorialLikeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EditorialLikeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EditorialLikeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EditorialCommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EditorialCommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EditorialCommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    userId?: SortOrder
+    editorialId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ClosetCreateNestedOneWithoutUserInput = {
     create?: XOR<ClosetCreateWithoutUserInput, ClosetUncheckedCreateWithoutUserInput>
     connectOrCreate?: ClosetCreateOrConnectWithoutUserInput
@@ -16235,6 +22324,41 @@ export namespace Prisma {
     connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockedInput | BlockedUserCreateOrConnectWithoutBlockedInput[]
     createMany?: BlockedUserCreateManyBlockedInputEnvelope
     connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+  }
+
+  export type EditorialCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<EditorialCreateWithoutAuthorInput, EditorialUncheckedCreateWithoutAuthorInput> | EditorialCreateWithoutAuthorInput[] | EditorialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: EditorialCreateOrConnectWithoutAuthorInput | EditorialCreateOrConnectWithoutAuthorInput[]
+    createMany?: EditorialCreateManyAuthorInputEnvelope
+    connect?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+  }
+
+  export type EditorialLikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<EditorialLikeCreateWithoutUserInput, EditorialLikeUncheckedCreateWithoutUserInput> | EditorialLikeCreateWithoutUserInput[] | EditorialLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutUserInput | EditorialLikeCreateOrConnectWithoutUserInput[]
+    createMany?: EditorialLikeCreateManyUserInputEnvelope
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+  }
+
+  export type EditorialCommentCreateNestedManyWithoutUserInput = {
+    create?: XOR<EditorialCommentCreateWithoutUserInput, EditorialCommentUncheckedCreateWithoutUserInput> | EditorialCommentCreateWithoutUserInput[] | EditorialCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutUserInput | EditorialCommentCreateOrConnectWithoutUserInput[]
+    createMany?: EditorialCommentCreateManyUserInputEnvelope
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+  }
+
+  export type FriendshipCreateNestedManyWithoutRequesterInput = {
+    create?: XOR<FriendshipCreateWithoutRequesterInput, FriendshipUncheckedCreateWithoutRequesterInput> | FriendshipCreateWithoutRequesterInput[] | FriendshipUncheckedCreateWithoutRequesterInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutRequesterInput | FriendshipCreateOrConnectWithoutRequesterInput[]
+    createMany?: FriendshipCreateManyRequesterInputEnvelope
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+  }
+
+  export type FriendshipCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<FriendshipCreateWithoutReceiverInput, FriendshipUncheckedCreateWithoutReceiverInput> | FriendshipCreateWithoutReceiverInput[] | FriendshipUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutReceiverInput | FriendshipCreateOrConnectWithoutReceiverInput[]
+    createMany?: FriendshipCreateManyReceiverInputEnvelope
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
   }
 
   export type ClosetUncheckedCreateNestedOneWithoutUserInput = {
@@ -16320,12 +22444,55 @@ export namespace Prisma {
     connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
   }
 
+  export type EditorialUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<EditorialCreateWithoutAuthorInput, EditorialUncheckedCreateWithoutAuthorInput> | EditorialCreateWithoutAuthorInput[] | EditorialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: EditorialCreateOrConnectWithoutAuthorInput | EditorialCreateOrConnectWithoutAuthorInput[]
+    createMany?: EditorialCreateManyAuthorInputEnvelope
+    connect?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+  }
+
+  export type EditorialLikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<EditorialLikeCreateWithoutUserInput, EditorialLikeUncheckedCreateWithoutUserInput> | EditorialLikeCreateWithoutUserInput[] | EditorialLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutUserInput | EditorialLikeCreateOrConnectWithoutUserInput[]
+    createMany?: EditorialLikeCreateManyUserInputEnvelope
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+  }
+
+  export type EditorialCommentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<EditorialCommentCreateWithoutUserInput, EditorialCommentUncheckedCreateWithoutUserInput> | EditorialCommentCreateWithoutUserInput[] | EditorialCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutUserInput | EditorialCommentCreateOrConnectWithoutUserInput[]
+    createMany?: EditorialCommentCreateManyUserInputEnvelope
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+  }
+
+  export type FriendshipUncheckedCreateNestedManyWithoutRequesterInput = {
+    create?: XOR<FriendshipCreateWithoutRequesterInput, FriendshipUncheckedCreateWithoutRequesterInput> | FriendshipCreateWithoutRequesterInput[] | FriendshipUncheckedCreateWithoutRequesterInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutRequesterInput | FriendshipCreateOrConnectWithoutRequesterInput[]
+    createMany?: FriendshipCreateManyRequesterInputEnvelope
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+  }
+
+  export type FriendshipUncheckedCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<FriendshipCreateWithoutReceiverInput, FriendshipUncheckedCreateWithoutReceiverInput> | FriendshipCreateWithoutReceiverInput[] | FriendshipUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutReceiverInput | FriendshipCreateOrConnectWithoutReceiverInput[]
+    createMany?: FriendshipCreateManyReceiverInputEnvelope
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type EnumProfileVisibilityFieldUpdateOperationsInput = {
+    set?: $Enums.ProfileVisibility
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -16496,6 +22663,76 @@ export namespace Prisma {
     deleteMany?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
   }
 
+  export type EditorialUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<EditorialCreateWithoutAuthorInput, EditorialUncheckedCreateWithoutAuthorInput> | EditorialCreateWithoutAuthorInput[] | EditorialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: EditorialCreateOrConnectWithoutAuthorInput | EditorialCreateOrConnectWithoutAuthorInput[]
+    upsert?: EditorialUpsertWithWhereUniqueWithoutAuthorInput | EditorialUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: EditorialCreateManyAuthorInputEnvelope
+    set?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    disconnect?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    delete?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    connect?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    update?: EditorialUpdateWithWhereUniqueWithoutAuthorInput | EditorialUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: EditorialUpdateManyWithWhereWithoutAuthorInput | EditorialUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: EditorialScalarWhereInput | EditorialScalarWhereInput[]
+  }
+
+  export type EditorialLikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EditorialLikeCreateWithoutUserInput, EditorialLikeUncheckedCreateWithoutUserInput> | EditorialLikeCreateWithoutUserInput[] | EditorialLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutUserInput | EditorialLikeCreateOrConnectWithoutUserInput[]
+    upsert?: EditorialLikeUpsertWithWhereUniqueWithoutUserInput | EditorialLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EditorialLikeCreateManyUserInputEnvelope
+    set?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    disconnect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    delete?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    update?: EditorialLikeUpdateWithWhereUniqueWithoutUserInput | EditorialLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EditorialLikeUpdateManyWithWhereWithoutUserInput | EditorialLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EditorialLikeScalarWhereInput | EditorialLikeScalarWhereInput[]
+  }
+
+  export type EditorialCommentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EditorialCommentCreateWithoutUserInput, EditorialCommentUncheckedCreateWithoutUserInput> | EditorialCommentCreateWithoutUserInput[] | EditorialCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutUserInput | EditorialCommentCreateOrConnectWithoutUserInput[]
+    upsert?: EditorialCommentUpsertWithWhereUniqueWithoutUserInput | EditorialCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EditorialCommentCreateManyUserInputEnvelope
+    set?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    disconnect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    delete?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    update?: EditorialCommentUpdateWithWhereUniqueWithoutUserInput | EditorialCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EditorialCommentUpdateManyWithWhereWithoutUserInput | EditorialCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EditorialCommentScalarWhereInput | EditorialCommentScalarWhereInput[]
+  }
+
+  export type FriendshipUpdateManyWithoutRequesterNestedInput = {
+    create?: XOR<FriendshipCreateWithoutRequesterInput, FriendshipUncheckedCreateWithoutRequesterInput> | FriendshipCreateWithoutRequesterInput[] | FriendshipUncheckedCreateWithoutRequesterInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutRequesterInput | FriendshipCreateOrConnectWithoutRequesterInput[]
+    upsert?: FriendshipUpsertWithWhereUniqueWithoutRequesterInput | FriendshipUpsertWithWhereUniqueWithoutRequesterInput[]
+    createMany?: FriendshipCreateManyRequesterInputEnvelope
+    set?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    disconnect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    delete?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    update?: FriendshipUpdateWithWhereUniqueWithoutRequesterInput | FriendshipUpdateWithWhereUniqueWithoutRequesterInput[]
+    updateMany?: FriendshipUpdateManyWithWhereWithoutRequesterInput | FriendshipUpdateManyWithWhereWithoutRequesterInput[]
+    deleteMany?: FriendshipScalarWhereInput | FriendshipScalarWhereInput[]
+  }
+
+  export type FriendshipUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<FriendshipCreateWithoutReceiverInput, FriendshipUncheckedCreateWithoutReceiverInput> | FriendshipCreateWithoutReceiverInput[] | FriendshipUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutReceiverInput | FriendshipCreateOrConnectWithoutReceiverInput[]
+    upsert?: FriendshipUpsertWithWhereUniqueWithoutReceiverInput | FriendshipUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: FriendshipCreateManyReceiverInputEnvelope
+    set?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    disconnect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    delete?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    update?: FriendshipUpdateWithWhereUniqueWithoutReceiverInput | FriendshipUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: FriendshipUpdateManyWithWhereWithoutReceiverInput | FriendshipUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: FriendshipScalarWhereInput | FriendshipScalarWhereInput[]
+  }
+
   export type ClosetUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ClosetCreateWithoutUserInput, ClosetUncheckedCreateWithoutUserInput>
     connectOrCreate?: ClosetCreateOrConnectWithoutUserInput
@@ -16658,6 +22895,76 @@ export namespace Prisma {
     update?: BlockedUserUpdateWithWhereUniqueWithoutBlockedInput | BlockedUserUpdateWithWhereUniqueWithoutBlockedInput[]
     updateMany?: BlockedUserUpdateManyWithWhereWithoutBlockedInput | BlockedUserUpdateManyWithWhereWithoutBlockedInput[]
     deleteMany?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+  }
+
+  export type EditorialUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<EditorialCreateWithoutAuthorInput, EditorialUncheckedCreateWithoutAuthorInput> | EditorialCreateWithoutAuthorInput[] | EditorialUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: EditorialCreateOrConnectWithoutAuthorInput | EditorialCreateOrConnectWithoutAuthorInput[]
+    upsert?: EditorialUpsertWithWhereUniqueWithoutAuthorInput | EditorialUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: EditorialCreateManyAuthorInputEnvelope
+    set?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    disconnect?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    delete?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    connect?: EditorialWhereUniqueInput | EditorialWhereUniqueInput[]
+    update?: EditorialUpdateWithWhereUniqueWithoutAuthorInput | EditorialUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: EditorialUpdateManyWithWhereWithoutAuthorInput | EditorialUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: EditorialScalarWhereInput | EditorialScalarWhereInput[]
+  }
+
+  export type EditorialLikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EditorialLikeCreateWithoutUserInput, EditorialLikeUncheckedCreateWithoutUserInput> | EditorialLikeCreateWithoutUserInput[] | EditorialLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutUserInput | EditorialLikeCreateOrConnectWithoutUserInput[]
+    upsert?: EditorialLikeUpsertWithWhereUniqueWithoutUserInput | EditorialLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EditorialLikeCreateManyUserInputEnvelope
+    set?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    disconnect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    delete?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    update?: EditorialLikeUpdateWithWhereUniqueWithoutUserInput | EditorialLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EditorialLikeUpdateManyWithWhereWithoutUserInput | EditorialLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EditorialLikeScalarWhereInput | EditorialLikeScalarWhereInput[]
+  }
+
+  export type EditorialCommentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EditorialCommentCreateWithoutUserInput, EditorialCommentUncheckedCreateWithoutUserInput> | EditorialCommentCreateWithoutUserInput[] | EditorialCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutUserInput | EditorialCommentCreateOrConnectWithoutUserInput[]
+    upsert?: EditorialCommentUpsertWithWhereUniqueWithoutUserInput | EditorialCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EditorialCommentCreateManyUserInputEnvelope
+    set?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    disconnect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    delete?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    update?: EditorialCommentUpdateWithWhereUniqueWithoutUserInput | EditorialCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EditorialCommentUpdateManyWithWhereWithoutUserInput | EditorialCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EditorialCommentScalarWhereInput | EditorialCommentScalarWhereInput[]
+  }
+
+  export type FriendshipUncheckedUpdateManyWithoutRequesterNestedInput = {
+    create?: XOR<FriendshipCreateWithoutRequesterInput, FriendshipUncheckedCreateWithoutRequesterInput> | FriendshipCreateWithoutRequesterInput[] | FriendshipUncheckedCreateWithoutRequesterInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutRequesterInput | FriendshipCreateOrConnectWithoutRequesterInput[]
+    upsert?: FriendshipUpsertWithWhereUniqueWithoutRequesterInput | FriendshipUpsertWithWhereUniqueWithoutRequesterInput[]
+    createMany?: FriendshipCreateManyRequesterInputEnvelope
+    set?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    disconnect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    delete?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    update?: FriendshipUpdateWithWhereUniqueWithoutRequesterInput | FriendshipUpdateWithWhereUniqueWithoutRequesterInput[]
+    updateMany?: FriendshipUpdateManyWithWhereWithoutRequesterInput | FriendshipUpdateManyWithWhereWithoutRequesterInput[]
+    deleteMany?: FriendshipScalarWhereInput | FriendshipScalarWhereInput[]
+  }
+
+  export type FriendshipUncheckedUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<FriendshipCreateWithoutReceiverInput, FriendshipUncheckedCreateWithoutReceiverInput> | FriendshipCreateWithoutReceiverInput[] | FriendshipUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: FriendshipCreateOrConnectWithoutReceiverInput | FriendshipCreateOrConnectWithoutReceiverInput[]
+    upsert?: FriendshipUpsertWithWhereUniqueWithoutReceiverInput | FriendshipUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: FriendshipCreateManyReceiverInputEnvelope
+    set?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    disconnect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    delete?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    connect?: FriendshipWhereUniqueInput | FriendshipWhereUniqueInput[]
+    update?: FriendshipUpdateWithWhereUniqueWithoutReceiverInput | FriendshipUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: FriendshipUpdateManyWithWhereWithoutReceiverInput | FriendshipUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: FriendshipScalarWhereInput | FriendshipScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutClosetInput = {
@@ -16827,10 +23134,6 @@ export namespace Prisma {
   export type ListingUpdateimageUrlsInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -17431,6 +23734,201 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlockedByUsersInput, UserUpdateWithoutBlockedByUsersInput>, UserUncheckedUpdateWithoutBlockedByUsersInput>
   }
 
+  export type UserCreateNestedOneWithoutFriendshipsSentInput = {
+    create?: XOR<UserCreateWithoutFriendshipsSentInput, UserUncheckedCreateWithoutFriendshipsSentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFriendshipsSentInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFriendshipsReceivedInput = {
+    create?: XOR<UserCreateWithoutFriendshipsReceivedInput, UserUncheckedCreateWithoutFriendshipsReceivedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFriendshipsReceivedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumFriendshipStatusFieldUpdateOperationsInput = {
+    set?: $Enums.FriendshipStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutFriendshipsSentNestedInput = {
+    create?: XOR<UserCreateWithoutFriendshipsSentInput, UserUncheckedCreateWithoutFriendshipsSentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFriendshipsSentInput
+    upsert?: UserUpsertWithoutFriendshipsSentInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFriendshipsSentInput, UserUpdateWithoutFriendshipsSentInput>, UserUncheckedUpdateWithoutFriendshipsSentInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutFriendshipsReceivedNestedInput = {
+    create?: XOR<UserCreateWithoutFriendshipsReceivedInput, UserUncheckedCreateWithoutFriendshipsReceivedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFriendshipsReceivedInput
+    upsert?: UserUpsertWithoutFriendshipsReceivedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFriendshipsReceivedInput, UserUpdateWithoutFriendshipsReceivedInput>, UserUncheckedUpdateWithoutFriendshipsReceivedInput>
+  }
+
+  export type EditorialCreatetagsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutEditorialsInput = {
+    create?: XOR<UserCreateWithoutEditorialsInput, UserUncheckedCreateWithoutEditorialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEditorialsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EditorialLikeCreateNestedManyWithoutEditorialInput = {
+    create?: XOR<EditorialLikeCreateWithoutEditorialInput, EditorialLikeUncheckedCreateWithoutEditorialInput> | EditorialLikeCreateWithoutEditorialInput[] | EditorialLikeUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutEditorialInput | EditorialLikeCreateOrConnectWithoutEditorialInput[]
+    createMany?: EditorialLikeCreateManyEditorialInputEnvelope
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+  }
+
+  export type EditorialCommentCreateNestedManyWithoutEditorialInput = {
+    create?: XOR<EditorialCommentCreateWithoutEditorialInput, EditorialCommentUncheckedCreateWithoutEditorialInput> | EditorialCommentCreateWithoutEditorialInput[] | EditorialCommentUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutEditorialInput | EditorialCommentCreateOrConnectWithoutEditorialInput[]
+    createMany?: EditorialCommentCreateManyEditorialInputEnvelope
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+  }
+
+  export type EditorialLikeUncheckedCreateNestedManyWithoutEditorialInput = {
+    create?: XOR<EditorialLikeCreateWithoutEditorialInput, EditorialLikeUncheckedCreateWithoutEditorialInput> | EditorialLikeCreateWithoutEditorialInput[] | EditorialLikeUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutEditorialInput | EditorialLikeCreateOrConnectWithoutEditorialInput[]
+    createMany?: EditorialLikeCreateManyEditorialInputEnvelope
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+  }
+
+  export type EditorialCommentUncheckedCreateNestedManyWithoutEditorialInput = {
+    create?: XOR<EditorialCommentCreateWithoutEditorialInput, EditorialCommentUncheckedCreateWithoutEditorialInput> | EditorialCommentCreateWithoutEditorialInput[] | EditorialCommentUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutEditorialInput | EditorialCommentCreateOrConnectWithoutEditorialInput[]
+    createMany?: EditorialCommentCreateManyEditorialInputEnvelope
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+  }
+
+  export type EditorialUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutEditorialsNestedInput = {
+    create?: XOR<UserCreateWithoutEditorialsInput, UserUncheckedCreateWithoutEditorialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEditorialsInput
+    upsert?: UserUpsertWithoutEditorialsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEditorialsInput, UserUpdateWithoutEditorialsInput>, UserUncheckedUpdateWithoutEditorialsInput>
+  }
+
+  export type EditorialLikeUpdateManyWithoutEditorialNestedInput = {
+    create?: XOR<EditorialLikeCreateWithoutEditorialInput, EditorialLikeUncheckedCreateWithoutEditorialInput> | EditorialLikeCreateWithoutEditorialInput[] | EditorialLikeUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutEditorialInput | EditorialLikeCreateOrConnectWithoutEditorialInput[]
+    upsert?: EditorialLikeUpsertWithWhereUniqueWithoutEditorialInput | EditorialLikeUpsertWithWhereUniqueWithoutEditorialInput[]
+    createMany?: EditorialLikeCreateManyEditorialInputEnvelope
+    set?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    disconnect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    delete?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    update?: EditorialLikeUpdateWithWhereUniqueWithoutEditorialInput | EditorialLikeUpdateWithWhereUniqueWithoutEditorialInput[]
+    updateMany?: EditorialLikeUpdateManyWithWhereWithoutEditorialInput | EditorialLikeUpdateManyWithWhereWithoutEditorialInput[]
+    deleteMany?: EditorialLikeScalarWhereInput | EditorialLikeScalarWhereInput[]
+  }
+
+  export type EditorialCommentUpdateManyWithoutEditorialNestedInput = {
+    create?: XOR<EditorialCommentCreateWithoutEditorialInput, EditorialCommentUncheckedCreateWithoutEditorialInput> | EditorialCommentCreateWithoutEditorialInput[] | EditorialCommentUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutEditorialInput | EditorialCommentCreateOrConnectWithoutEditorialInput[]
+    upsert?: EditorialCommentUpsertWithWhereUniqueWithoutEditorialInput | EditorialCommentUpsertWithWhereUniqueWithoutEditorialInput[]
+    createMany?: EditorialCommentCreateManyEditorialInputEnvelope
+    set?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    disconnect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    delete?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    update?: EditorialCommentUpdateWithWhereUniqueWithoutEditorialInput | EditorialCommentUpdateWithWhereUniqueWithoutEditorialInput[]
+    updateMany?: EditorialCommentUpdateManyWithWhereWithoutEditorialInput | EditorialCommentUpdateManyWithWhereWithoutEditorialInput[]
+    deleteMany?: EditorialCommentScalarWhereInput | EditorialCommentScalarWhereInput[]
+  }
+
+  export type EditorialLikeUncheckedUpdateManyWithoutEditorialNestedInput = {
+    create?: XOR<EditorialLikeCreateWithoutEditorialInput, EditorialLikeUncheckedCreateWithoutEditorialInput> | EditorialLikeCreateWithoutEditorialInput[] | EditorialLikeUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialLikeCreateOrConnectWithoutEditorialInput | EditorialLikeCreateOrConnectWithoutEditorialInput[]
+    upsert?: EditorialLikeUpsertWithWhereUniqueWithoutEditorialInput | EditorialLikeUpsertWithWhereUniqueWithoutEditorialInput[]
+    createMany?: EditorialLikeCreateManyEditorialInputEnvelope
+    set?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    disconnect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    delete?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    connect?: EditorialLikeWhereUniqueInput | EditorialLikeWhereUniqueInput[]
+    update?: EditorialLikeUpdateWithWhereUniqueWithoutEditorialInput | EditorialLikeUpdateWithWhereUniqueWithoutEditorialInput[]
+    updateMany?: EditorialLikeUpdateManyWithWhereWithoutEditorialInput | EditorialLikeUpdateManyWithWhereWithoutEditorialInput[]
+    deleteMany?: EditorialLikeScalarWhereInput | EditorialLikeScalarWhereInput[]
+  }
+
+  export type EditorialCommentUncheckedUpdateManyWithoutEditorialNestedInput = {
+    create?: XOR<EditorialCommentCreateWithoutEditorialInput, EditorialCommentUncheckedCreateWithoutEditorialInput> | EditorialCommentCreateWithoutEditorialInput[] | EditorialCommentUncheckedCreateWithoutEditorialInput[]
+    connectOrCreate?: EditorialCommentCreateOrConnectWithoutEditorialInput | EditorialCommentCreateOrConnectWithoutEditorialInput[]
+    upsert?: EditorialCommentUpsertWithWhereUniqueWithoutEditorialInput | EditorialCommentUpsertWithWhereUniqueWithoutEditorialInput[]
+    createMany?: EditorialCommentCreateManyEditorialInputEnvelope
+    set?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    disconnect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    delete?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    connect?: EditorialCommentWhereUniqueInput | EditorialCommentWhereUniqueInput[]
+    update?: EditorialCommentUpdateWithWhereUniqueWithoutEditorialInput | EditorialCommentUpdateWithWhereUniqueWithoutEditorialInput[]
+    updateMany?: EditorialCommentUpdateManyWithWhereWithoutEditorialInput | EditorialCommentUpdateManyWithWhereWithoutEditorialInput[]
+    deleteMany?: EditorialCommentScalarWhereInput | EditorialCommentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutEditorialLikesInput = {
+    create?: XOR<UserCreateWithoutEditorialLikesInput, UserUncheckedCreateWithoutEditorialLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEditorialLikesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EditorialCreateNestedOneWithoutLikesInput = {
+    create?: XOR<EditorialCreateWithoutLikesInput, EditorialUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: EditorialCreateOrConnectWithoutLikesInput
+    connect?: EditorialWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutEditorialLikesNestedInput = {
+    create?: XOR<UserCreateWithoutEditorialLikesInput, UserUncheckedCreateWithoutEditorialLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEditorialLikesInput
+    upsert?: UserUpsertWithoutEditorialLikesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEditorialLikesInput, UserUpdateWithoutEditorialLikesInput>, UserUncheckedUpdateWithoutEditorialLikesInput>
+  }
+
+  export type EditorialUpdateOneRequiredWithoutLikesNestedInput = {
+    create?: XOR<EditorialCreateWithoutLikesInput, EditorialUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: EditorialCreateOrConnectWithoutLikesInput
+    upsert?: EditorialUpsertWithoutLikesInput
+    connect?: EditorialWhereUniqueInput
+    update?: XOR<XOR<EditorialUpdateToOneWithWhereWithoutLikesInput, EditorialUpdateWithoutLikesInput>, EditorialUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type UserCreateNestedOneWithoutEditorialCommentsInput = {
+    create?: XOR<UserCreateWithoutEditorialCommentsInput, UserUncheckedCreateWithoutEditorialCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEditorialCommentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EditorialCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<EditorialCreateWithoutCommentsInput, EditorialUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: EditorialCreateOrConnectWithoutCommentsInput
+    connect?: EditorialWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutEditorialCommentsNestedInput = {
+    create?: XOR<UserCreateWithoutEditorialCommentsInput, UserUncheckedCreateWithoutEditorialCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEditorialCommentsInput
+    upsert?: UserUpsertWithoutEditorialCommentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEditorialCommentsInput, UserUpdateWithoutEditorialCommentsInput>, UserUncheckedUpdateWithoutEditorialCommentsInput>
+  }
+
+  export type EditorialUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<EditorialCreateWithoutCommentsInput, EditorialUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: EditorialCreateOrConnectWithoutCommentsInput
+    upsert?: EditorialUpsertWithoutCommentsInput
+    connect?: EditorialWhereUniqueInput
+    update?: XOR<XOR<EditorialUpdateToOneWithWhereWithoutCommentsInput, EditorialUpdateWithoutCommentsInput>, EditorialUncheckedUpdateWithoutCommentsInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17468,6 +23966,18 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumProfileVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfileVisibility | EnumProfileVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumProfileVisibilityFilter<$PrismaModel> | $Enums.ProfileVisibility
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -17551,6 +24061,24 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumProfileVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProfileVisibility | EnumProfileVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumProfileVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.ProfileVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProfileVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumProfileVisibilityFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -17565,24 +24093,11 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedEnumListingStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumListingStatusFilter<$PrismaModel> | $Enums.ListingStatus
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -17687,6 +24202,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFriendshipStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.FriendshipStatus | EnumFriendshipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFriendshipStatusFilter<$PrismaModel> | $Enums.FriendshipStatus
+  }
+
+  export type NestedEnumFriendshipStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FriendshipStatus | EnumFriendshipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FriendshipStatus[] | ListEnumFriendshipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumFriendshipStatusWithAggregatesFilter<$PrismaModel> | $Enums.FriendshipStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFriendshipStatusFilter<$PrismaModel>
+    _max?: NestedEnumFriendshipStatusFilter<$PrismaModel>
   }
 
   export type ClosetCreateWithoutUserInput = {
@@ -18046,6 +24578,152 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EditorialCreateWithoutAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    likes?: EditorialLikeCreateNestedManyWithoutEditorialInput
+    comments?: EditorialCommentCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    likes?: EditorialLikeUncheckedCreateNestedManyWithoutEditorialInput
+    comments?: EditorialCommentUncheckedCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialCreateOrConnectWithoutAuthorInput = {
+    where: EditorialWhereUniqueInput
+    create: XOR<EditorialCreateWithoutAuthorInput, EditorialUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type EditorialCreateManyAuthorInputEnvelope = {
+    data: EditorialCreateManyAuthorInput | EditorialCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EditorialLikeCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    editorial: EditorialCreateNestedOneWithoutLikesInput
+  }
+
+  export type EditorialLikeUncheckedCreateWithoutUserInput = {
+    id?: string
+    editorialId: string
+    createdAt?: Date | string
+  }
+
+  export type EditorialLikeCreateOrConnectWithoutUserInput = {
+    where: EditorialLikeWhereUniqueInput
+    create: XOR<EditorialLikeCreateWithoutUserInput, EditorialLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type EditorialLikeCreateManyUserInputEnvelope = {
+    data: EditorialLikeCreateManyUserInput | EditorialLikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EditorialCommentCreateWithoutUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    editorial: EditorialCreateNestedOneWithoutCommentsInput
+  }
+
+  export type EditorialCommentUncheckedCreateWithoutUserInput = {
+    id?: string
+    content: string
+    editorialId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialCommentCreateOrConnectWithoutUserInput = {
+    where: EditorialCommentWhereUniqueInput
+    create: XOR<EditorialCommentCreateWithoutUserInput, EditorialCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type EditorialCommentCreateManyUserInputEnvelope = {
+    data: EditorialCommentCreateManyUserInput | EditorialCommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FriendshipCreateWithoutRequesterInput = {
+    id?: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    receiver: UserCreateNestedOneWithoutFriendshipsReceivedInput
+  }
+
+  export type FriendshipUncheckedCreateWithoutRequesterInput = {
+    id?: string
+    receiverId: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FriendshipCreateOrConnectWithoutRequesterInput = {
+    where: FriendshipWhereUniqueInput
+    create: XOR<FriendshipCreateWithoutRequesterInput, FriendshipUncheckedCreateWithoutRequesterInput>
+  }
+
+  export type FriendshipCreateManyRequesterInputEnvelope = {
+    data: FriendshipCreateManyRequesterInput | FriendshipCreateManyRequesterInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FriendshipCreateWithoutReceiverInput = {
+    id?: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requester: UserCreateNestedOneWithoutFriendshipsSentInput
+  }
+
+  export type FriendshipUncheckedCreateWithoutReceiverInput = {
+    id?: string
+    requesterId: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FriendshipCreateOrConnectWithoutReceiverInput = {
+    where: FriendshipWhereUniqueInput
+    create: XOR<FriendshipCreateWithoutReceiverInput, FriendshipUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type FriendshipCreateManyReceiverInputEnvelope = {
+    data: FriendshipCreateManyReceiverInput | FriendshipCreateManyReceiverInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClosetUpsertWithoutUserInput = {
     update: XOR<ClosetUpdateWithoutUserInput, ClosetUncheckedUpdateWithoutUserInput>
     create: XOR<ClosetCreateWithoutUserInput, ClosetUncheckedCreateWithoutUserInput>
@@ -18339,6 +25017,140 @@ export namespace Prisma {
     data: XOR<BlockedUserUpdateManyMutationInput, BlockedUserUncheckedUpdateManyWithoutBlockedInput>
   }
 
+  export type EditorialUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: EditorialWhereUniqueInput
+    update: XOR<EditorialUpdateWithoutAuthorInput, EditorialUncheckedUpdateWithoutAuthorInput>
+    create: XOR<EditorialCreateWithoutAuthorInput, EditorialUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type EditorialUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: EditorialWhereUniqueInput
+    data: XOR<EditorialUpdateWithoutAuthorInput, EditorialUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type EditorialUpdateManyWithWhereWithoutAuthorInput = {
+    where: EditorialScalarWhereInput
+    data: XOR<EditorialUpdateManyMutationInput, EditorialUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type EditorialScalarWhereInput = {
+    AND?: EditorialScalarWhereInput | EditorialScalarWhereInput[]
+    OR?: EditorialScalarWhereInput[]
+    NOT?: EditorialScalarWhereInput | EditorialScalarWhereInput[]
+    id?: UuidFilter<"Editorial"> | string
+    slug?: StringFilter<"Editorial"> | string
+    title?: StringFilter<"Editorial"> | string
+    subtitle?: StringNullableFilter<"Editorial"> | string | null
+    content?: StringFilter<"Editorial"> | string
+    excerpt?: StringNullableFilter<"Editorial"> | string | null
+    image?: StringNullableFilter<"Editorial"> | string | null
+    category?: StringFilter<"Editorial"> | string
+    authorId?: UuidFilter<"Editorial"> | string
+    published?: BoolFilter<"Editorial"> | boolean
+    tags?: StringNullableListFilter<"Editorial">
+    isStaffPicked?: BoolFilter<"Editorial"> | boolean
+    createdAt?: DateTimeFilter<"Editorial"> | Date | string
+    updatedAt?: DateTimeFilter<"Editorial"> | Date | string
+  }
+
+  export type EditorialLikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: EditorialLikeWhereUniqueInput
+    update: XOR<EditorialLikeUpdateWithoutUserInput, EditorialLikeUncheckedUpdateWithoutUserInput>
+    create: XOR<EditorialLikeCreateWithoutUserInput, EditorialLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type EditorialLikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: EditorialLikeWhereUniqueInput
+    data: XOR<EditorialLikeUpdateWithoutUserInput, EditorialLikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EditorialLikeUpdateManyWithWhereWithoutUserInput = {
+    where: EditorialLikeScalarWhereInput
+    data: XOR<EditorialLikeUpdateManyMutationInput, EditorialLikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type EditorialLikeScalarWhereInput = {
+    AND?: EditorialLikeScalarWhereInput | EditorialLikeScalarWhereInput[]
+    OR?: EditorialLikeScalarWhereInput[]
+    NOT?: EditorialLikeScalarWhereInput | EditorialLikeScalarWhereInput[]
+    id?: UuidFilter<"EditorialLike"> | string
+    userId?: UuidFilter<"EditorialLike"> | string
+    editorialId?: UuidFilter<"EditorialLike"> | string
+    createdAt?: DateTimeFilter<"EditorialLike"> | Date | string
+  }
+
+  export type EditorialCommentUpsertWithWhereUniqueWithoutUserInput = {
+    where: EditorialCommentWhereUniqueInput
+    update: XOR<EditorialCommentUpdateWithoutUserInput, EditorialCommentUncheckedUpdateWithoutUserInput>
+    create: XOR<EditorialCommentCreateWithoutUserInput, EditorialCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type EditorialCommentUpdateWithWhereUniqueWithoutUserInput = {
+    where: EditorialCommentWhereUniqueInput
+    data: XOR<EditorialCommentUpdateWithoutUserInput, EditorialCommentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EditorialCommentUpdateManyWithWhereWithoutUserInput = {
+    where: EditorialCommentScalarWhereInput
+    data: XOR<EditorialCommentUpdateManyMutationInput, EditorialCommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type EditorialCommentScalarWhereInput = {
+    AND?: EditorialCommentScalarWhereInput | EditorialCommentScalarWhereInput[]
+    OR?: EditorialCommentScalarWhereInput[]
+    NOT?: EditorialCommentScalarWhereInput | EditorialCommentScalarWhereInput[]
+    id?: UuidFilter<"EditorialComment"> | string
+    content?: StringFilter<"EditorialComment"> | string
+    userId?: UuidFilter<"EditorialComment"> | string
+    editorialId?: UuidFilter<"EditorialComment"> | string
+    createdAt?: DateTimeFilter<"EditorialComment"> | Date | string
+    updatedAt?: DateTimeFilter<"EditorialComment"> | Date | string
+  }
+
+  export type FriendshipUpsertWithWhereUniqueWithoutRequesterInput = {
+    where: FriendshipWhereUniqueInput
+    update: XOR<FriendshipUpdateWithoutRequesterInput, FriendshipUncheckedUpdateWithoutRequesterInput>
+    create: XOR<FriendshipCreateWithoutRequesterInput, FriendshipUncheckedCreateWithoutRequesterInput>
+  }
+
+  export type FriendshipUpdateWithWhereUniqueWithoutRequesterInput = {
+    where: FriendshipWhereUniqueInput
+    data: XOR<FriendshipUpdateWithoutRequesterInput, FriendshipUncheckedUpdateWithoutRequesterInput>
+  }
+
+  export type FriendshipUpdateManyWithWhereWithoutRequesterInput = {
+    where: FriendshipScalarWhereInput
+    data: XOR<FriendshipUpdateManyMutationInput, FriendshipUncheckedUpdateManyWithoutRequesterInput>
+  }
+
+  export type FriendshipScalarWhereInput = {
+    AND?: FriendshipScalarWhereInput | FriendshipScalarWhereInput[]
+    OR?: FriendshipScalarWhereInput[]
+    NOT?: FriendshipScalarWhereInput | FriendshipScalarWhereInput[]
+    id?: StringFilter<"Friendship"> | string
+    requesterId?: UuidFilter<"Friendship"> | string
+    receiverId?: UuidFilter<"Friendship"> | string
+    status?: EnumFriendshipStatusFilter<"Friendship"> | $Enums.FriendshipStatus
+    createdAt?: DateTimeFilter<"Friendship"> | Date | string
+    updatedAt?: DateTimeFilter<"Friendship"> | Date | string
+  }
+
+  export type FriendshipUpsertWithWhereUniqueWithoutReceiverInput = {
+    where: FriendshipWhereUniqueInput
+    update: XOR<FriendshipUpdateWithoutReceiverInput, FriendshipUncheckedUpdateWithoutReceiverInput>
+    create: XOR<FriendshipCreateWithoutReceiverInput, FriendshipUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type FriendshipUpdateWithWhereUniqueWithoutReceiverInput = {
+    where: FriendshipWhereUniqueInput
+    data: XOR<FriendshipUpdateWithoutReceiverInput, FriendshipUncheckedUpdateWithoutReceiverInput>
+  }
+
+  export type FriendshipUpdateManyWithWhereWithoutReceiverInput = {
+    where: FriendshipScalarWhereInput
+    data: XOR<FriendshipUpdateManyMutationInput, FriendshipUncheckedUpdateManyWithoutReceiverInput>
+  }
+
   export type UserCreateWithoutClosetInput = {
     id?: string
     username: string
@@ -18350,6 +25162,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     favorites?: FavoriteCreateNestedManyWithoutUserInput
@@ -18363,6 +25179,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutClosetInput = {
@@ -18376,6 +25197,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
@@ -18389,6 +25214,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutClosetInput = {
@@ -18468,6 +25298,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
@@ -18481,6 +25315,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutClosetInput = {
@@ -18494,6 +25333,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
@@ -18507,6 +25350,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type ListingUpsertWithWhereUniqueWithoutClosetInput = {
@@ -18575,6 +25423,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -18588,6 +25440,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -18601,6 +25458,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -18614,6 +25475,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -18849,6 +25715,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -18862,6 +25732,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -18875,6 +25750,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -18888,6 +25767,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutListingInput = {
@@ -19050,6 +25934,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -19063,6 +25951,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutTradePreferenceInput = {
@@ -19076,6 +25969,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -19089,6 +25986,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutTradePreferenceInput = {
@@ -19169,6 +26071,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -19182,6 +26088,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTradePreferenceInput = {
@@ -19195,6 +26106,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -19208,6 +26123,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserCreateWithoutTradeRequestsSentInput = {
@@ -19221,6 +26141,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -19234,6 +26158,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutTradeRequestsSentInput = {
@@ -19247,6 +26176,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -19260,6 +26193,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutTradeRequestsSentInput = {
@@ -19278,6 +26216,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -19291,6 +26233,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutTradeRequestsReceivedInput = {
@@ -19304,6 +26251,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -19317,6 +26268,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutTradeRequestsReceivedInput = {
@@ -19468,6 +26424,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -19481,6 +26441,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTradeRequestsSentInput = {
@@ -19494,6 +26459,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -19507,6 +26476,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUpsertWithoutTradeRequestsReceivedInput = {
@@ -19531,6 +26505,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -19544,6 +26522,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTradeRequestsReceivedInput = {
@@ -19557,6 +26540,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -19570,6 +26557,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type ListingUpsertWithWhereUniqueWithoutTradeRequestsInitiatedInput = {
@@ -19737,6 +26729,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -19750,6 +26746,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -19763,6 +26764,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -19776,6 +26781,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -19856,6 +26866,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -19869,6 +26883,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -19882,6 +26901,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -19895,6 +26918,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserCreateWithoutMessagesFromInput = {
@@ -19908,6 +26936,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -19921,6 +26953,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutMessagesFromInput = {
@@ -19934,6 +26971,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -19947,6 +26988,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutMessagesFromInput = {
@@ -20010,6 +27056,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -20023,6 +27073,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutMessagesToInput = {
@@ -20036,6 +27091,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -20049,6 +27108,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutMessagesToInput = {
@@ -20078,6 +27142,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -20091,6 +27159,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesFromInput = {
@@ -20104,6 +27177,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -20117,6 +27194,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type ListingUpsertWithoutMessagesInput = {
@@ -20192,6 +27274,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -20205,6 +27291,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesToInput = {
@@ -20218,6 +27309,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -20231,6 +27326,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type ListingCreateWithoutReviewsInput = {
@@ -20289,6 +27389,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -20302,6 +27406,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutReviewsReceivedInput = {
@@ -20315,6 +27424,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -20328,6 +27441,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutReviewsReceivedInput = {
@@ -20346,6 +27464,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -20359,6 +27481,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -20372,6 +27499,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -20385,6 +27516,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -20494,6 +27630,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -20507,6 +27647,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -20520,6 +27665,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -20533,6 +27682,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUpsertWithoutReviewsGivenInput = {
@@ -20557,6 +27711,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -20570,6 +27728,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -20583,6 +27746,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -20596,6 +27763,11 @@ export namespace Prisma {
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type TradeRequestUpsertWithoutReviewsInput = {
@@ -20644,6 +27816,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -20657,6 +27833,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutBlockedUsersInput = {
@@ -20670,6 +27851,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -20683,6 +27868,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutBlockedUsersInput = {
@@ -20701,6 +27891,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetCreateNestedOneWithoutUserInput
@@ -20714,6 +27908,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
     tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
   }
 
   export type UserUncheckedCreateWithoutBlockedByUsersInput = {
@@ -20727,6 +27926,10 @@ export namespace Prisma {
     image?: string | null
     bio?: string | null
     location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
@@ -20740,6 +27943,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
     tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
     blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
   }
 
   export type UserCreateOrConnectWithoutBlockedByUsersInput = {
@@ -20769,6 +27977,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -20782,6 +27994,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBlockedUsersInput = {
@@ -20795,6 +28012,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -20808,6 +28029,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUpsertWithoutBlockedByUsersInput = {
@@ -20832,6 +28058,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUpdateOneWithoutUserNestedInput
@@ -20845,6 +28075,11 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
     tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBlockedByUsersInput = {
@@ -20858,6 +28093,10 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
@@ -20871,6 +28110,1047 @@ export namespace Prisma {
     tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
     tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
     blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserCreateWithoutFriendshipsSentInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetCreateNestedOneWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageCreateNestedManyWithoutFromInput
+    messagesTo?: MessageCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutFriendshipsSentInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageUncheckedCreateNestedManyWithoutFromInput
+    messagesTo?: MessageUncheckedCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceUncheckedCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutFriendshipsSentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFriendshipsSentInput, UserUncheckedCreateWithoutFriendshipsSentInput>
+  }
+
+  export type UserCreateWithoutFriendshipsReceivedInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetCreateNestedOneWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageCreateNestedManyWithoutFromInput
+    messagesTo?: MessageCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+  }
+
+  export type UserUncheckedCreateWithoutFriendshipsReceivedInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageUncheckedCreateNestedManyWithoutFromInput
+    messagesTo?: MessageUncheckedCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceUncheckedCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+  }
+
+  export type UserCreateOrConnectWithoutFriendshipsReceivedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFriendshipsReceivedInput, UserUncheckedCreateWithoutFriendshipsReceivedInput>
+  }
+
+  export type UserUpsertWithoutFriendshipsSentInput = {
+    update: XOR<UserUpdateWithoutFriendshipsSentInput, UserUncheckedUpdateWithoutFriendshipsSentInput>
+    create: XOR<UserCreateWithoutFriendshipsSentInput, UserUncheckedCreateWithoutFriendshipsSentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFriendshipsSentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFriendshipsSentInput, UserUncheckedUpdateWithoutFriendshipsSentInput>
+  }
+
+  export type UserUpdateWithoutFriendshipsSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFriendshipsSentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUncheckedUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUncheckedUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUncheckedUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUpsertWithoutFriendshipsReceivedInput = {
+    update: XOR<UserUpdateWithoutFriendshipsReceivedInput, UserUncheckedUpdateWithoutFriendshipsReceivedInput>
+    create: XOR<UserCreateWithoutFriendshipsReceivedInput, UserUncheckedCreateWithoutFriendshipsReceivedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFriendshipsReceivedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFriendshipsReceivedInput, UserUncheckedUpdateWithoutFriendshipsReceivedInput>
+  }
+
+  export type UserUpdateWithoutFriendshipsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFriendshipsReceivedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUncheckedUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUncheckedUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUncheckedUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+  }
+
+  export type UserCreateWithoutEditorialsInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetCreateNestedOneWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageCreateNestedManyWithoutFromInput
+    messagesTo?: MessageCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutEditorialsInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageUncheckedCreateNestedManyWithoutFromInput
+    messagesTo?: MessageUncheckedCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceUncheckedCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutEditorialsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEditorialsInput, UserUncheckedCreateWithoutEditorialsInput>
+  }
+
+  export type EditorialLikeCreateWithoutEditorialInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutEditorialLikesInput
+  }
+
+  export type EditorialLikeUncheckedCreateWithoutEditorialInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type EditorialLikeCreateOrConnectWithoutEditorialInput = {
+    where: EditorialLikeWhereUniqueInput
+    create: XOR<EditorialLikeCreateWithoutEditorialInput, EditorialLikeUncheckedCreateWithoutEditorialInput>
+  }
+
+  export type EditorialLikeCreateManyEditorialInputEnvelope = {
+    data: EditorialLikeCreateManyEditorialInput | EditorialLikeCreateManyEditorialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EditorialCommentCreateWithoutEditorialInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEditorialCommentsInput
+  }
+
+  export type EditorialCommentUncheckedCreateWithoutEditorialInput = {
+    id?: string
+    content: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialCommentCreateOrConnectWithoutEditorialInput = {
+    where: EditorialCommentWhereUniqueInput
+    create: XOR<EditorialCommentCreateWithoutEditorialInput, EditorialCommentUncheckedCreateWithoutEditorialInput>
+  }
+
+  export type EditorialCommentCreateManyEditorialInputEnvelope = {
+    data: EditorialCommentCreateManyEditorialInput | EditorialCommentCreateManyEditorialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutEditorialsInput = {
+    update: XOR<UserUpdateWithoutEditorialsInput, UserUncheckedUpdateWithoutEditorialsInput>
+    create: XOR<UserCreateWithoutEditorialsInput, UserUncheckedCreateWithoutEditorialsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEditorialsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEditorialsInput, UserUncheckedUpdateWithoutEditorialsInput>
+  }
+
+  export type UserUpdateWithoutEditorialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEditorialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUncheckedUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUncheckedUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUncheckedUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type EditorialLikeUpsertWithWhereUniqueWithoutEditorialInput = {
+    where: EditorialLikeWhereUniqueInput
+    update: XOR<EditorialLikeUpdateWithoutEditorialInput, EditorialLikeUncheckedUpdateWithoutEditorialInput>
+    create: XOR<EditorialLikeCreateWithoutEditorialInput, EditorialLikeUncheckedCreateWithoutEditorialInput>
+  }
+
+  export type EditorialLikeUpdateWithWhereUniqueWithoutEditorialInput = {
+    where: EditorialLikeWhereUniqueInput
+    data: XOR<EditorialLikeUpdateWithoutEditorialInput, EditorialLikeUncheckedUpdateWithoutEditorialInput>
+  }
+
+  export type EditorialLikeUpdateManyWithWhereWithoutEditorialInput = {
+    where: EditorialLikeScalarWhereInput
+    data: XOR<EditorialLikeUpdateManyMutationInput, EditorialLikeUncheckedUpdateManyWithoutEditorialInput>
+  }
+
+  export type EditorialCommentUpsertWithWhereUniqueWithoutEditorialInput = {
+    where: EditorialCommentWhereUniqueInput
+    update: XOR<EditorialCommentUpdateWithoutEditorialInput, EditorialCommentUncheckedUpdateWithoutEditorialInput>
+    create: XOR<EditorialCommentCreateWithoutEditorialInput, EditorialCommentUncheckedCreateWithoutEditorialInput>
+  }
+
+  export type EditorialCommentUpdateWithWhereUniqueWithoutEditorialInput = {
+    where: EditorialCommentWhereUniqueInput
+    data: XOR<EditorialCommentUpdateWithoutEditorialInput, EditorialCommentUncheckedUpdateWithoutEditorialInput>
+  }
+
+  export type EditorialCommentUpdateManyWithWhereWithoutEditorialInput = {
+    where: EditorialCommentScalarWhereInput
+    data: XOR<EditorialCommentUpdateManyMutationInput, EditorialCommentUncheckedUpdateManyWithoutEditorialInput>
+  }
+
+  export type UserCreateWithoutEditorialLikesInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetCreateNestedOneWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageCreateNestedManyWithoutFromInput
+    messagesTo?: MessageCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialComments?: EditorialCommentCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutEditorialLikesInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageUncheckedCreateNestedManyWithoutFromInput
+    messagesTo?: MessageUncheckedCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceUncheckedCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialComments?: EditorialCommentUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutEditorialLikesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEditorialLikesInput, UserUncheckedCreateWithoutEditorialLikesInput>
+  }
+
+  export type EditorialCreateWithoutLikesInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutEditorialsInput
+    comments?: EditorialCommentCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialUncheckedCreateWithoutLikesInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    authorId: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comments?: EditorialCommentUncheckedCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialCreateOrConnectWithoutLikesInput = {
+    where: EditorialWhereUniqueInput
+    create: XOR<EditorialCreateWithoutLikesInput, EditorialUncheckedCreateWithoutLikesInput>
+  }
+
+  export type UserUpsertWithoutEditorialLikesInput = {
+    update: XOR<UserUpdateWithoutEditorialLikesInput, UserUncheckedUpdateWithoutEditorialLikesInput>
+    create: XOR<UserCreateWithoutEditorialLikesInput, UserUncheckedCreateWithoutEditorialLikesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEditorialLikesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEditorialLikesInput, UserUncheckedUpdateWithoutEditorialLikesInput>
+  }
+
+  export type UserUpdateWithoutEditorialLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialComments?: EditorialCommentUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEditorialLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUncheckedUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUncheckedUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUncheckedUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialComments?: EditorialCommentUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type EditorialUpsertWithoutLikesInput = {
+    update: XOR<EditorialUpdateWithoutLikesInput, EditorialUncheckedUpdateWithoutLikesInput>
+    create: XOR<EditorialCreateWithoutLikesInput, EditorialUncheckedCreateWithoutLikesInput>
+    where?: EditorialWhereInput
+  }
+
+  export type EditorialUpdateToOneWithWhereWithoutLikesInput = {
+    where?: EditorialWhereInput
+    data: XOR<EditorialUpdateWithoutLikesInput, EditorialUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type EditorialUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutEditorialsNestedInput
+    comments?: EditorialCommentUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type EditorialUncheckedUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: EditorialCommentUncheckedUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type UserCreateWithoutEditorialCommentsInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetCreateNestedOneWithoutUserInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageCreateNestedManyWithoutFromInput
+    messagesTo?: MessageCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutEditorialCommentsInput = {
+    id?: string
+    username: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    displayName?: string | null
+    clerkid: string
+    image?: string | null
+    bio?: string | null
+    location?: string | null
+    isAdmin?: boolean
+    profileVisibility?: $Enums.ProfileVisibility
+    allowDirectMessages?: boolean
+    showTradingHistory?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    closet?: ClosetUncheckedCreateNestedOneWithoutUserInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    messagesFrom?: MessageUncheckedCreateNestedManyWithoutFromInput
+    messagesTo?: MessageUncheckedCreateNestedManyWithoutToInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    TradePreference?: TradePreferenceUncheckedCreateNestedManyWithoutUserInput
+    tradeRequestsSent?: TradeRequestUncheckedCreateNestedManyWithoutFromUserInput
+    tradeRequestsReceived?: TradeRequestUncheckedCreateNestedManyWithoutToUserInput
+    blockedUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    blockedByUsers?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+    editorials?: EditorialUncheckedCreateNestedManyWithoutAuthorInput
+    editorialLikes?: EditorialLikeUncheckedCreateNestedManyWithoutUserInput
+    friendshipsSent?: FriendshipUncheckedCreateNestedManyWithoutRequesterInput
+    friendshipsReceived?: FriendshipUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutEditorialCommentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEditorialCommentsInput, UserUncheckedCreateWithoutEditorialCommentsInput>
+  }
+
+  export type EditorialCreateWithoutCommentsInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutEditorialsInput
+    likes?: EditorialLikeCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    authorId: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    likes?: EditorialLikeUncheckedCreateNestedManyWithoutEditorialInput
+  }
+
+  export type EditorialCreateOrConnectWithoutCommentsInput = {
+    where: EditorialWhereUniqueInput
+    create: XOR<EditorialCreateWithoutCommentsInput, EditorialUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type UserUpsertWithoutEditorialCommentsInput = {
+    update: XOR<UserUpdateWithoutEditorialCommentsInput, UserUncheckedUpdateWithoutEditorialCommentsInput>
+    create: XOR<UserCreateWithoutEditorialCommentsInput, UserUncheckedCreateWithoutEditorialCommentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEditorialCommentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEditorialCommentsInput, UserUncheckedUpdateWithoutEditorialCommentsInput>
+  }
+
+  export type UserUpdateWithoutEditorialCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEditorialCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkid?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
+    allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
+    showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    closet?: ClosetUncheckedUpdateOneWithoutUserNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    messagesFrom?: MessageUncheckedUpdateManyWithoutFromNestedInput
+    messagesTo?: MessageUncheckedUpdateManyWithoutToNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    TradePreference?: TradePreferenceUncheckedUpdateManyWithoutUserNestedInput
+    tradeRequestsSent?: TradeRequestUncheckedUpdateManyWithoutFromUserNestedInput
+    tradeRequestsReceived?: TradeRequestUncheckedUpdateManyWithoutToUserNestedInput
+    blockedUsers?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    blockedByUsers?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+    editorials?: EditorialUncheckedUpdateManyWithoutAuthorNestedInput
+    editorialLikes?: EditorialLikeUncheckedUpdateManyWithoutUserNestedInput
+    friendshipsSent?: FriendshipUncheckedUpdateManyWithoutRequesterNestedInput
+    friendshipsReceived?: FriendshipUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type EditorialUpsertWithoutCommentsInput = {
+    update: XOR<EditorialUpdateWithoutCommentsInput, EditorialUncheckedUpdateWithoutCommentsInput>
+    create: XOR<EditorialCreateWithoutCommentsInput, EditorialUncheckedCreateWithoutCommentsInput>
+    where?: EditorialWhereInput
+  }
+
+  export type EditorialUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: EditorialWhereInput
+    data: XOR<EditorialUpdateWithoutCommentsInput, EditorialUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type EditorialUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutEditorialsNestedInput
+    likes?: EditorialLikeUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type EditorialUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: EditorialLikeUncheckedUpdateManyWithoutEditorialNestedInput
   }
 
   export type FavoriteCreateManyUserInput = {
@@ -20972,6 +29252,52 @@ export namespace Prisma {
     id?: string
     blockerId: string
     createdAt?: Date | string
+  }
+
+  export type EditorialCreateManyAuthorInput = {
+    id?: string
+    slug: string
+    title: string
+    subtitle?: string | null
+    content: string
+    excerpt?: string | null
+    image?: string | null
+    category: string
+    published?: boolean
+    tags?: EditorialCreatetagsInput | string[]
+    isStaffPicked?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialLikeCreateManyUserInput = {
+    id?: string
+    editorialId: string
+    createdAt?: Date | string
+  }
+
+  export type EditorialCommentCreateManyUserInput = {
+    id?: string
+    content: string
+    editorialId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FriendshipCreateManyRequesterInput = {
+    id?: string
+    receiverId: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FriendshipCreateManyReceiverInput = {
+    id?: string
+    requesterId: string
+    status?: $Enums.FriendshipStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FavoriteUpdateWithoutUserInput = {
@@ -21301,6 +29627,148 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     blockerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: EditorialLikeUpdateManyWithoutEditorialNestedInput
+    comments?: EditorialCommentUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type EditorialUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: EditorialLikeUncheckedUpdateManyWithoutEditorialNestedInput
+    comments?: EditorialCommentUncheckedUpdateManyWithoutEditorialNestedInput
+  }
+
+  export type EditorialUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    excerpt?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    published?: BoolFieldUpdateOperationsInput | boolean
+    tags?: EditorialUpdatetagsInput | string[]
+    isStaffPicked?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    editorial?: EditorialUpdateOneRequiredWithoutLikesNestedInput
+  }
+
+  export type EditorialLikeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    editorial?: EditorialUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type EditorialCommentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    editorialId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FriendshipUpdateWithoutRequesterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receiver?: UserUpdateOneRequiredWithoutFriendshipsReceivedNestedInput
+  }
+
+  export type FriendshipUncheckedUpdateWithoutRequesterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FriendshipUncheckedUpdateManyWithoutRequesterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FriendshipUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requester?: UserUpdateOneRequiredWithoutFriendshipsSentNestedInput
+  }
+
+  export type FriendshipUncheckedUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterId?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FriendshipUncheckedUpdateManyWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requesterId?: StringFieldUpdateOperationsInput | string
+    status?: EnumFriendshipStatusFieldUpdateOperationsInput | $Enums.FriendshipStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListingCreateManyClosetInput = {
@@ -21798,6 +30266,62 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     closetId?: StringFieldUpdateOperationsInput | string
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeCreateManyEditorialInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type EditorialCommentCreateManyEditorialInput = {
+    id?: string
+    content: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EditorialLikeUpdateWithoutEditorialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEditorialLikesNestedInput
+  }
+
+  export type EditorialLikeUncheckedUpdateWithoutEditorialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialLikeUncheckedUpdateManyWithoutEditorialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentUpdateWithoutEditorialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEditorialCommentsNestedInput
+  }
+
+  export type EditorialCommentUncheckedUpdateWithoutEditorialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EditorialCommentUncheckedUpdateManyWithoutEditorialInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

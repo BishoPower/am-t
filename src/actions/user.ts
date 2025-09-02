@@ -74,25 +74,6 @@ export const searchListings = async (
   tags?: string
 ) => {
   try {
-    console.log("=== searchListings called ===");
-    console.log(
-      "query:",
-      JSON.stringify(query),
-      "type:",
-      typeof query,
-      "length:",
-      query?.length
-    );
-    console.log("key:", JSON.stringify(key), "type:", typeof key);
-    console.log(
-      "tags:",
-      JSON.stringify(tags),
-      "type:",
-      typeof tags,
-      "length:",
-      tags?.length
-    );
-
     // Get current user for block filtering
     const user = await currentUser();
     let blockedUserIds: string[] = [];
@@ -131,13 +112,10 @@ export const searchListings = async (
       tags.trim().length > 0 &&
       (!query || query.trim().length === 0)
     ) {
-      console.log("Performing tag-only search for:", tags);
-      console.log("Query is:", JSON.stringify(query), "length:", query?.length);
       const tagNames = tags
         .split(",")
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
-      console.log("Searching for tag names:", tagNames);
 
       const listings = await client.listing.findMany({
         where: {
@@ -176,19 +154,10 @@ export const searchListings = async (
         take: 50,
       });
 
-      console.log("Tag-only search results found:", listings.length);
-      console.log(
-        "Sample results:",
-        listings.slice(0, 3).map((l) => ({
-          title: l.title,
-          tags: l.tags.map((t) => t.name),
-        }))
-      );
       return { status: 200, results: listings };
     }
 
     if (!query || query.trim().length === 0) {
-      console.log("No query provided, returning recent listings");
       // If no query, return recent listings
       const listings = await client.listing.findMany({
         where: {
@@ -222,11 +191,9 @@ export const searchListings = async (
         take: 50,
       });
 
-      console.log("Recent listings found:", listings.length);
       return { status: 200, results: listings };
     }
-    console.log("Performing search with query:", query);
-    console.log("Search terms:", query.toLowerCase().trim().split(/\s+/));
+
     const searchTerms = query.toLowerCase().trim().split(/\s+/);
 
     // Build OR conditions for individual terms
@@ -283,7 +250,6 @@ export const searchListings = async (
         .split(",")
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
-      console.log("Adding tag filter for:", tagNames);
       whereClause = {
         AND: [
           whereClause,
@@ -323,25 +289,6 @@ export const searchListings = async (
       },
       take: 100, // Get more results to score and sort
     });
-    console.log("Raw search results:", listings.length);
-    console.log(
-      "All listings found:",
-      listings.map((l) => ({
-        id: l.id,
-        title: l.title,
-        isPrivate: l.isPrivate,
-        status: l.status,
-      }))
-    );
-    console.log(
-      "Sample results:",
-      listings.slice(0, 3).map((l) => ({
-        id: l.id,
-        title: l.title,
-        isPrivate: l.isPrivate,
-        status: l.status,
-      }))
-    );
 
     // Score listings based on relevance
     const scoredListings = listings.map((listing) => {
@@ -351,20 +298,17 @@ export const searchListings = async (
       const tagNames = listing.tags.map((tag: any) => tag.name.toLowerCase());
       const queryLower = query.toLowerCase();
 
-      console.log(`Scoring listing "${listing.title}" for query "${query}"`); // Exact title match (highest score)
+      // Exact title match (highest score)
       if (titleLower === queryLower) {
         score += 1000;
-        console.log(`  Exact title match: +1000 (total: ${score})`);
       }
       // Title starts with query
       else if (titleLower.startsWith(queryLower)) {
         score += 800;
-        console.log(`  Title starts with query: +800 (total: ${score})`);
       }
       // Title contains full query
       else if (titleLower.includes(queryLower)) {
         score += 600;
-        console.log(`  Title contains query: +600 (total: ${score})`);
       }
       // Only check individual terms if we didn't get a full query match
       else {
@@ -372,15 +316,9 @@ export const searchListings = async (
         searchTerms.forEach((term) => {
           if (titleLower.includes(term)) {
             score += 400;
-            console.log(
-              `  Title contains term "${term}": +400 (total: ${score})`
-            );
           }
           if (titleLower.startsWith(term)) {
             score += 200;
-            console.log(
-              `  Title starts with term "${term}": +200 (total: ${score})`
-            );
           }
         });
       } // Tag matches (high priority)
@@ -417,22 +355,13 @@ export const searchListings = async (
         score += 20;
       }
 
-      console.log(`  Final score for "${listing.title}": ${score}`);
-
       return {
         ...listing,
         relevanceScore: score,
       };
     });
 
-    console.log(
-      "Scored listings:",
-      scoredListings.map((l) => ({
-        title: l.title,
-        score: l.relevanceScore,
-        tags: l.tags?.map((t: any) => t.name) || [],
-      }))
-    ); // Simple but effective sorting: exact matches first, then by score
+    // Simple but effective sorting: exact matches first, then by score
     const exactMatches: any[] = [];
     const otherMatches: any[] = [];
 
@@ -455,19 +384,6 @@ export const searchListings = async (
       .slice(0, 50)
       .map(({ relevanceScore, ...listing }) => listing); // Remove score from response
 
-    console.log(
-      "Exact matches:",
-      exactMatches.map((l) => l.title)
-    );
-    console.log(
-      "Other matches:",
-      otherMatches.map((l) => l.title)
-    );
-    console.log(
-      "Final search results order:",
-      sortedListings.map((l) => ({ id: l.id, title: l.title }))
-    );
-    console.log("Final search results:", sortedListings.length);
     return { status: 200, results: sortedListings };
   } catch (error) {
     console.error("Error searching listings:", error);

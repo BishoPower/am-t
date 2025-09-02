@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { client } from "@/lib/prisma";
+import { updateUserActivity } from "@/lib/privacy-utils";
 
 export async function GET(request: NextRequest) {
   try {
+    // Update user activity for online status tracking
+    updateUserActivity();
+
     const user = await currentUser();
 
     if (!user) {
@@ -82,36 +86,76 @@ export async function GET(request: NextRequest) {
 }
 
 async function getFeaturedArticles() {
-  // Mock editorial articles - in a real app, these would come from a CMS
-  return [
-    {
-      id: "1",
-      title: "The Chrome Hearts Phenomenon",
-      subtitle: "How the luxury brand became the most traded item this summer",
-      image: "/api/placeholder/800/600",
-      category: "SURFACED",
-      slug: "chrome-hearts-phenomenon",
-      date: "June 25, 2025",
-    },
-    {
-      id: "2",
-      title: "Vintage Band Tees: Authentication Guide",
-      subtitle: "How to spot authentic vintage concert tees",
-      image: "/api/placeholder/800/600",
-      category: "SHOPPING",
-      slug: "vintage-band-tees-guide",
-      date: "June 24, 2025",
-    },
-    {
-      id: "3",
-      title: "Street Style: AM-T Community Fits",
-      subtitle: "The best fits from our trading community",
-      image: "/api/placeholder/800/600",
-      category: "STREET STYLE",
-      slug: "community-street-style",
-      date: "June 23, 2025",
-    },
-  ];
+  try {
+    // Get the 3 most recent staff-picked editorials from the database
+    const staffPickedEditorials = await client.editorial.findMany({
+      where: {
+        isStaffPicked: true,
+        published: true,
+      },
+      include: {
+        author: {
+          select: {
+            username: true,
+            displayName: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 3,
+    });
+
+    // If we have fewer than 3 staff picks, fill with recent editorials
+    if (staffPickedEditorials.length < 3) {
+      const additionalEditorials = await client.editorial.findMany({
+        where: {
+          published: true,
+          id: {
+            notIn: staffPickedEditorials.map((e) => e.id),
+          },
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+              displayName: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 3 - staffPickedEditorials.length,
+      });
+
+      staffPickedEditorials.push(...additionalEditorials);
+    }
+
+    return staffPickedEditorials.map((editorial) => ({
+      id: editorial.id,
+      title: editorial.title,
+      subtitle: editorial.subtitle || "",
+      image: editorial.image || "/amtlogo-static.png",
+      category: editorial.category,
+      slug: editorial.slug,
+      date: editorial.createdAt.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      author: editorial.author,
+    }));
+  } catch (error) {
+    console.error("Error fetching staff-picked editorials:", error);
+    // Fallback to empty array if database query fails
+    return [];
+  }
 }
 
 async function getRecommendedListings(userId: string) {

@@ -20,21 +20,17 @@ import {
 } from "@tanstack/react-query";
 import { SettingsProvider } from "@/components/settings/SettingsProvider";
 
-// Fix the helper function to properly await the params
-async function getUsername(params: { username: string }) {
-  return params.username;
-}
-
 // Dynamic wrapper with auth logic
 export default async function Layout({
   params,
   children,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
   children: React.ReactNode;
 }) {
-  // Get username through the helper function
-  const username = await getUsername(params);
+  // Await the params first
+  const resolvedParams = await params;
+  const username = resolvedParams.username;
 
   // Authentication logic
   const auth = await onAuthenticatedUser();

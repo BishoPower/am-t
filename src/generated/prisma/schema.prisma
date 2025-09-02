@@ -9,30 +9,40 @@ datasource db {
 }
 
 model User {
-  id                    String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username              String            @unique
-  email                 String            @unique
+  id                    String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username              String             @unique
+  email                 String             @unique
   firstName             String?
   lastName              String?
   displayName           String?
-  clerkid               String            @unique
+  clerkid               String             @unique
   image                 String?
   bio                   String?
   location              String?
-  createdAt             DateTime          @default(now())
-  updatedAt             DateTime          @updatedAt
+  isAdmin               Boolean            @default(false) // New admin role field
+  // Privacy settings
+  profileVisibility     ProfileVisibility  @default(PUBLIC)
+  allowDirectMessages   Boolean            @default(true)
+  showTradingHistory    Boolean            @default(true)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
   closet                Closet?
-  favorites             Favorite[]        @relation("UserFavorites")
+  favorites             Favorite[]         @relation("UserFavorites")
   listings              Listing[]
-  messagesFrom          Message[]         @relation("MessageFrom")
-  messagesTo            Message[]         @relation("MessageTo")
-  reviewsReceived       Review[]          @relation("ReviewTo")
-  reviewsGiven          Review[]          @relation("ReviewFrom")
+  messagesFrom          Message[]          @relation("MessageFrom")
+  messagesTo            Message[]          @relation("MessageTo")
+  reviewsReceived       Review[]           @relation("ReviewTo")
+  reviewsGiven          Review[]           @relation("ReviewFrom")
   TradePreference       TradePreference[]
-  tradeRequestsSent     TradeRequest[]    @relation("TradeFrom")
-  tradeRequestsReceived TradeRequest[]    @relation("TradeTo")
-  blockedUsers          BlockedUser[]     @relation("UserBlocking")
-  blockedByUsers        BlockedUser[]     @relation("UserBlocked")
+  tradeRequestsSent     TradeRequest[]     @relation("TradeFrom")
+  tradeRequestsReceived TradeRequest[]     @relation("TradeTo")
+  blockedUsers          BlockedUser[]      @relation("UserBlocking")
+  blockedByUsers        BlockedUser[]      @relation("UserBlocked")
+  editorials            Editorial[] // New relation for user-created editorials
+  editorialLikes        EditorialLike[]
+  editorialComments     EditorialComment[]
+  friendshipsSent       Friendship[]       @relation("FriendshipRequester")
+  friendshipsReceived   Friendship[]       @relation("FriendshipReceiver")
 }
 
 model Closet {
@@ -154,6 +164,25 @@ model BlockedUser {
   @@unique([blockerId, blockedId])
 }
 
+model Friendship {
+  id          String           @id @default(cuid())
+  requesterId String           @db.Uuid
+  receiverId  String           @db.Uuid
+  status      FriendshipStatus @default(PENDING)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  requester   User             @relation("FriendshipRequester", fields: [requesterId], references: [id])
+  receiver    User             @relation("FriendshipReceiver", fields: [receiverId], references: [id])
+
+  @@unique([requesterId, receiverId])
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 enum TradeStatus {
   PENDING
   ACCEPTED
@@ -165,4 +194,57 @@ enum ListingStatus {
   ACTIVE
   SOLD
   ARCHIVED
+}
+
+enum ProfileVisibility {
+  PUBLIC
+  PRIVATE
+  FRIENDS_ONLY
+}
+
+model Editorial {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug          String // Removed @unique since slug is now unique per user
+  title         String
+  subtitle      String?
+  content       String
+  excerpt       String?
+  image         String?
+  category      String
+  authorId      String   @db.Uuid // Changed from authorName to user ID
+  published     Boolean  @default(true) // Changed default to true since users can create
+  tags          String[]
+  isStaffPicked Boolean  @default(false) // New field for staff curation
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  author   User               @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes    EditorialLike[]
+  comments EditorialComment[]
+
+  // Ensure slug is unique per author
+  @@unique([authorId, slug])
+}
+
+model EditorialLike {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String    @db.Uuid
+  editorialId String    @db.Uuid
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  editorial   Editorial @relation(fields: [editorialId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, editorialId])
+}
+
+model EditorialComment {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content     String
+  userId      String    @db.Uuid
+  editorialId String    @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  editorial   Editorial @relation(fields: [editorialId], references: [id], onDelete: Cascade)
 }

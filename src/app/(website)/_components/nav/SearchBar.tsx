@@ -133,9 +133,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       inputRef.current.focus();
       setShowResults(true);
     }
-
-    // Debug to see if this is being triggered
-    console.log("Search icon clicked, screen width:", window.innerWidth);
   };
 
   return (

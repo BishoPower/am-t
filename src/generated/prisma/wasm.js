@@ -131,6 +131,10 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   bio: 'bio',
   location: 'location',
+  isAdmin: 'isAdmin',
+  profileVisibility: 'profileVisibility',
+  allowDirectMessages: 'allowDirectMessages',
+  showTradingHistory: 'showTradingHistory',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -218,6 +222,48 @@ exports.Prisma.BlockedUserScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FriendshipScalarFieldEnum = {
+  id: 'id',
+  requesterId: 'requesterId',
+  receiverId: 'receiverId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EditorialScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  subtitle: 'subtitle',
+  content: 'content',
+  excerpt: 'excerpt',
+  image: 'image',
+  category: 'category',
+  authorId: 'authorId',
+  published: 'published',
+  tags: 'tags',
+  isStaffPicked: 'isStaffPicked',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EditorialLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  editorialId: 'editorialId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EditorialCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  editorialId: 'editorialId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -232,6 +278,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.ProfileVisibility = exports.$Enums.ProfileVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+  FRIENDS_ONLY: 'FRIENDS_ONLY'
+};
+
 exports.ListingStatus = exports.$Enums.ListingStatus = {
   ACTIVE: 'ACTIVE',
   SOLD: 'SOLD',
@@ -245,6 +297,12 @@ exports.TradeStatus = exports.$Enums.TradeStatus = {
   CANCELED: 'CANCELED'
 };
 
+exports.FriendshipStatus = exports.$Enums.FriendshipStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Closet: 'Closet',
@@ -255,7 +313,11 @@ exports.Prisma.ModelName = {
   Favorite: 'Favorite',
   Message: 'Message',
   Review: 'Review',
-  BlockedUser: 'BlockedUser'
+  BlockedUser: 'BlockedUser',
+  Friendship: 'Friendship',
+  Editorial: 'Editorial',
+  EditorialLike: 'EditorialLike',
+  EditorialComment: 'EditorialComment'
 };
 
 /**

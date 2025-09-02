@@ -76,34 +76,24 @@ const SearchResults = ({ searchParams }: SearchResultsProps) => {
         if (finalSimilar && finalSimilar.trim() !== "") {
           // Fetch similar listings
           url = `/api/listings/${finalSimilar}/similar?limit=24`;
-          console.log("Fetching similar listings from:", url);
         } else if (query && query.trim() !== "") {
           // Regular search - ensure we have a valid query
           const searchUrl = new URLSearchParams();
           searchUrl.append("q", query.trim());
           if (finalTags) searchUrl.append("tags", finalTags);
           url = `/api/search/listings?${searchUrl.toString()}`;
-          console.log("Fetching search results from:", url);
-          console.log("Search parameters - query:", query, "tags:", finalTags);
         } else if (finalTags && finalTags.trim() !== "") {
           // Tag-only search
           const searchUrl = new URLSearchParams();
           searchUrl.append("tags", finalTags);
           url = `/api/search/listings?${searchUrl.toString()}`;
-          console.log("Fetching tag search results from:", url);
         } else {
           // Default: fetch recent listings
           url = `/api/listings?limit=24`;
-          console.log("Fetching recent listings from:", url);
         }
         const response = await fetch(url);
-        console.log("Response status:", response.status);
-        console.log("Response headers:", response.headers);
         if (response.ok) {
           const data = await response.json();
-          console.log("Response data:", data);
-          console.log("Data type:", typeof data);
-          console.log("Data keys:", Object.keys(data));
           if (finalSimilar && finalSimilar.trim() !== "") {
             const resultData = Array.isArray(data) ? data : [];
             setOriginalListings(resultData);

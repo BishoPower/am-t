@@ -11,87 +11,63 @@ import { useParams } from "next/navigation";
 
 // Mock data for category articles
 const categoryData = {
-  surfaced: {
-    name: "SURFACED",
-    description: "Emerging trends and movements in the fashion trading world",
+  featured: {
+    name: "FEATURED",
+    description: "Essential content for new and experienced AM-T traders",
     articles: [
       {
         id: "1",
-        title: "The Summer of Micro Trends",
-        excerpt:
-          "How small fashion movements are reshaping the trading landscape",
-        image: "/api/placeholder/400/300",
-        date: "June 25, 2025",
-        readTime: "5 min read",
-        slug: "summer-micro-trends",
-      },
-      {
-        id: "2",
-        title: "Archive Fashion Goes Mainstream",
-        excerpt:
-          "The rise of vintage and archive pieces in contemporary trading",
-        image: "/api/placeholder/400/300",
-        date: "June 20, 2025",
-        readTime: "7 min read",
-        slug: "archive-fashion-mainstream",
-      },
-      {
-        id: "3",
-        title: "The New Collectors: Gen Z Trading Habits",
-        excerpt:
-          "Understanding how the youngest generation approaches fashion trading",
-        image: "/api/placeholder/400/300",
-        date: "June 15, 2025",
-        readTime: "6 min read",
-        slug: "gen-z-trading-habits",
+        title: "Welcome to AM-T",
+        excerpt: "Your premier destination for authentic streetwear trading",
+        image: "/amtlogo-static.png",
+        date: "July 3, 2025",
+        readTime: "3 min read",
+        slug: "welcome-to-am-t",
       },
     ],
   },
-  "street-style": {
-    name: "STREET STYLE",
-    description: "Real fashion from real people on the streets",
+  guide: {
+    name: "GUIDE",
+    description: "Step-by-step guides for using AM-T effectively",
+    articles: [
+      {
+        id: "2",
+        title: "Getting Started with AM-T",
+        excerpt: "Everything you need to know to begin trading on AM-T",
+        image: "/amtlogo-static.png",
+        date: "July 3, 2025",
+        readTime: "5 min read",
+        slug: "getting-started-guide",
+      },
+    ],
+  },
+  tips: {
+    name: "TIPS",
+    description: "Pro tips and best practices for successful trading",
+    articles: [
+      {
+        id: "3",
+        title: "Building Your Trading Profile",
+        excerpt: "How to create an attractive and trustworthy trader profile",
+        image: "/amtlogo-static.png",
+        date: "July 3, 2025",
+        readTime: "4 min read",
+        slug: "building-trading-profile",
+      },
+    ],
+  },
+  info: {
+    name: "INFO",
+    description: "Important information about policies and guidelines",
     articles: [
       {
         id: "4",
-        title: "Tokyo Fashion Week Street Style",
-        excerpt: "The best looks from the streets of Harajuku and Shibuya",
-        image: "/api/placeholder/400/300",
-        date: "June 22, 2025",
-        readTime: "4 min read",
-        slug: "tokyo-fashion-week-street-style",
-      },
-      {
-        id: "5",
-        title: "New York's Underground Fashion Scene",
-        excerpt: "Discovering unique style in the city's hidden corners",
-        image: "/api/placeholder/400/300",
-        date: "June 18, 2025",
-        readTime: "8 min read",
-        slug: "ny-underground-fashion",
-      },
-    ],
-  },
-  "master-class": {
-    name: "MASTER CLASS",
-    description: "In-depth analysis and expert insights",
-    articles: [
-      {
-        id: "6",
-        title: "Why Hedi Slimane is Having a Moment",
-        excerpt: "An analysis of the designer's current cultural influence",
-        image: "/api/placeholder/400/300",
-        date: "June 24, 2025",
-        readTime: "8 min read",
-        slug: "hedi-slimane-moment",
-      },
-      {
-        id: "7",
-        title: "The Economics of Hypebeast Culture",
-        excerpt: "Understanding the financial forces behind streetwear trading",
-        image: "/api/placeholder/400/300",
-        date: "June 19, 2025",
-        readTime: "12 min read",
-        slug: "economics-hypebeast-culture",
+        title: "Community Guidelines",
+        excerpt: "Understanding AM-T's community standards and policies",
+        image: "/amtlogo-static.png",
+        date: "July 3, 2025",
+        readTime: "3 min read",
+        slug: "community-guidelines",
       },
     ],
   },
@@ -100,7 +76,9 @@ const categoryData = {
 export default function CategoryPage() {
   const params = useParams();
   const category = params.category as string;
-  const categoryInfo = categoryData[category] || categoryData["surfaced"];
+  const categoryInfo =
+    categoryData[category as keyof typeof categoryData] ||
+    categoryData["featured"];
 
   return (
     <div className="min-h-screen bg-white">
@@ -155,7 +133,10 @@ export default function CategoryPage() {
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categoryInfo.articles.map((article) => (
-            <Link key={article.id} href={`/editorial/article/${article.slug}`}>
+            <Link
+              key={article.id}
+              href={`/editorial/article/admin/${article.slug}`}
+            >
               <Card className="border-2 hover:border-black transition-colors group cursor-pointer h-full">
                 <div className="relative h-48 overflow-hidden">
                   <Image

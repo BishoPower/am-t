@@ -28,15 +28,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Verify the recipient exists
+    // Verify the recipient exists and check their privacy settings
     const toUser = await client.user.findUnique({
       where: { id: toId },
+      select: {
+        id: true,
+        allowDirectMessages: true,
+      },
     });
 
     if (!toUser) {
       return NextResponse.json(
         { error: "Recipient not found" },
         { status: 404 }
+      );
+    }
+
+    // Check if recipient allows direct messages
+    if (!toUser.allowDirectMessages) {
+      return NextResponse.json(
+        { error: "This user does not accept direct messages" },
+        { status: 403 }
       );
     } // Prevent self-messaging
     if (fromUser.id === toId) {
