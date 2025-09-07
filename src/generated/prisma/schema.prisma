@@ -20,6 +20,11 @@ model User {
   bio                   String?
   location              String?
   isAdmin               Boolean            @default(false) // New admin role field
+  isBanned              Boolean            @default(false) // User ban status
+  banReason             String? // Reason for ban
+  bannedAt              DateTime? // When user was banned
+  bannedBy              String? // Admin who banned the user
+  banExpiresAt          DateTime? // When ban expires (null for permanent)
   // Privacy settings
   profileVisibility     ProfileVisibility  @default(PUBLIC)
   allowDirectMessages   Boolean            @default(true)

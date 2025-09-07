@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { client } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 
 export async function GET(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch the user from database
-    const user = await db.user.findUnique({
+    const user = await client.user.findUnique({
       where: { clerkid: userId },
       select: {
         id: true,
@@ -55,7 +55,7 @@ export async function PUT(request: NextRequest) {
     const { username, displayName, bio, location } = body;
 
     // Get current user to check if username is being changed
-    const currentUser = await db.user.findUnique({
+    const currentUser = await client.user.findUnique({
       where: { clerkid: userId },
       select: { username: true },
     });
@@ -66,7 +66,7 @@ export async function PUT(request: NextRequest) {
 
     // If username is being changed, check if the new username is available
     if (username && username !== currentUser.username) {
-      const existingUser = await db.user.findUnique({
+      const existingUser = await client.user.findUnique({
         where: { username: username },
       });
 
@@ -97,7 +97,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update the user profile
-    const updatedUser = await db.user.update({
+    const updatedUser = await client.user.update({
       where: { clerkid: userId },
       data: {
         ...(username && { username }),

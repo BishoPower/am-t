@@ -77,12 +77,12 @@ export default function MagazineCarousel({ articles }: MagazineCarouselProps) {
   return (
     <div className="relative h-[70vh] overflow-hidden group">
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 bg-white">
         <Image
           src={currentArticle.image}
           alt={currentArticle.title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-contain transition-transform duration-700 group-hover:scale-105"
           priority={currentIndex === 0}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

@@ -2533,6 +2533,11 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     isAdmin: boolean | null
+    isBanned: boolean | null
+    banReason: string | null
+    bannedAt: Date | null
+    bannedBy: string | null
+    banExpiresAt: Date | null
     profileVisibility: $Enums.ProfileVisibility | null
     allowDirectMessages: boolean | null
     showTradingHistory: boolean | null
@@ -2552,6 +2557,11 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     isAdmin: boolean | null
+    isBanned: boolean | null
+    banReason: string | null
+    bannedAt: Date | null
+    bannedBy: string | null
+    banExpiresAt: Date | null
     profileVisibility: $Enums.ProfileVisibility | null
     allowDirectMessages: boolean | null
     showTradingHistory: boolean | null
@@ -2571,6 +2581,11 @@ export namespace Prisma {
     bio: number
     location: number
     isAdmin: number
+    isBanned: number
+    banReason: number
+    bannedAt: number
+    bannedBy: number
+    banExpiresAt: number
     profileVisibility: number
     allowDirectMessages: number
     showTradingHistory: number
@@ -2592,6 +2607,11 @@ export namespace Prisma {
     bio?: true
     location?: true
     isAdmin?: true
+    isBanned?: true
+    banReason?: true
+    bannedAt?: true
+    bannedBy?: true
+    banExpiresAt?: true
     profileVisibility?: true
     allowDirectMessages?: true
     showTradingHistory?: true
@@ -2611,6 +2631,11 @@ export namespace Prisma {
     bio?: true
     location?: true
     isAdmin?: true
+    isBanned?: true
+    banReason?: true
+    bannedAt?: true
+    bannedBy?: true
+    banExpiresAt?: true
     profileVisibility?: true
     allowDirectMessages?: true
     showTradingHistory?: true
@@ -2630,6 +2655,11 @@ export namespace Prisma {
     bio?: true
     location?: true
     isAdmin?: true
+    isBanned?: true
+    banReason?: true
+    bannedAt?: true
+    bannedBy?: true
+    banExpiresAt?: true
     profileVisibility?: true
     allowDirectMessages?: true
     showTradingHistory?: true
@@ -2722,6 +2752,11 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     isAdmin: boolean
+    isBanned: boolean
+    banReason: string | null
+    bannedAt: Date | null
+    bannedBy: string | null
+    banExpiresAt: Date | null
     profileVisibility: $Enums.ProfileVisibility
     allowDirectMessages: boolean
     showTradingHistory: boolean
@@ -2758,6 +2793,11 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: boolean
+    bannedAt?: boolean
+    bannedBy?: boolean
+    banExpiresAt?: boolean
     profileVisibility?: boolean
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -2795,6 +2835,11 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: boolean
+    bannedAt?: boolean
+    bannedBy?: boolean
+    banExpiresAt?: boolean
     profileVisibility?: boolean
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -2814,6 +2859,11 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: boolean
+    bannedAt?: boolean
+    bannedBy?: boolean
+    banExpiresAt?: boolean
     profileVisibility?: boolean
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -2833,6 +2883,11 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: boolean
+    bannedAt?: boolean
+    bannedBy?: boolean
+    banExpiresAt?: boolean
     profileVisibility?: boolean
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -2840,7 +2895,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "firstName" | "lastName" | "displayName" | "clerkid" | "image" | "bio" | "location" | "isAdmin" | "profileVisibility" | "allowDirectMessages" | "showTradingHistory" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "firstName" | "lastName" | "displayName" | "clerkid" | "image" | "bio" | "location" | "isAdmin" | "isBanned" | "banReason" | "bannedAt" | "bannedBy" | "banExpiresAt" | "profileVisibility" | "allowDirectMessages" | "showTradingHistory" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     closet?: boolean | User$closetArgs<ExtArgs>
     favorites?: boolean | User$favoritesArgs<ExtArgs>
@@ -2897,6 +2952,11 @@ export namespace Prisma {
       bio: string | null
       location: string | null
       isAdmin: boolean
+      isBanned: boolean
+      banReason: string | null
+      bannedAt: Date | null
+      bannedBy: string | null
+      banExpiresAt: Date | null
       profileVisibility: $Enums.ProfileVisibility
       allowDirectMessages: boolean
       showTradingHistory: boolean
@@ -3353,6 +3413,11 @@ export namespace Prisma {
     readonly bio: FieldRef<"User", 'String'>
     readonly location: FieldRef<"User", 'String'>
     readonly isAdmin: FieldRef<"User", 'Boolean'>
+    readonly isBanned: FieldRef<"User", 'Boolean'>
+    readonly banReason: FieldRef<"User", 'String'>
+    readonly bannedAt: FieldRef<"User", 'DateTime'>
+    readonly bannedBy: FieldRef<"User", 'String'>
+    readonly banExpiresAt: FieldRef<"User", 'DateTime'>
     readonly profileVisibility: FieldRef<"User", 'ProfileVisibility'>
     readonly allowDirectMessages: FieldRef<"User", 'Boolean'>
     readonly showTradingHistory: FieldRef<"User", 'Boolean'>
@@ -18825,6 +18890,11 @@ export namespace Prisma {
     bio: 'bio',
     location: 'location',
     isAdmin: 'isAdmin',
+    isBanned: 'isBanned',
+    banReason: 'banReason',
+    bannedAt: 'bannedAt',
+    bannedBy: 'bannedBy',
+    banExpiresAt: 'banExpiresAt',
     profileVisibility: 'profileVisibility',
     allowDirectMessages: 'allowDirectMessages',
     showTradingHistory: 'showTradingHistory',
@@ -19050,20 +19120,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ProfileVisibility'
-   */
-  export type EnumProfileVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileVisibility'>
-    
-
-
-  /**
-   * Reference to a field of type 'ProfileVisibility[]'
-   */
-  export type ListEnumProfileVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileVisibility[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -19074,6 +19130,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProfileVisibility'
+   */
+  export type EnumProfileVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileVisibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProfileVisibility[]'
+   */
+  export type ListEnumProfileVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileVisibility[]'>
     
 
 
@@ -19165,6 +19235,11 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     location?: StringNullableFilter<"User"> | string | null
     isAdmin?: BoolFilter<"User"> | boolean
+    isBanned?: BoolFilter<"User"> | boolean
+    banReason?: StringNullableFilter<"User"> | string | null
+    bannedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    bannedBy?: StringNullableFilter<"User"> | string | null
+    banExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     profileVisibility?: EnumProfileVisibilityFilter<"User"> | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFilter<"User"> | boolean
     showTradingHistory?: BoolFilter<"User"> | boolean
@@ -19201,6 +19276,11 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
+    isBanned?: SortOrder
+    banReason?: SortOrderInput | SortOrder
+    bannedAt?: SortOrderInput | SortOrder
+    bannedBy?: SortOrderInput | SortOrder
+    banExpiresAt?: SortOrderInput | SortOrder
     profileVisibility?: SortOrder
     allowDirectMessages?: SortOrder
     showTradingHistory?: SortOrder
@@ -19240,6 +19320,11 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     location?: StringNullableFilter<"User"> | string | null
     isAdmin?: BoolFilter<"User"> | boolean
+    isBanned?: BoolFilter<"User"> | boolean
+    banReason?: StringNullableFilter<"User"> | string | null
+    bannedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    bannedBy?: StringNullableFilter<"User"> | string | null
+    banExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     profileVisibility?: EnumProfileVisibilityFilter<"User"> | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFilter<"User"> | boolean
     showTradingHistory?: BoolFilter<"User"> | boolean
@@ -19276,6 +19361,11 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
+    isBanned?: SortOrder
+    banReason?: SortOrderInput | SortOrder
+    bannedAt?: SortOrderInput | SortOrder
+    bannedBy?: SortOrderInput | SortOrder
+    banExpiresAt?: SortOrderInput | SortOrder
     profileVisibility?: SortOrder
     allowDirectMessages?: SortOrder
     showTradingHistory?: SortOrder
@@ -19301,6 +19391,11 @@ export namespace Prisma {
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     location?: StringNullableWithAggregatesFilter<"User"> | string | null
     isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
+    isBanned?: BoolWithAggregatesFilter<"User"> | boolean
+    banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bannedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    bannedBy?: StringNullableWithAggregatesFilter<"User"> | string | null
+    banExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     profileVisibility?: EnumProfileVisibilityWithAggregatesFilter<"User"> | $Enums.ProfileVisibility
     allowDirectMessages?: BoolWithAggregatesFilter<"User"> | boolean
     showTradingHistory?: BoolWithAggregatesFilter<"User"> | boolean
@@ -20228,6 +20323,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -20264,6 +20364,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -20300,6 +20405,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -20336,6 +20446,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -20372,6 +20487,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -20391,6 +20511,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -20410,6 +20535,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -21370,6 +21500,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type EnumProfileVisibilityFilter<$PrismaModel = never> = {
     equals?: $Enums.ProfileVisibility | EnumProfileVisibilityFieldRefInput<$PrismaModel>
     in?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
@@ -21520,6 +21661,11 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     isAdmin?: SortOrder
+    isBanned?: SortOrder
+    banReason?: SortOrder
+    bannedAt?: SortOrder
+    bannedBy?: SortOrder
+    banExpiresAt?: SortOrder
     profileVisibility?: SortOrder
     allowDirectMessages?: SortOrder
     showTradingHistory?: SortOrder
@@ -21539,6 +21685,11 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     isAdmin?: SortOrder
+    isBanned?: SortOrder
+    banReason?: SortOrder
+    bannedAt?: SortOrder
+    bannedBy?: SortOrder
+    banExpiresAt?: SortOrder
     profileVisibility?: SortOrder
     allowDirectMessages?: SortOrder
     showTradingHistory?: SortOrder
@@ -21558,6 +21709,11 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     isAdmin?: SortOrder
+    isBanned?: SortOrder
+    banReason?: SortOrder
+    bannedAt?: SortOrder
+    bannedBy?: SortOrder
+    banExpiresAt?: SortOrder
     profileVisibility?: SortOrder
     allowDirectMessages?: SortOrder
     showTradingHistory?: SortOrder
@@ -21622,6 +21778,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumProfileVisibilityWithAggregatesFilter<$PrismaModel = never> = {
@@ -21921,17 +22091,6 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type ListingNullableScalarRelationFilter = {
     is?: ListingWhereInput | null
     isNot?: ListingWhereInput | null
@@ -21986,20 +22145,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TradeRequestNullableScalarRelationFilter = {
@@ -22489,6 +22634,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type EnumProfileVisibilityFieldUpdateOperationsInput = {
@@ -23616,10 +23765,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type UserUpdateOneRequiredWithoutMessagesFromNestedInput = {
     create?: XOR<UserCreateWithoutMessagesFromInput, UserUncheckedCreateWithoutMessagesFromInput>
     connectOrCreate?: UserCreateOrConnectWithoutMessagesFromInput
@@ -23973,6 +24118,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumProfileVisibilityFilter<$PrismaModel = never> = {
     equals?: $Enums.ProfileVisibility | EnumProfileVisibilityFieldRefInput<$PrismaModel>
     in?: $Enums.ProfileVisibility[] | ListEnumProfileVisibilityFieldRefInput<$PrismaModel>
@@ -24067,6 +24223,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumProfileVisibilityWithAggregatesFilter<$PrismaModel = never> = {
@@ -24165,17 +24335,6 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -24188,20 +24347,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumFriendshipStatusFilter<$PrismaModel = never> = {
@@ -25163,6 +25308,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -25198,6 +25348,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -25299,6 +25454,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -25334,6 +25494,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -25424,6 +25589,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -25459,6 +25629,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -25716,6 +25891,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -25751,6 +25931,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -25935,6 +26120,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -25970,6 +26160,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26072,6 +26267,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26107,6 +26307,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26142,6 +26347,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26177,6 +26387,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26217,6 +26432,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26252,6 +26472,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26425,6 +26650,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26460,6 +26690,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26506,6 +26741,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26541,6 +26781,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26730,6 +26975,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26765,6 +27015,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26867,6 +27122,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26902,6 +27162,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -26937,6 +27202,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -26972,6 +27242,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27057,6 +27332,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27092,6 +27372,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27143,6 +27428,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27178,6 +27468,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27275,6 +27570,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27310,6 +27610,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27390,6 +27695,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27425,6 +27735,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27465,6 +27780,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27500,6 +27820,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27631,6 +27956,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27666,6 +27996,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27712,6 +28047,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27747,6 +28087,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -27817,6 +28162,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27852,6 +28202,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27892,6 +28247,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27927,6 +28287,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -27978,6 +28343,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28013,6 +28383,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28059,6 +28434,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28094,6 +28474,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28129,6 +28514,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28164,6 +28554,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28204,6 +28599,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28239,6 +28639,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28290,6 +28695,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28325,6 +28735,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28371,6 +28786,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28406,6 +28826,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28441,6 +28866,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28476,6 +28906,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28575,6 +29010,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28610,6 +29050,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28677,6 +29122,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28712,6 +29162,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28804,6 +29259,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28839,6 +29299,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -28921,6 +29386,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -28956,6 +29426,11 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     isAdmin?: boolean
+    isBanned?: boolean
+    banReason?: string | null
+    bannedAt?: Date | string | null
+    bannedBy?: string | null
+    banExpiresAt?: Date | string | null
     profileVisibility?: $Enums.ProfileVisibility
     allowDirectMessages?: boolean
     showTradingHistory?: boolean
@@ -29048,6 +29523,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean
@@ -29083,6 +29563,11 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    bannedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bannedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     profileVisibility?: EnumProfileVisibilityFieldUpdateOperationsInput | $Enums.ProfileVisibility
     allowDirectMessages?: BoolFieldUpdateOperationsInput | boolean
     showTradingHistory?: BoolFieldUpdateOperationsInput | boolean

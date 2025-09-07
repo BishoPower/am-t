@@ -197,12 +197,12 @@ export default function EditorialPage() {
       {/* Featured/Hero Section - Staff Picked Posts */}
       {featuredPost && (
         <div className="relative">
-          <div className="relative h-[70vh] w-full overflow-hidden">
+          <div className="relative h-[70vh] w-full overflow-hidden bg-white">
             <Image
               src={featuredPost.image || "/amtlogo-static.png"}
               alt={featuredPost.title}
               fill
-              className="object-cover"
+              className="object-contain"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -283,12 +283,12 @@ export default function EditorialPage() {
                   key={post.id}
                   className="group hover:shadow-lg transition-shadow"
                 >
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-t-lg">
+                  <div className="relative aspect-[16/9] overflow-hidden rounded-t-lg bg-white">
                     <Image
                       src={post.image || "/amtlogo-static.png"}
                       alt={post.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-3 left-3">
                       <Badge

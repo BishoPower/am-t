@@ -15,11 +15,18 @@ export function useIsAdmin() {
       }
 
       try {
-        const response = await fetch("/api/user/profile");
+        // Use the debug endpoint for more detailed error information
+        const response = await fetch(`/api/debug/admin-status`);
         if (response.ok) {
           const userData = await response.json();
+          console.log("Admin status check:", userData); // Debug log
           setIsAdmin(userData.isAdmin || false);
         } else {
+          console.error(
+            "Failed to check admin status:",
+            response.status,
+            response.statusText
+          );
           setIsAdmin(false);
         }
       } catch (error) {

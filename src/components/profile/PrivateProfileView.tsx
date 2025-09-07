@@ -29,7 +29,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Spinner from "@/components/global/loader/spinner";
 import { useIsAdmin } from "@/hooks/use-admin";
-import { AdminDashboard } from "@/components/admin/AdminDashboard";
+import AdminDashboard from "@/components/admin/AdminDashboard";
 
 // Type for serializable Clerk user data
 type SerializableClerkUser = {
@@ -421,12 +421,12 @@ const PrivateProfileView = ({
                     className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow"
                   >
                     {editorial.image && (
-                      <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                      <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-white">
                         <Image
                           src={editorial.image}
                           alt={editorial.title}
                           fill
-                          className="object-cover"
+                          className="object-contain"
                         />
                       </div>
                     )}

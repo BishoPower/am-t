@@ -123,12 +123,12 @@ export default function EditorialSearchPage() {
                 <Card className="border-2 hover:border-black transition-colors group cursor-pointer">
                   <CardContent className="p-0">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                      <div className="relative h-48 md:h-auto overflow-hidden">
+                      <div className="relative h-48 md:h-auto overflow-hidden bg-white">
                         <Image
                           src={article.image}
                           alt={article.title}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="object-contain group-hover:scale-105 transition-transform duration-300"
                         />
                         <Badge className="absolute top-4 left-4 bg-white text-black font-bold">
                           {article.category}

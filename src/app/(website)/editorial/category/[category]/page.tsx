@@ -138,12 +138,12 @@ export default function CategoryPage() {
               href={`/editorial/article/admin/${article.slug}`}
             >
               <Card className="border-2 hover:border-black transition-colors group cursor-pointer h-full">
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-48 overflow-hidden bg-white">
                   <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-contain group-hover:scale-105 transition-transform duration-300"
                   />
                   <Badge className="absolute top-4 left-4 bg-white text-black font-bold">
                     {categoryInfo.name}

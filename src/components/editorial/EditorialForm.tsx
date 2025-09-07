@@ -558,13 +558,13 @@ export default function EditorialForm({
                 <Label className="text-sm font-medium">Image</Label>
                 <div className="mt-1">
                   {section.imageUrl ? (
-                    <div className="relative">
+                    <div className="relative bg-white rounded-lg">
                       <Image
                         src={section.imageUrl}
                         alt="Content image"
                         width={400}
                         height={200}
-                        className="rounded-lg object-cover max-w-full h-auto"
+                        className="rounded-lg object-contain max-w-full h-auto"
                       />
                       <Button
                         type="button"
@@ -712,13 +712,13 @@ export default function EditorialForm({
                   <p className="text-xl text-gray-600">{formData.subtitle}</p>
                 )}
                 {featuredImage && (
-                  <div className="mt-4">
+                  <div className="mt-4 bg-white rounded-lg p-2">
                     <Image
                       src={featuredImage}
                       alt={formData.title}
                       width={800}
                       height={400}
-                      className="rounded-lg object-cover w-full"
+                      className="rounded-lg object-contain w-full"
                     />
                   </div>
                 )}
@@ -754,13 +754,13 @@ export default function EditorialForm({
                       </ul>
                     )}
                     {section.type === "image" && section.imageUrl && (
-                      <div className="mb-4">
+                      <div className="mb-4 bg-white rounded-lg p-2">
                         <Image
                           src={section.imageUrl}
                           alt={section.imageCaption || "Content image"}
                           width={600}
                           height={300}
-                          className="rounded-lg object-cover w-full"
+                          className="rounded-lg object-contain w-full"
                         />
                         {section.imageCaption && (
                           <p className="text-sm text-gray-600 text-center mt-2">
@@ -848,13 +848,13 @@ export default function EditorialForm({
               </CardHeader>
               <CardContent>
                 {featuredImage ? (
-                  <div className="relative">
+                  <div className="relative bg-white rounded-lg p-2">
                     <Image
                       src={featuredImage}
                       alt="Featured image"
                       width={400}
                       height={200}
-                      className="rounded-lg object-cover max-w-full h-auto"
+                      className="rounded-lg object-contain max-w-full h-auto"
                     />
                     <Button
                       type="button"

@@ -199,12 +199,12 @@ const PublicProfileView = ({
                     className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow"
                   >
                     {editorial.image && (
-                      <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                      <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-white">
                         <Image
                           src={editorial.image}
                           alt={editorial.title}
                           fill
-                          className="object-cover"
+                          className="object-contain"
                         />
                       </div>
                     )}
